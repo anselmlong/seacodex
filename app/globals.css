@@ -69,6 +69,38 @@ summary:focus-visible {
   background: var(--paper);
 }
 
+.integration-banner {
+  align-items: center;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 auto 14px;
+  max-width: 1480px;
+  padding: 10px 14px;
+}
+
+.integration-banner span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.friend-link {
+  align-items: center;
+  background: var(--ink);
+  color: var(--paper-strong);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 12px;
+  text-decoration: none;
+}
+
+.friend-link:hover {
+  background: var(--teal);
+}
+
 .topbar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 520px);
@@ -93,6 +125,61 @@ summary:focus-visible {
   color: var(--muted);
   font-size: 15px;
   line-height: 1.5;
+}
+
+.integration-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin: 0 auto 14px;
+  max-width: 1480px;
+}
+
+.integration-toolbar a {
+  align-items: center;
+  background: var(--ink);
+  color: var(--paper-strong);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 0 12px;
+  text-decoration: none;
+}
+
+.integration-toolbar a:hover {
+  background: var(--teal);
+}
+
+.integration-frame-shell {
+  border: 1px solid var(--line);
+  margin: 0 auto 14px;
+  max-width: 1480px;
+  min-height: 76vh;
+  overflow: hidden;
+}
+
+.integration-frame {
+  border: 0;
+  display: block;
+  min-height: 76vh;
+  width: 100%;
+}
+
+.integration-note {
+  background: var(--surface-tint);
+  border: 1px solid var(--line);
+  margin: 0 auto;
+  max-width: 1480px;
+  padding: 10px 14px;
+}
+
+.integration-note p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .eyebrow,
@@ -1190,6 +1277,148 @@ summary:focus-visible {
   }
 
   .timeline-controls label {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mirofish-workflow {
+  display: grid;
+  gap: 14px;
+}
+
+.mirofish-workflow h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.step-copy {
+  color: var(--muted);
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.workflow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workflow-grid .field {
+  gap: 6px;
+}
+
+.workflow-grid textarea,
+.workflow-grid input {
+  width: 100%;
+}
+
+.workflow-grid small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mirofish-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mirofish-steps button {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper-strong);
+  min-height: 42px;
+  padding: 10px 12px;
+}
+
+.mirofish-steps button:disabled {
+  opacity: 0.45;
+}
+
+.badge {
+  background: var(--paper);
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 11px;
+  margin-left: 9px;
+  min-width: 72px;
+  padding: 2px 8px;
+}
+
+.badge.done {
+  background: color-mix(in oklch, var(--green) 15%, var(--paper-strong));
+  color: var(--ink);
+  border-color: color-mix(in oklch, var(--green) 45%, var(--line));
+}
+
+.badge.running {
+  background: color-mix(in oklch, var(--teal) 20%, var(--paper-strong));
+  color: var(--ink);
+  border-color: color-mix(in oklch, var(--teal) 40%, var(--line));
+}
+
+.badge.error {
+  background: color-mix(in oklch, var(--red) 18%, var(--paper-strong));
+  color: var(--ink);
+  border-color: color-mix(in oklch, var(--red) 40%, var(--line));
+}
+
+.mirofish-error {
+  color: var(--red);
+  background: color-mix(in oklch, var(--red) 8%, var(--paper-strong));
+  border: 1px solid color-mix(in oklch, var(--red) 34%, var(--line));
+  padding: 10px;
+}
+
+.mirofish-log {
+  border: 1px solid var(--line);
+  background: var(--surface-tint);
+  min-height: 140px;
+  max-height: 240px;
+  overflow: auto;
+  padding: 10px;
+}
+
+.mirofish-log-line {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 72px 1fr;
+  padding: 7px 0;
+  border-bottom: 1px solid color-mix(in oklch, var(--line) 70%, transparent);
+}
+
+.mirofish-log-line span {
+  color: var(--muted);
+  font-size: 11px;
+  min-width: 0;
+}
+
+.mirofish-log-line p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.mirofish-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mirofish-chip {
+  border: 1px solid var(--line);
+  background: var(--paper-strong);
+  padding: 2px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .workflow-grid {
     grid-template-columns: 1fr;
   }
 }

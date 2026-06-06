@@ -8,6 +8,7 @@ type ListingParameterControlsProps = {
   onChange: (parameters: ListingParameters) => void;
   simulationSettings: SimulationSettings;
   maxAgentCount: number;
+  maxTickCount: number;
   onSettingsChange: (settings: SimulationSettings) => void;
 };
 
@@ -28,8 +29,13 @@ export function ListingParameterControls({
   onChange,
   simulationSettings,
   maxAgentCount,
+  maxTickCount,
   onSettingsChange
 }: ListingParameterControlsProps) {
+  const safeMaxAgentCount = Math.max(1, maxAgentCount);
+  const safeMaxTickCount = Math.max(1, maxTickCount);
+  const tickMin = safeMaxTickCount >= 2 ? 2 : 1;
+
   return (
     <section className="parameter-panel" aria-label="Listing parameters">
       <details open>
@@ -71,12 +77,14 @@ export function ListingParameterControls({
               <strong>{simulationSettings.tickCount}</strong>
             </span>
             <input
-              max={24}
-              min={2}
+              max={safeMaxTickCount}
+              min={tickMin}
               step={1}
               type="range"
               value={simulationSettings.tickCount}
-              onChange={(event) => onSettingsChange({ ...simulationSettings, tickCount: Number(event.target.value) })}
+              onChange={(event) =>
+                onSettingsChange({ ...simulationSettings, tickCount: Number(event.target.value) })
+              }
             />
           </label>
           <label className="slider-field">
@@ -85,12 +93,14 @@ export function ListingParameterControls({
               <strong>{simulationSettings.agentCount}</strong>
             </span>
             <input
-              max={maxAgentCount}
+              max={safeMaxAgentCount}
               min={1}
               step={1}
               type="range"
               value={simulationSettings.agentCount}
-              onChange={(event) => onSettingsChange({ ...simulationSettings, agentCount: Number(event.target.value) })}
+              onChange={(event) =>
+                onSettingsChange({ ...simulationSettings, agentCount: Number(event.target.value) })
+              }
             />
           </label>
         </div>

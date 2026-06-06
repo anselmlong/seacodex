@@ -6,7 +6,7 @@ without making it depend on live network calls during the presentation.
 
 ## Current Runnable Pieces
 
-### `01-dashboard-demo`
+### `dashboard` (repo root)
 
 Status: runnable Next.js dashboard after dependencies are installed.
 
@@ -17,7 +17,6 @@ backlash risk, and listing recommendations.
 Run:
 
 ```powershell
-cd 01-dashboard-demo
 npm ci
 npm run dev -- --port 3000
 ```
@@ -98,12 +97,12 @@ prototype until its core logic is wired behind the API.
 03-persona-data-pipeline fixtures
   -> 02-simulation-engine core simulation
   -> 04-analyst-api /run-simulation
-  -> 01-dashboard-demo primary dashboard
+  -> root dashboard primary dashboard
 ```
 
 ## Dashboard Integration Priority
 
-1. Keep `01-dashboard-demo` runnable without the API.
+1. Keep root dashboard runnable without the API.
 2. Add a dashboard data adapter that can read either local deterministic projection
    data or `/run-simulation`.
 3. Make `/run-simulation` return the shared trace shape.
@@ -121,7 +120,7 @@ replace it with separate demo surfaces.
   because local PowerShell scripts may be disabled by policy.
 - Dashboard currently uses its own `DashboardTrace` type, not the shared
   `simulation-trace.schema.json` shape.
-- `01-dashboard-demo/fixtures/shopee_demo_trace.json` is a seed fixture with empty
+- `fixtures/shopee_demo_trace.json` is a seed fixture with empty
   arrays; the live UI generates data through `lib/simulationProjection.ts`.
 - `02-simulation-engine` still exposes browser globals for the static mockup.
 - `03-persona-data-pipeline` has no fixtures or scripts yet.
@@ -131,7 +130,7 @@ replace it with separate demo surfaces.
 
 Before presenting:
 
-- `npm run dev` works in `01-dashboard-demo`.
+- `npm run dev` works at repo root.
 - Dashboard loads at `http://localhost:3000`.
 - Timeline play/pause/reset works.
 - Product/listing controls update graph, metrics, demographics, and recommendations.

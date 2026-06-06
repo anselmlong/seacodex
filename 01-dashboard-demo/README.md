@@ -25,3 +25,36 @@ The dashboard must run without the backend by loading local deterministic data a
 ## Stop Condition
 
 Demo can run locally in under 2 minutes with no live API dependency, and the HTML pitch deck is available for the hackathon presentation.
+
+## Combined MiroFish workflow
+
+The teammate Vue workflow has been rewritten into this same Next.js page in React.
+
+### Local run
+
+Run the combined page:
+
+```bash
+cd ..
+npm run dev
+```
+
+The workflow section supports:
+
+- Ontology generation (`/api/graph/ontology/generate`)
+- Graph construction (`/api/graph/build`)
+- Simulation creation and start (`/api/simulation/create`, `/api/simulation/start`)
+- Analyst report generation (`/api/report/generate`)
+
+By default, API base URL is `http://localhost:5001` and can be changed with `NEXT_PUBLIC_MIROFISH_API_URL`.
+
+## Vercel deployment (standard web layout)
+
+From repository root:
+
+```bash
+npm install
+npm run build
+```
+
+Vercel uses root configuration (`vercel.json`) with `buildCommand: npm run build` and deploys `.next` as the production output.

@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$DashboardDir = Join-Path $RepoRoot "01-dashboard-demo"
+$DashboardDir = $RepoRoot
 $SimulationDir = Join-Path $RepoRoot "02-simulation-engine"
 $ApiDir = Join-Path $RepoRoot "04-analyst-api"
 $BundledPython = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
@@ -57,7 +57,6 @@ if ($npmPath) {
 } else {
   Write-Host "Dashboard: npm was not found on PATH."
   Write-Host "Install Node/npm, then run:"
-  Write-Host "  cd 01-dashboard-demo"
   Write-Host "  npm ci"
   Write-Host "  npm run dev -- --port $DashboardPort"
 }

@@ -11,23 +11,33 @@ import { ProductInputPanel } from "../components/ProductInputPanel";
 import { ProductPreview } from "../components/ProductPreview";
 import { SingaporeGraphReplay } from "../components/SingaporeGraphReplay";
 import { TimelineControls } from "../components/TimelineControls";
-import { defaultParameters, defaultProduct } from "../lib/productModel";
-import { createDashboardTrace, projectDemographics } from "../lib/simulationProjection";
-import { singaporeNodes } from "../lib/singaporeSegments";
-import type { ListingParameters, ProductListing, SimulationSettings } from "../lib/types";
+import { projectDemographics } from "../lib/simulationProjection";
+import { applyDashboardControlsToTrace, buildFallbackTrace, normalizeSimulationTrace } from "../lib/simulationTraceAdapter";
+import type { SimulationSettings } from "../lib/types";
+import layer6Trace from "../02-simulation-engine/market_analysis_layer6_simulation/simulation_trace.json";
+import fallbackTraceRaw from "../shared/fixtures/golden_trace.json";
+import { MiroFishWorkflow } from "../components/MiroFishWorkflow";
+
+const seedTrace =
+  normalizeSimulationTrace(layer6Trace) ?? normalizeSimulationTrace(fallbackTraceRaw) ?? buildFallbackTrace();
+
+const seedSimulationSettings: SimulationSettings = {
+  tickCount: Math.max(1, Math.min(10, seedTrace.ticks.length)),
+  agentCount: Math.max(1, Math.min(24, seedTrace.nodes.length))
+};
 
 export default function DashboardDemoPage() {
-  const [product, setProduct] = useState<ProductListing>(defaultProduct);
-  const [parameters, setParameters] = useState<ListingParameters>(defaultParameters);
-  const [simulationSettings, setSimulationSettings] = useState<SimulationSettings>({
-    tickCount: 10,
-    agentCount: singaporeNodes.length
-  });
+  const [product, setProduct] = useState(seedTrace.product);
+  const [parameters, setParameters] = useState(seedTrace.parameters);
+  const [simulationSettings, setSimulationSettings] = useState<SimulationSettings>(seedSimulationSettings);
   const [currentTick, setCurrentTick] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMs, setSpeedMs] = useState(1000);
 
-  const trace = useMemo(() => createDashboardTrace(product, parameters, simulationSettings), [parameters, product, simulationSettings]);
+  const trace = useMemo(
+    () => applyDashboardControlsToTrace(seedTrace, product, parameters, simulationSettings),
+    [parameters, product, simulationSettings]
+  );
   const projections = useMemo(() => projectDemographics(product, parameters), [parameters, product]);
   const tick = trace.ticks[currentTick] ?? trace.ticks[0];
   const strongestProjection = useMemo(
@@ -38,7 +48,7 @@ export default function DashboardDemoPage() {
   useEffect(() => {
     if (!isPlaying) return;
     const timer = window.setInterval(() => {
-      setCurrentTick((tick) => (tick >= trace.ticks.length - 1 ? 0 : tick + 1));
+      setCurrentTick((tickIndex) => (tickIndex >= trace.ticks.length - 1 ? 0 : tickIndex + 1));
     }, speedMs);
     return () => window.clearInterval(timer);
   }, [isPlaying, speedMs, trace.ticks.length]);
@@ -55,7 +65,8 @@ export default function DashboardDemoPage() {
           <h1>Product listing agent lab</h1>
         </div>
         <p>
-          We live in a society. Tune a Shopee listing and watch projected sales, objections, and chatter move through Singapore buyer networks.
+          We live in a society. Tune a Shopee listing and watch projected sales, objections, and chatter move through Singapore buyer
+          networks.
         </p>
       </header>
 
@@ -82,7 +93,8 @@ export default function DashboardDemoPage() {
             parameters={parameters}
             onChange={setParameters}
             simulationSettings={simulationSettings}
-            maxAgentCount={singaporeNodes.length}
+            maxAgentCount={seedTrace.nodes.length}
+            maxTickCount={seedTrace.ticks.length}
             onSettingsChange={setSimulationSettings}
           />
         </div>
@@ -110,6 +122,14 @@ export default function DashboardDemoPage() {
           <DemographicSalesReport projections={projections} />
           <ListingRecommendations recommendations={trace.recommendations} />
         </aside>
+      </section>
+
+      <section className="integration-banner" aria-label="workflow-heading">
+        <span>Combined workflow:</span>
+        <strong>MiroFish rewritten directly in Next.js below</strong>
+      </section>
+      <section className="report-column">
+        <MiroFishWorkflow />
       </section>
     </main>
   );
