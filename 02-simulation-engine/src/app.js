@@ -596,7 +596,7 @@ $$(".nav-item[data-view]").forEach((button) => {
 
 async function boot() {
   syncControls();
-  applyTheme(localStorage.getItem("seacodex-theme") || "light");
+  applyTheme(localStorage.getItem("seacodex-theme") || "dark");
   addChatMessage("assistant", "Analyst is ready. I will use the full Layer 6 trace log when available, summarize it for the dashboard, and keep the ground-truth JSON visible in the contract view.");
   state.layer6Trace = await loadLayer6Trace();
   state.layer6Status = state.layer6Trace ? "loaded" : "missing";

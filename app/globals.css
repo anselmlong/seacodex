@@ -1422,3 +1422,449 @@ summary:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+/* MIRA-inspired integrated product shell. */
+:root {
+  --ink: #f5efe6;
+  --muted: #a9a096;
+  --paper: #050505;
+  --paper-strong: #0e0f0d;
+  --surface-tint: #171916;
+  --line: rgba(245, 239, 230, 0.14);
+  --teal: #49d2bd;
+  --blue: #8aa9ff;
+  --green: #a3d977;
+  --orange: #ff7a3d;
+  --red: #ff6d5d;
+  --ochre: #e7b763;
+  --focus-ring: rgba(73, 210, 189, 0.42);
+  --shadow-deep: 0 22px 70px rgba(0, 0, 0, 0.46);
+  color-scheme: dark;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background:
+    linear-gradient(180deg, #050505 0%, #0b0c0a 44%, #050505 100%);
+  color: var(--ink);
+}
+
+.dashboard-shell {
+  background:
+    linear-gradient(90deg, rgba(245, 239, 230, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(245, 239, 230, 0.03) 1px, transparent 1px),
+    var(--paper);
+  background-size: 72px 72px;
+  padding: 18px;
+}
+
+.system-nav {
+  align-items: center;
+  background: rgba(14, 15, 13, 0.86);
+  border: 1px solid var(--line);
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin: 0 auto 18px;
+  max-width: 1480px;
+  min-height: 58px;
+  padding: 8px 10px;
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+}
+
+.system-brand,
+.system-nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.system-brand {
+  align-items: center;
+  display: inline-flex;
+  gap: 10px;
+  font-weight: 900;
+}
+
+.system-brand span {
+  align-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 950;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.system-nav div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.system-nav div a {
+  align-items: center;
+  background: rgba(245, 239, 230, 0.06);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  min-height: 36px;
+  padding: 0 12px;
+}
+
+.system-nav div a:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.topbar {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+  padding: 12px 0 22px;
+}
+
+.topbar h1 {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 66px;
+  font-weight: 700;
+  max-width: 960px;
+}
+
+.topbar p {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.eyebrow,
+.section-kicker {
+  color: var(--orange);
+}
+
+.hero-console {
+  align-items: stretch;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  margin: 0 auto 18px;
+  max-width: 1480px;
+}
+
+.hero-copy,
+.hero-stack,
+.summary-strip,
+.product-preview,
+.listing-panel,
+.parameter-panel,
+.graph-panel,
+.platform-panel,
+.report-panel,
+.recommendations-panel,
+.timeline-panel,
+.metrics-panel,
+.integration-banner {
+  background: rgba(14, 15, 13, 0.92);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-deep);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 14px;
+  min-height: 310px;
+  padding: 28px;
+}
+
+.hero-copy h2 {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 46px;
+  line-height: 1.02;
+  margin: 0;
+  max-width: 920px;
+}
+
+.hero-copy p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 780px;
+}
+
+.hero-stack {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, rgba(245, 239, 230, 0.12), rgba(245, 239, 230, 0.035));
+  border: 1px solid var(--line);
+  display: grid;
+  min-height: 96px;
+  padding: 16px;
+}
+
+.hero-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.hero-card strong {
+  align-self: end;
+  color: var(--ink);
+  font-size: 30px;
+  line-height: 1.05;
+}
+
+.hero-card-large {
+  min-height: 168px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card-large i {
+  align-self: end;
+  background:
+    linear-gradient(90deg, var(--teal), var(--orange));
+  display: block;
+  height: 10px;
+  width: 76%;
+}
+
+.summary-strip {
+  background: var(--line);
+  border-color: var(--line);
+}
+
+.summary-strip div {
+  background: var(--paper-strong);
+  padding: 18px;
+}
+
+.summary-strip strong {
+  color: var(--ink);
+}
+
+.workbench {
+  grid-template-columns: minmax(290px, 350px) minmax(0, 1fr);
+}
+
+.input-column,
+.simulation-column,
+.report-column,
+.lower-grid {
+  gap: 14px;
+}
+
+.product-preview,
+.listing-panel,
+.parameter-panel,
+.graph-panel,
+.platform-panel,
+.report-panel,
+.recommendations-panel,
+.timeline-panel,
+.metrics-panel {
+  color: var(--ink);
+}
+
+.preview-image,
+.cytoscape-shell,
+.agent-inspector,
+.platform-table,
+.timeline-copy p,
+.segment-row dl div,
+.recommendation,
+.field input,
+.field textarea,
+.timeline-controls select,
+.mirofish-log,
+.mirofish-chip,
+.workflow-grid input,
+.workflow-grid textarea {
+  background: #080907;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.listing-panel summary span,
+.parameter-panel summary span,
+.preview-copy h2,
+.graph-header h2,
+.platform-header h2,
+.mirofish-workflow h2,
+.segment-heading h3,
+.recommendation h3,
+.agent-profile h3,
+.opinion-section li,
+.segment-row small,
+.platform-name strong,
+.platform-angle strong {
+  color: var(--ink);
+}
+
+.preview-copy p,
+.platform-name span,
+.platform-angle span,
+.platform-audience span,
+.segment-row p,
+.recommendation p,
+.step-copy,
+.agent-profile p,
+.opinion-section p,
+.opinion-summary,
+.integration-note p {
+  color: var(--muted);
+}
+
+.demo-product-art {
+  background: linear-gradient(135deg, #ff7a3d, #49d2bd);
+  color: #050505;
+}
+
+.shipping-toggle,
+.timeline-controls button,
+.mirofish-steps button {
+  background: rgba(245, 239, 230, 0.08);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.shipping-toggle.active,
+.timeline-controls {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.timeline-controls h2,
+.timeline-controls p,
+.timeline-controls span {
+  color: var(--paper);
+}
+
+.timeline-controls button {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.graph-stat,
+.platform-topline,
+.opinion-summary {
+  background: rgba(73, 210, 189, 0.1);
+  border-color: rgba(73, 210, 189, 0.32);
+}
+
+.cytoscape-shell {
+  background:
+    linear-gradient(90deg, rgba(245, 239, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(245, 239, 230, 0.05) 1px, transparent 1px),
+    #080907;
+  background-size: 32px 32px;
+}
+
+.platform-table {
+  background: var(--line);
+}
+
+.platform-table-head,
+.platform-row {
+  background: #0d0e0c;
+}
+
+.platform-score,
+.tick-mark,
+.segment-score,
+.badge,
+.agent-avatar,
+.state-legend i {
+  background: var(--surface-tint);
+}
+
+.segment-score span,
+.agent-avatar {
+  color: var(--ink);
+}
+
+.agent-avatar.aware,
+.agent-avatar.interested,
+.agent-avatar.resistant,
+.agent-avatar.advocate {
+  color: #050505;
+}
+
+.integration-banner {
+  justify-content: space-between;
+}
+
+.integration-banner a {
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 850;
+  min-height: 36px;
+  padding: 0 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mirofish-error {
+  background: rgba(255, 109, 93, 0.12);
+}
+
+@media (max-width: 920px) {
+  .system-nav,
+  .hero-console {
+    grid-template-columns: 1fr;
+  }
+
+  .system-nav {
+    align-items: flex-start;
+    display: grid;
+    position: static;
+  }
+
+  .system-nav div {
+    justify-content: flex-start;
+  }
+
+  .topbar h1 {
+    font-size: 42px;
+  }
+
+  .hero-copy h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-shell {
+    padding: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 34px;
+  }
+
+  .hero-copy {
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .hero-copy h2 {
+    font-size: 28px;
+  }
+}

@@ -59,16 +59,55 @@ export default function DashboardDemoPage() {
 
   return (
     <main className="dashboard-shell">
+      <nav className="system-nav" aria-label="SEA Codex workspace">
+        <a className="system-brand" href="#dashboard">
+          <span>SC</span>
+          <strong>Seacodex</strong>
+        </a>
+        <div>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#mirofish">MiroFish</a>
+          <a href="http://localhost:3100/index.html">02 Simulator</a>
+          <a href="http://localhost:8000/docs">Analyst API</a>
+        </div>
+      </nav>
+
       <header className="topbar">
         <div>
           <span className="eyebrow">WLIAS / Singapore launch lab</span>
-          <h1>Product listing agent lab</h1>
+          <h1>Market simulation command center</h1>
         </div>
         <p>
-          We live in a society. Tune a Shopee listing and watch projected sales, objections, and chatter move through Singapore buyer
-          networks.
+          Tune a Shopee listing, replay the Layer 6 trace, run MiroFish workflow steps, and watch projected sales, objections,
+          and chatter move through Singapore buyer networks.
         </p>
       </header>
+
+      <section className="hero-console" id="dashboard" aria-label="Integrated repository console">
+        <div className="hero-copy">
+          <span className="eyebrow">Integrated frontend and backend lanes</span>
+          <h2>One surface for listing experiments, social swarm replay, creative upload feedback, and agentic workflow runs.</h2>
+          <p>
+            The root Next app is the primary dashboard. The static 02 simulator remains available for trace-level inspection,
+            while the embedded MiroFish panel calls the backend workflow when its API is running.
+          </p>
+        </div>
+        <div className="hero-stack" aria-hidden="true">
+          <div className="hero-card hero-card-large">
+            <span>Layer 6 trace</span>
+            <strong>{trace.nodes.length.toLocaleString()} agents</strong>
+            <i />
+          </div>
+          <div className="hero-card">
+            <span>Current tick</span>
+            <strong>t{currentTick}</strong>
+          </div>
+          <div className="hero-card">
+            <span>Primary segment</span>
+            <strong>{strongestProjection.segmentLabel}</strong>
+          </div>
+        </div>
+      </section>
 
       <section className="summary-strip" aria-label="Current simulation summary">
         <div>
@@ -85,7 +124,7 @@ export default function DashboardDemoPage() {
         </div>
       </section>
 
-      <section className="workbench">
+      <section className="workbench" aria-label="Product simulation dashboard">
         <div className="input-column">
           <ProductPreview product={product} />
           <ProductInputPanel product={product} onChange={setProduct} />
@@ -124,9 +163,10 @@ export default function DashboardDemoPage() {
         </aside>
       </section>
 
-      <section className="integration-banner" aria-label="workflow-heading">
+      <section className="integration-banner" id="mirofish" aria-label="workflow-heading">
         <span>Combined workflow:</span>
-        <strong>MiroFish rewritten directly in Next.js below</strong>
+        <strong>MiroFish workflow rewritten directly in Next.js below</strong>
+        <a href="http://localhost:3100/index.html">Open the 02 static simulator</a>
       </section>
       <section className="report-column">
         <MiroFishWorkflow />
