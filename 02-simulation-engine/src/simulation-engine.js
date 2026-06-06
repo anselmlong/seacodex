@@ -93,7 +93,7 @@ window.SeaSimulationEngine = (() => {
       product_signals: product.signals,
     };
 
-    const communities = window.PersonaSwarmData.communities.map(({ id, label }) => ({ id, label }));
+    const communities = context.swarm.communities.map(({ id, label }) => ({ id, label }));
     const ticks = [];
     let adopted = 0;
     let resistant = 0;
