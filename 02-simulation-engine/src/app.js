@@ -55,7 +55,7 @@ async function runMockSimulation(source = "control") {
   controls.run.disabled = true;
   controls.run.textContent = "Simulating";
   $("#jobTitle").textContent = "Running mocked swarm";
-  $("#jobCopy").textContent = "This demo uses deterministic local persona data while the real 03-persona-data-pipeline matures.";
+  $("#jobCopy").textContent = "This demo uses deterministic local mock data while the larger data pipeline matures.";
   const steps = $$("#jobSteps li");
   steps.forEach((step) => step.className = "");
 
@@ -183,8 +183,15 @@ function renderTrendChart() {
     trend
       .map((point, index) => `${index === 0 ? "M" : "L"} ${xFor(index).toFixed(1)} ${yForCount(point[key]).toFixed(1)}`)
       .join(" ");
-  const yTicks = [0, 0.25, 0.5, 0.75, 1].map((ratio) => Math.round(maxCount * ratio));
+  const riskPath = trend
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${xFor(index).toFixed(1)} ${yForRisk(point.backlash_risk).toFixed(1)}`)
+    .join(" ");
+  const yTicks = Array.from({ length: maxCount + 1 }, (_, tick) => tick);
   const xTicks = [0, 3, 6, 9];
+  const dot = (key, className) =>
+    trend
+      .map((point, index) => `<circle class="dot ${className}" cx="${xFor(index)}" cy="${yForCount(point[key])}" r="3.5"></circle>`)
+      .join("");
 
   $("#trendChart").innerHTML = `
     <g class="chart-grid">
@@ -210,12 +217,13 @@ function renderTrendChart() {
     <path class="series exposed" d="${linePath("exposed")}" fill="none"></path>
     <path class="series adopted" d="${linePath("adopted")}" fill="none"></path>
     <path class="series resistant" d="${linePath("resistant")}" fill="none"></path>
+    <path class="series risk" d="${riskPath}" fill="none"></path>
     <g class="chart-points">
+      ${dot("exposed", "exposed")}
+      ${dot("adopted", "adopted")}
+      ${dot("resistant", "resistant")}
       ${trend
-        .map((point, index) => {
-          const x = xFor(index);
-          return `<circle class="dot adopted" cx="${x}" cy="${yForCount(point.adopted)}" r="3.5"></circle><circle class="dot risk" cx="${x}" cy="${yForRisk(point.backlash_risk)}" r="3.5"></circle>`;
-        })
+        .map((point, index) => `<circle class="dot risk" cx="${xFor(index)}" cy="${yForRisk(point.backlash_risk)}" r="3.5"></circle>`)
         .join("")}
     </g>
   `;

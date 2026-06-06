@@ -23,12 +23,6 @@
           <button class="nav-item" type="button" data-view="trace">Tick Trace</button>
           <button class="nav-item" type="button" data-view="contract">Contract Output</button>
         </nav>
-
-        <div class="status-card">
-          <p class="eyebrow">Persona source</p>
-          <strong>03-persona-data-pipeline ready</strong>
-          <span>Uses a local mock swarm compatible with `shared/contracts/persona.schema.json` until pipeline fixtures are expanded.</span>
-        </div>
       </aside>
 
       <section class="workspace">
@@ -97,7 +91,7 @@
             <span id="jobCopy">Pick an experiment and run the mocked swarm analysis.</span>
           </div>
           <ol id="jobSteps">
-            <li>Load persona swarm</li>
+            <li>Load mock swarm</li>
             <li>Apply product/app change</li>
             <li>Project adoption and backlash</li>
             <li>Generate analyst answer</li>
@@ -169,7 +163,7 @@
               </div>
               <span id="networkScale">10,000+ modeled users</span>
             </div>
-            <svg class="network-chart" id="networkChart" viewBox="0 0 940 520" role="img" aria-label="Persona swarm network"></svg>
+            <svg class="network-chart" id="networkChart" viewBox="0 0 940 520" role="img" aria-label="Simulated user network"></svg>
           </section>
         </section>
 
@@ -178,7 +172,7 @@
             <div class="panel-header">
               <div>
                 <p class="eyebrow">10-tick propagation trace</p>
-                <h3>Persona state transitions and message mutations</h3>
+                <h3>User state transitions and message mutations</h3>
               </div>
               <span>schema-aligned replay</span>
             </div>

@@ -152,26 +152,6 @@ h3 {
   font-weight: 800;
 }
 
-.status-card {
-  margin-top: auto;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.status-card strong,
-.status-card span {
-  display: block;
-}
-
-.status-card span {
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.45;
-}
-
 .workspace {
   padding: 20px;
 }
@@ -410,8 +390,7 @@ input {
 
 .panel > p,
 .panel li,
-.chat-message,
-.status-card {
+.chat-message {
   line-height: 1.45;
 }
 
@@ -619,20 +598,31 @@ input {
   stroke: var(--blue);
 }
 
+.series.resistant {
+  stroke: var(--red);
+}
+
+.series.risk {
+  stroke: var(--orange);
+  stroke-dasharray: 7 7;
+}
+
+.dot.exposed,
 .legend-dot.exposed {
   stroke: var(--blue);
   fill: var(--blue);
 }
 
-.series.resistant {
-  stroke: var(--red);
-}
-
-.dot.risk,
-.legend-dot.risk,
+.dot.resistant,
 .legend-dot.resistant {
   stroke: var(--red);
   fill: var(--red);
+}
+
+.dot.risk,
+.legend-dot.risk {
+  stroke: var(--orange);
+  fill: var(--orange);
 }
 
 .dot {
