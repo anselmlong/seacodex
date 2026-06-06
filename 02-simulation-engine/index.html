@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SEA Simulation Engine</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="light">
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span>SC</span>
+          <div>
+            <p>02 Simulation Engine</p>
+            <h1>SEA Social Contagion Lab</h1>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Simulation sections">
+          <button class="nav-item active" type="button" data-view="overview">Simulation</button>
+          <button class="nav-item" type="button" data-view="network">Graph Network</button>
+          <button class="nav-item" type="button" data-view="trace">Tick Trace</button>
+          <button class="nav-item" type="button" data-view="contract">Contract Output</button>
+        </nav>
+
+        <div class="status-card">
+          <p class="eyebrow">Persona source</p>
+          <strong>03-persona-data-pipeline ready</strong>
+          <span>Uses a local mock swarm compatible with `shared/contracts/persona.schema.json` until pipeline fixtures are expanded.</span>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Interactive product/app-change simulator</p>
+            <h2>Brief the analyst agent, then inspect how the simulated swarm reacts.</h2>
+          </div>
+          <div class="top-actions">
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+              <span id="themeToggleLabel">Dark</span>
+            </button>
+            <div class="run-summary">
+              <span>Mode</span>
+              <strong id="summaryMode">App change + product lens</strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="control-grid">
+          <label>
+            <span>Product category</span>
+            <select id="productSelect">
+              <option value="beverages">Beverages</option>
+              <option value="fashion">Clothes / Fashion</option>
+              <option value="computers">Computer products</option>
+            </select>
+          </label>
+          <label>
+            <span>Change type</span>
+            <select id="changeSelect">
+              <option value="targeted_ads">Targeted ads</option>
+              <option value="shipping_priority">Product shipments</option>
+              <option value="trust_badge">App trust badges</option>
+              <option value="checkout_bundle">Checkout bundling</option>
+              <option value="late_delivery_recovery">Late delivery recovery</option>
+            </select>
+          </label>
+          <label>
+            <span>Target demographic</span>
+            <select id="segmentSelect">
+              <option value="gen_z_deal_seekers">Gen Z deal seekers</option>
+              <option value="working_parents">Working parents</option>
+              <option value="electronics_skeptics">Electronics skeptics</option>
+              <option value="livestream_regulars">Livestream regulars</option>
+              <option value="platform_switchers">Platform switchers</option>
+            </select>
+          </label>
+          <label>
+            <span>Primary platform</span>
+            <select id="platformSelect">
+              <option value="TikTok">TikTok</option>
+              <option value="Instagram">Instagram</option>
+              <option value="X">X</option>
+              <option value="Shopee Live">Shopee Live</option>
+              <option value="Shopee">Shopee</option>
+            </select>
+          </label>
+          <button class="primary-action" id="runButton" type="button">Run Simulation</button>
+        </section>
+
+        <section class="simulation-job" id="simulationJob" aria-label="Mock simulation status">
+          <div>
+            <p class="eyebrow">Mock engine status</p>
+            <strong id="jobTitle">Ready to simulate</strong>
+            <span id="jobCopy">Pick an experiment and run the mocked swarm analysis.</span>
+          </div>
+          <ol id="jobSteps">
+            <li>Load persona swarm</li>
+            <li>Apply product/app change</li>
+            <li>Project adoption and backlash</li>
+            <li>Generate analyst answer</li>
+          </ol>
+        </section>
+
+        <section class="view active" id="overviewView">
+          <section class="metric-grid">
+            <article>
+              <span>Recommendation</span>
+              <strong id="metricRecommendation">test</strong>
+            </article>
+            <article>
+              <span>Adoption lift</span>
+              <strong id="metricAdoption">+0%</strong>
+            </article>
+            <article>
+              <span>Backlash risk</span>
+              <strong id="metricBacklash">0.00</strong>
+            </article>
+            <article>
+              <span>Confidence</span>
+              <strong id="metricConfidence">0.00</strong>
+            </article>
+          </section>
+
+          <section class="overview-grid">
+            <article class="panel">
+              <p class="eyebrow">Agent-style analyst answer</p>
+              <h3 id="answerTitle">Run a simulation</h3>
+              <p id="answerCopy">Choose a product category, app/product change, demographic, and platform. The deterministic swarm will estimate likely adoption, resistance, and what to try instead.</p>
+              <div class="suggestion-list" id="suggestionList"></div>
+            </article>
+
+            <article class="panel chat-panel">
+              <p class="eyebrow">Ask the analyst agent</p>
+              <div class="chat-log" id="chatLog"></div>
+              <div class="prompt-chips" aria-label="Example agent prompts">
+                <button type="button" data-prompt="We are considering priority delivery slots for parents buying laptops after payday. Will this lift conversion on Shopee, or should we lead with warranty proof first?">Priority shipping for laptop parents</button>
+                <button type="button" data-prompt="Shopee Live wants to push a creator bundle for viral drinks. Which segment spreads it fastest, and where could backlash start?">Creator drink bundle risk</button>
+                <button type="button" data-prompt="For fashion, should we show fit badges and return guarantees to plus-size shoppers before running ads? What would likely work better?">Fit badges before ads</button>
+              </div>
+              <form class="chat-form" id="chatForm">
+                <input id="chatInput" type="text" value="We are considering priority delivery slots for parents buying laptops after payday. Will this lift conversion on Shopee, or should we lead with warranty proof first?" aria-label="Ask simulation question" />
+                <button type="submit">Ask</button>
+              </form>
+            </article>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Trend curves</p>
+                <h3>10-tick simulation trend</h3>
+              </div>
+              <span id="trendLabel">deterministic run</span>
+            </div>
+            <div class="trend-stat-grid" id="trendStats"></div>
+            <svg class="trend-chart" id="trendChart" viewBox="0 0 900 260" role="img" aria-label="Simulation trend chart"></svg>
+          </section>
+        </section>
+
+        <section class="view" id="networkView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Aggregated graph network</p>
+                <h3>Clean cluster view for thousands of simulated users</h3>
+              </div>
+              <span id="networkScale">10,000+ modeled users</span>
+            </div>
+            <svg class="network-chart" id="networkChart" viewBox="0 0 940 520" role="img" aria-label="Persona swarm network"></svg>
+          </section>
+        </section>
+
+        <section class="view" id="traceView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">10-tick propagation trace</p>
+                <h3>Persona state transitions and message mutations</h3>
+              </div>
+              <span>schema-aligned replay</span>
+            </div>
+            <div class="trace-list" id="traceList"></div>
+          </section>
+        </section>
+
+        <section class="view" id="contractView">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Contract output</p>
+                <h3>Simulation trace JSON preview</h3>
+              </div>
+              <button class="secondary-action" id="copyTraceButton" type="button">Copy JSON</button>
+            </div>
+            <pre class="json-preview" id="jsonPreview"></pre>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./src/persona-swarm-data.js"></script>
+    <script src="./src/simulation-engine.js"></script>
+    <script src="./src/app.js"></script>
+  </body>
+</html>
