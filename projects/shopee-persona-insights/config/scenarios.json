@@ -1,0 +1,21 @@
+[
+  {
+    "id": "free_shipping_floor_change",
+    "name": "Free Shipping Minimum Spend Change",
+    "description": "Shopee raises the free-shipping minimum spend but adds clearer bundle suggestions at checkout.",
+    "signals_to_watch": ["cart abandonment", "bundle acceptance", "voucher complaints", "competitor mentions"]
+  },
+  {
+    "id": "livestream_trust_badge",
+    "name": "Livestream Trust Badge",
+    "description": "Shopee Live highlights verified seller badges and return guarantees during creator streams.",
+    "signals_to_watch": ["trust lift", "seller questions", "conversion intent", "authenticity objections"]
+  },
+  {
+    "id": "late_delivery_recovery",
+    "name": "Late Delivery Recovery Flow",
+    "description": "Shopee proactively messages shoppers about late parcels and offers a small recovery voucher.",
+    "signals_to_watch": ["support deflection", "anger reduction", "repeat purchase intent", "voucher sufficiency"]
+  }
+]
+

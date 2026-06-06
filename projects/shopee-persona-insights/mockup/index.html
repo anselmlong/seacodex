@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopee Persona Insights Mockup</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace" aria-label="Shopee persona insights dashboard">
+        <aside class="sidebar">
+          <div class="brand">
+            <span class="brand-mark">SP</span>
+            <div>
+              <p class="eyebrow">Simulation Lab</p>
+              <h1>Shopee Persona Insights</h1>
+            </div>
+          </div>
+
+          <nav class="nav-list" aria-label="Mock dashboard sections">
+            <button class="nav-item active" type="button">Platform Lanes</button>
+            <a class="nav-item" href="./graph.html">Influence Graph</a>
+            <button class="nav-item" type="button">Scenario Reactions</button>
+            <button class="nav-item" type="button">Insight Report</button>
+          </nav>
+
+          <div class="signal-card">
+            <p class="eyebrow">Current Scenario</p>
+            <strong id="scenarioName">Free Shipping Minimum Spend</strong>
+            <span id="scenarioSummary">Bundle nudges are tested across TikTok, Instagram, X, Shopee Live, and Shopee reviews.</span>
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Platform-first audience rehearsal</p>
+              <h2>Compare behaviour by platform, product category, and segment</h2>
+            </div>
+            <div class="control-stack">
+              <div class="scenario-tabs" role="tablist" aria-label="Product selector">
+                <button class="scenario-tab product-tab active" type="button" data-product="beverages">Beverages</button>
+                <button class="scenario-tab product-tab" type="button" data-product="fashion">Clothes</button>
+                <button class="scenario-tab product-tab" type="button" data-product="electronics">Computers</button>
+              </div>
+              <div class="scenario-tabs" role="tablist" aria-label="Scenario selector">
+                <button class="scenario-tab active" type="button" data-scenario="free_shipping">Free Shipping</button>
+                <button class="scenario-tab" type="button" data-scenario="trust_badge">Trust Badge</button>
+                <button class="scenario-tab" type="button" data-scenario="late_delivery">Late Delivery</button>
+              </div>
+            </div>
+          </header>
+
+          <section class="product-readout" aria-label="Product category performance">
+            <article>
+              <span>Product lens</span>
+              <strong id="productName">Beverages</strong>
+              <p id="productSummary">Fast-moving consumables where trial bundles, taste proof, and repeat purchase timing matter.</p>
+            </article>
+            <article>
+              <span>Sample modeled</span>
+              <strong id="productSample">12,400 users</strong>
+              <p>Blend of real-world social/review signals and simulated personas.</p>
+            </article>
+            <article>
+              <span>Primary risk</span>
+              <strong id="productRisk">Taste mismatch</strong>
+              <p id="productRiskCopy">Creator hype can trigger trial, but bad taste reviews spread quickly.</p>
+            </article>
+          </section>
+
+          <section class="platform-summary" id="platformSummary" aria-label="Platform behavior summary"></section>
+
+          <section class="platform-board" id="platformBoard" aria-label="Platform lanes"></section>
+
+          <section class="demographic-overview" aria-label="Platform and demographic breakdown">
+            <div>
+              <p class="eyebrow">Demographic behavior map</p>
+              <h3>Which groups move, complain, save, or switch by platform</h3>
+            </div>
+            <div class="segment-matrix" id="segmentMatrix"></div>
+          </section>
+        </section>
+
+        <aside class="detail-panel" aria-label="Selected simulation detail">
+          <div class="selected-profile">
+            <div class="avatar large avatar-voucher" id="detailAvatar" aria-hidden="true">
+              <span class="hair"></span>
+              <span class="face"></span>
+              <span class="shirt"></span>
+            </div>
+            <p class="eyebrow" id="detailPlatform">TikTok simulation</p>
+            <h3 id="detailName">Voucher Hunter</h3>
+            <p id="detailSummary">Deal-focused shopper who optimizes every cart around stacked vouchers.</p>
+          </div>
+
+          <div class="reaction-box">
+            <p class="eyebrow">Platform behavior</p>
+            <strong id="detailStance">Positive intent: 72%</strong>
+            <p id="detailReaction">Turns creator proof into checkout intent if the final savings are visible.</p>
+          </div>
+
+          <div class="bars" aria-label="Behavior attributes">
+            <div class="bar-row">
+              <span>Conversion pull</span>
+              <div class="bar"><i id="barPull"></i></div>
+            </div>
+            <div class="bar-row">
+              <span>Complaint risk</span>
+              <div class="bar"><i id="barRisk"></i></div>
+            </div>
+            <div class="bar-row">
+              <span>Social spread</span>
+              <div class="bar"><i id="barSpread"></i></div>
+            </div>
+          </div>
+
+          <div class="feed-card">
+            <p class="eyebrow">Mock channel output</p>
+            <p id="detailPost">"If the code stacks on this bundle, I am checking out before it expires."</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

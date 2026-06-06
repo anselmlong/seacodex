@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopee Influence Graph Mockup</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace graph-workspace" aria-label="Shopee influence graph dashboard">
+        <aside class="sidebar">
+          <div class="brand">
+            <span class="brand-mark">SP</span>
+            <div>
+              <p class="eyebrow">Simulation Lab</p>
+              <h1>Shopee Persona Insights</h1>
+            </div>
+          </div>
+
+          <nav class="nav-list" aria-label="Mock dashboard sections">
+            <a class="nav-item" href="./index.html">Platform Lanes</a>
+            <button class="nav-item active" type="button">Influence Graph</button>
+            <button class="nav-item" type="button">Scenario Reactions</button>
+            <button class="nav-item" type="button">Insight Report</button>
+          </nav>
+
+          <div class="signal-card">
+            <p class="eyebrow">Graph model</p>
+            <strong id="graphSample">12,400 modeled users</strong>
+            <span>Visualized as aggregate clusters with bundled influence paths, so large-scale behavior stays readable.</span>
+          </div>
+        </aside>
+
+        <section class="main-panel graph-panel">
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Network simulation</p>
+              <h2>Map product-specific ripples across large user clusters</h2>
+            </div>
+            <div class="control-stack">
+              <div class="scenario-tabs" role="tablist" aria-label="Product selector">
+                <button class="scenario-tab product-tab active" type="button" data-product="beverages">Beverages</button>
+                <button class="scenario-tab product-tab" type="button" data-product="fashion">Clothes</button>
+                <button class="scenario-tab product-tab" type="button" data-product="electronics">Computers</button>
+              </div>
+              <div class="scenario-tabs" role="tablist" aria-label="Intervention selector">
+                <button class="scenario-tab active" type="button" data-intervention="ad_targeting">Targeted Ads</button>
+                <button class="scenario-tab" type="button" data-intervention="shipping_priority">Shipment Priority</button>
+                <button class="scenario-tab" type="button" data-intervention="recovery_voucher">Recovery Voucher</button>
+              </div>
+            </div>
+          </header>
+
+          <section class="graph-metrics" aria-label="Intervention metrics">
+            <article>
+              <span>Seed users</span>
+              <strong id="metricSeeds">4 high-connectors</strong>
+            </article>
+            <article>
+              <span>Reach ripple</span>
+              <strong id="metricReach">2.8x</strong>
+            </article>
+            <article>
+              <span>Conversion lift</span>
+              <strong id="metricLift">+14%</strong>
+            </article>
+            <article>
+              <span>Backlash risk</span>
+              <strong id="metricRisk">Medium</strong>
+            </article>
+          </section>
+
+          <section class="network-stage" aria-label="Influence network visualization">
+            <svg id="networkGraph" viewBox="0 0 920 560" role="img" aria-label="Persona influence graph"></svg>
+          </section>
+        </section>
+
+        <aside class="detail-panel" aria-label="Graph explanation">
+          <div class="reaction-box">
+            <p class="eyebrow">Selected intervention</p>
+            <strong id="interventionName">Targeted Ads to Connectors</strong>
+            <p id="interventionSummary">Seed ad creative with creator-led and voucher-led connectors first, then watch downstream movement across TikTok, Instagram, X, and Shopee checkout.</p>
+          </div>
+
+          <div class="influence-list" id="influenceList"></div>
+
+          <div class="feed-card">
+            <p class="eyebrow">Simulation read</p>
+            <p id="interventionRead">High-connectivity users are not always the best conversion targets, but they are the fastest way to test whether a story spreads or mutates into complaints.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./graph.js"></script>
+  </body>
+</html>

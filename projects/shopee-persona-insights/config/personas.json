@@ -1,0 +1,58 @@
+[
+  {
+    "id": "voucher_hunter",
+    "name": "Voucher Hunter",
+    "platforms": ["TikTok", "Instagram", "Shopee"],
+    "motives": ["maximum discount", "free shipping", "flash sale timing"],
+    "skepticism": 0.35,
+    "price_sensitivity": 0.95,
+    "trust_sensitivity": 0.45,
+    "delivery_sensitivity": 0.55,
+    "voice": "excited, deal-focused, impatient"
+  },
+  {
+    "id": "trust_guardian",
+    "name": "Trust Guardian",
+    "platforms": ["X", "Reddit", "Shopee"],
+    "motives": ["authenticity", "seller reliability", "refund clarity"],
+    "skepticism": 0.9,
+    "price_sensitivity": 0.45,
+    "trust_sensitivity": 0.95,
+    "delivery_sensitivity": 0.7,
+    "voice": "cautious, evidence-seeking, complaint-aware"
+  },
+  {
+    "id": "livestream_impulse_buyer",
+    "name": "Livestream Impulse Buyer",
+    "platforms": ["TikTok", "Instagram", "Shopee Live"],
+    "motives": ["creator proof", "limited bundles", "social excitement"],
+    "skepticism": 0.25,
+    "price_sensitivity": 0.75,
+    "trust_sensitivity": 0.55,
+    "delivery_sensitivity": 0.35,
+    "voice": "social, trend-led, emotionally responsive"
+  },
+  {
+    "id": "time_poor_parent",
+    "name": "Time-Poor Parent",
+    "platforms": ["Instagram", "Facebook", "Shopee"],
+    "motives": ["reliability", "clear returns", "fast delivery"],
+    "skepticism": 0.55,
+    "price_sensitivity": 0.6,
+    "trust_sensitivity": 0.8,
+    "delivery_sensitivity": 0.95,
+    "voice": "practical, convenience-first, low patience for friction"
+  },
+  {
+    "id": "brand_switcher",
+    "name": "Brand Switcher",
+    "platforms": ["X", "TikTok", "Instagram"],
+    "motives": ["better alternatives", "social proof", "platform experience"],
+    "skepticism": 0.65,
+    "price_sensitivity": 0.7,
+    "trust_sensitivity": 0.7,
+    "delivery_sensitivity": 0.65,
+    "voice": "comparative, restless, recommendation-driven"
+  }
+]
+
