@@ -113,7 +113,7 @@ Run-Step "Layer 6: full deterministic trace generation" {
     --nodes 200 `
     --seed 42 `
     --initial-exposed 8 `
-    --campaign-name "Market Activation Campaign" `
+    --campaign-name "Air Fryer" `
     --campaign-description "Synthetic first-half market-behavior propagation study" `
     --exposure-base 0.14 `
     --adoption-rate 0.22 `
