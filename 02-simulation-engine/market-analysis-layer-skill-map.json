@@ -1,0 +1,76 @@
+{
+  "project": "Autonomous Proactive Market Analysis",
+  "layers": [
+    {
+      "id": 1,
+      "name": "Data Ingestion: Synthetic Persona Foundation",
+      "required_skills": [
+        "data-quality-engineering",
+        "data-ops-and-ingestion",
+        "schema-design-and-validation",
+        "governance-privacy-safety"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Persona Bootstrapping and Initialization",
+      "required_skills": [
+        "prompt-database-reproducibility",
+        "persona-schema-engineering",
+        "evaluation-and-label-calibration",
+        "governance-privacy-safety"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "MiroFish Interest Tuning (Swarm)",
+      "required_skills": [
+        "orchestration-and-multi-agent-planning",
+        "prompt-database-reproducibility",
+        "graph-network-analysis",
+        "quality-assurance-and-validation",
+        "mcp-or-integration-ops"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Interest and Trend Reasoning",
+      "required_skills": [
+        "evaluation-and-label-calibration",
+        "time-series-and-windowing",
+        "explainability-and-significance",
+        "statistical-testing-basics"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Graph Network Analysis",
+      "required_skills": [
+        "graph-network-analysis",
+        "evaluation-and-label-calibration",
+        "statistical-testing-basics",
+        "quality-assurance-and-validation"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Analyst Transformation to ML-Usable Signals",
+      "required_skills": [
+        "feature-engineering-for-product-ml",
+        "data-quality-engineering",
+        "evaluation-and-label-calibration",
+        "schema-design-and-validation"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Product ML Integration",
+      "required_skills": [
+        "mlops-and-serving",
+        "evaluation-and-label-calibration",
+        "governance-privacy-safety",
+        "human-in-the-loop-governance"
+      ]
+    }
+  ]
+}
