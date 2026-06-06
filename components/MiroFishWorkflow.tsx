@@ -30,6 +30,9 @@ type GraphBuildResult = {
   graphId?: string;
   task_id?: string;
   taskId?: string;
+  result?: {
+    graph_id?: string;
+  };
 };
 
 type SimulationResult = {
@@ -42,10 +45,12 @@ type ReportResult = {
   reportId?: string;
 };
 
+// Empty string routes to Next.js API handlers (/api/...).
+// Set NEXT_PUBLIC_MIROFISH_API_URL to point at an external MiroFish instance.
 const API_BASE =
   process.env.NEXT_PUBLIC_MIROFISH_API_URL ||
   process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "http://localhost:5001";
+  "";
 const STEPS = ["Upload + ontology", "Build graph", "Create simulation", "Start simulation", "Generate analyst report"] as const;
 
 const formatTime = () => new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -190,11 +195,29 @@ export function MiroFishWorkflow() {
           for (let attempt = 0; attempt < 10; attempt += 1) {
             await wait(1000);
             try {
-              const taskStatus = await getJson<{ status?: string; graph_id?: string; success?: boolean }>(`/api/graph/task/${graphBuildId}`);
+            const taskStatus = await getJson<{
+              status?: string;
+              graph_id?: string;
+              result?: {
+                graph_id?: string;
+              };
+              error?: string;
+              success?: boolean;
+            }>(`/api/graph/task/${graphBuildId}`);
               pushLog(`Graph task status: ${JSON.stringify(taskStatus)}`);
-              if (taskStatus.data?.status === "completed" && taskStatus.data?.graph_id) {
-                setGraphId(taskStatus.data.graph_id);
+              if (taskStatus.data?.status === "completed") {
+                const builtGraphId =
+                  taskStatus.data?.graph_id || taskStatus.data?.result?.graph_id;
+                if (!builtGraphId) {
+                  throw new Error("Graph build completed but did not return a graph id.");
+                }
+                setGraphId(builtGraphId);
+                pushLog(`Graph build completed. graph_id=${builtGraphId}`);
                 return;
+              }
+
+              if (taskStatus.data?.status === "failed") {
+                throw new Error(taskStatus.data?.error || "Graph build task failed.");
               }
             } catch (statusErr) {
               pushLog(
