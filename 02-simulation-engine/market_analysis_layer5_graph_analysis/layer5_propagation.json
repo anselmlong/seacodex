@@ -1,5 +1,5 @@
 {
-  "top_seed_count": 20,
+  "top_seed_count": 25,
   "seed_nodes": [
     "syn_u-00000",
     "syn_u-00003",
@@ -20,7 +20,12 @@
     "syn_u-00030",
     "syn_u-00031",
     "syn_u-00033",
-    "syn_u-00036"
+    "syn_u-00036",
+    "syn_u-00037",
+    "syn_u-00039",
+    "syn_u-00042",
+    "syn_u-00045",
+    "syn_u-00046"
   ],
   "results": {
     "seed_nodes": [
@@ -43,26 +48,31 @@
       "syn_u-00030",
       "syn_u-00031",
       "syn_u-00033",
-      "syn_u-00036"
+      "syn_u-00036",
+      "syn_u-00037",
+      "syn_u-00039",
+      "syn_u-00042",
+      "syn_u-00045",
+      "syn_u-00046"
     ],
     "timeline": [
       {
         "round": 0,
-        "new_activated": 20,
-        "active_total": 20
+        "new_activated": 25,
+        "active_total": 25
       },
       {
         "round": 1,
-        "new_activated": 2,
-        "active_total": 22
+        "new_activated": 1,
+        "active_total": 26
       },
       {
         "round": 2,
         "new_activated": 0,
-        "active_total": 22
+        "active_total": 26
       }
     ],
-    "final_count": 22,
-    "coverage_ratio": 0.11
+    "final_count": 26,
+    "coverage_ratio": 0.13
   }
 }

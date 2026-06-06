@@ -1,33 +1,33 @@
 {
-  "generated_at_utc": "2026-06-06T06:11:40.116588+00:00",
+  "generated_at_utc": "2026-06-06T08:07:21.455032+00:00",
   "project": "Autonomous Proactive Market Analysis",
   "layer": 4,
   "run_state": {
-    "run_id": "layer4-2026-06-06T06:11:40.116540+00:00",
-    "layer3_personas_file": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
-    "layer3_entities_file": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
-    "layer3_edges_file": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
-    "layer3_snapshot_file": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
-    "output_dir": "market_analysis_layer4_model_integration",
-    "generated_at_utc": "2026-06-06T06:11:40.116575+00:00",
+    "run_id": "layer4-2026-06-06T08:07:21.455032+00:00",
+    "layer3_personas_file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_personas.jsonl",
+    "layer3_entities_file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_entities.jsonl",
+    "layer3_edges_file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_edges.jsonl",
+    "layer3_snapshot_file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_graph_snapshot.json",
+    "output_dir": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration",
+    "generated_at_utc": "2026-06-06T08:07:21.455032+00:00",
     "version": "1.0"
   },
   "outputs": {
-    "feature_matrix": "market_analysis_layer4_model_integration/layer4_feature_matrix.jsonl",
-    "recommendation_features": "market_analysis_layer4_model_integration/layer4_recommendation_features.jsonl",
-    "churn_features": "market_analysis_layer4_model_integration/layer4_churn_features.jsonl",
-    "segments": "market_analysis_layer4_model_integration/layer4_segments.json",
-    "lineage": "market_analysis_layer4_model_integration/layer4_feature_lineage.csv",
+    "feature_matrix": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_feature_matrix.jsonl",
+    "recommendation_features": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_recommendation_features.jsonl",
+    "churn_features": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_churn_features.jsonl",
+    "segments": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_segments.json",
+    "lineage": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_feature_lineage.csv",
     "run_config": {
-      "top_trend_interests": 25,
-      "top_trend_skills": 25,
-      "pagerank_iterations": 20,
-      "sample_head": 200
+      "top_trend_interests": 40,
+      "top_trend_skills": 30,
+      "pagerank_iterations": 24,
+      "sample_head": 0
     }
   },
   "summary": {
     "trends": {
-      "generated_at_utc": "2026-06-06T06:11:40.108980+00:00",
+      "generated_at_utc": "2026-06-06T08:07:21.418470+00:00",
       "inputs": {
         "num_personas": 200,
         "num_edges": 200,
@@ -139,37 +139,62 @@
       "segment_count": 15,
       "high_influence_personas": [
         {
-          "persona_id": "syn_u-00334",
+          "persona_id": "syn_u-00059",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00003",
+          "persona_id": "syn_u-00194",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00063",
+          "persona_id": "syn_u-00342",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00144",
+          "persona_id": "syn_u-00082",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00137",
+          "persona_id": "syn_u-00321",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00305",
+          "persona_id": "syn_u-00057",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00086",
+          "persona_id": "syn_u-00039",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00037",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00261",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00016",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00275",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00010",
           "pagerank": 1.0,
           "degree_total": 2
         },
@@ -179,37 +204,12 @@
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00018",
+          "persona_id": "syn_u-00006",
           "pagerank": 1.0,
           "degree_total": 2
         },
         {
-          "persona_id": "syn_u-00139",
-          "pagerank": 1.0,
-          "degree_total": 2
-        },
-        {
-          "persona_id": "syn_u-00336",
-          "pagerank": 1.0,
-          "degree_total": 2
-        },
-        {
-          "persona_id": "syn_u-00073",
-          "pagerank": 1.0,
-          "degree_total": 2
-        },
-        {
-          "persona_id": "syn_u-00219",
-          "pagerank": 1.0,
-          "degree_total": 2
-        },
-        {
-          "persona_id": "syn_u-00181",
-          "pagerank": 1.0,
-          "degree_total": 2
-        },
-        {
-          "persona_id": "syn_u-00109",
+          "persona_id": "syn_u-00056",
           "pagerank": 1.0,
           "degree_total": 2
         }
@@ -637,7 +637,7 @@
         ]
       }
     ],
-    "pagerank_iterations": 20,
+    "pagerank_iterations": 24,
     "top_trend_interests": [
       "hobby1hobby2hobby3",
       "hobby6hobby7hobby0",
@@ -666,33 +666,34 @@
     "exists_output_dir": true,
     "files": {
       "feature_matrix": {
-        "path": "market_analysis_layer4_model_integration/layer4_feature_matrix.jsonl",
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_feature_matrix.jsonl",
         "exists": true,
-        "sha256": "b4bccfea50064ad4a1aa0fa27854b489469c7a31f23c3307fa3fceac2215f31c"
+        "sha256": "07e444ea619eb79593a331b5c4b28dd84ed2adcc0680bdda3b60c9aea04cb0e9"
       },
       "recommendations": {
-        "path": "market_analysis_layer4_model_integration/layer4_recommendation_features.jsonl",
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_recommendation_features.jsonl",
         "exists": true,
-        "sha256": "8a3b785b720cd3b280c62456e5556c1581e3b4cbfaa1f0251155fe3c487438bd"
+        "sha256": "457c62f41a59b5f344d7ae731ef9328832ca3f3443c2907efe3a6355f3bd61e8"
       },
       "churn": {
-        "path": "market_analysis_layer4_model_integration/layer4_churn_features.jsonl",
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_churn_features.jsonl",
         "exists": true,
-        "sha256": "b83886add640bd9a047a3ffc443b35dae4d0e52e00d2c1dcd7e338d21cead863"
+        "sha256": "f0718b908215063b9c2da3037c261cf3a14878676e3019c92851f18eec583b0c"
       },
       "segments": {
-        "path": "market_analysis_layer4_model_integration/layer4_segments.json",
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_segments.json",
         "exists": true,
-        "sha256": "78ceb4295a89ae5b558d4a82e739b2556beabd1a10700c0821f1a0ae412b85c8"
+        "sha256": "3953d61885a17ce2e15c80790da0910acc1b1b9989d3a30c5c08260c5e0d65f4"
       },
       "lineage": {
-        "path": "market_analysis_layer4_model_integration/layer4_feature_lineage.csv",
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_feature_lineage.csv",
         "exists": true,
         "sha256": "306aa623b71d8f4d053bbfb61add908d6d97a1cb49ad29bb5a8df4a36c183534"
       },
       "manifest": {
-        "path": "market_analysis_layer4_model_integration/layer4_manifest.json",
-        "exists": false
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer4_model_integration\\layer4_manifest.json",
+        "exists": true,
+        "sha256": "4e5522d2b5b2e21ea8ee2c5f849f074b257c2f881a64050a8c3852b11ce57003"
       }
     },
     "pass": true,

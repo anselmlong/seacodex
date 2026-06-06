@@ -1,11 +1,11 @@
 {
   "layer": "layer2",
-  "generated_at_utc": "2026-06-06T06:36:50.055879+00:00",
+  "generated_at_utc": "2026-06-06T08:07:19.547849+00:00",
   "requested_n": 200,
   "seed": 42,
-  "produced_n": 201,
-  "layer1_source": "market_analysis_layer1_layer2/layer1/persona_seed.parquet",
-  "layer1_report_hash": "1f4f355bd990ec03c5d0ac69832193d1f33083b8b8802ec1c6548175f9326f84",
+  "produced_n": 200,
+  "layer1_source": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer1_layer2\\layer1\\persona_seed.parquet",
+  "layer1_report_hash": "34501a75ff5485d8a12449d1e5e70c11c099db320ff8285913c6b017886b87e2",
   "layer1_sha": 9251251254188572643,
   "total_available": 400,
   "sample_seed": 42,
@@ -209,37 +209,29 @@
     "u-00337",
     "u-00354",
     "u-00334",
-    "u-00302",
-    "bern.ice_"
+    "u-00302"
   ],
   "ground_truth_enrichment": {
-    "requested": 1,
-    "added": 1,
-    "mode": "append",
-    "assignments": [
-      {
-        "source_profile_id": "bern.ice_",
-        "target_persona_id": "gt_bern_ice_",
-        "match_mode": "append_only",
-        "replaced_profile_id": null
-      }
-    ]
+    "requested": 0,
+    "added": 0,
+    "mode": "none",
+    "assignments": []
   },
   "outputs": {
-    "jsonl": "market_analysis_layer1_layer2/layer2/personas_initial_n200_seed42.jsonl"
+    "jsonl": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer1_layer2\\layer2\\personas_initial_n200_seed42.jsonl"
   },
   "split_outputs": {
     "train": {
-      "count": 142,
-      "file": "market_analysis_layer1_layer2/layer2/splits/stratified_industry_seed42/personas_train_n200_seed42.jsonl"
+      "count": 141,
+      "file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer1_layer2\\layer2\\splits\\stratified_industry_seed42\\personas_train_n200_seed42.jsonl"
     },
     "val": {
       "count": 30,
-      "file": "market_analysis_layer1_layer2/layer2/splits/stratified_industry_seed42/personas_val_n200_seed42.jsonl"
+      "file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer1_layer2\\layer2\\splits\\stratified_industry_seed42\\personas_val_n200_seed42.jsonl"
     },
     "test": {
       "count": 29,
-      "file": "market_analysis_layer1_layer2/layer2/splits/stratified_industry_seed42/personas_test_n200_seed42.jsonl"
+      "file": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer1_layer2\\layer2\\splits\\stratified_industry_seed42\\personas_test_n200_seed42.jsonl"
     },
     "metadata": {
       "strategy": "stratified",
@@ -253,7 +245,7 @@
     }
   },
   "file_hashes": {
-    "jsonl_sha256": "33295ea220a9a86fb439685bb8519b8140fa7169a9360e77caa919d9680f704d"
+    "jsonl_sha256": "e864e6934e9ad8c67fd5df13c75a38c1a241c562da9cddfa4c592ee1946521c0"
   },
   "required_fields": {
     "has_persona_id": true,

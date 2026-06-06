@@ -1,128 +1,39 @@
 {
   "layer": "layer3",
-  "generated_at_utc": "2026-06-06T06:51:12.385987+00:00",
-  "mode": "live",
+  "generated_at_utc": "2026-06-06T08:07:20.556102+00:00",
+  "mode": "mock",
   "state": {
-    "run_id": "687e6dc5-27c4-47a8-acdd-2ed2db8b50ac",
+    "run_id": "d0d4fded-f920-4ce1-bf0b-64da7d2c3acd",
     "base_url": "http://localhost:5001",
-    "project_id": "proj_716c416e3648",
-    "task_id": "e90c9dff-8d29-44bc-bab0-109df8e9e4ba",
-    "graph_id": "mirofish_b41697d8b45e43be",
-    "simulation_id": "sim_0a37a515c456",
-    "prepare_task_id": "c3bf709a-797e-46d8-b724-76f3025378ed",
-    "run_state": {
-      "completed_at": "2026-06-06T06:51:02.487346",
-      "current_round": 3,
-      "error": null,
-      "process_pid": 341,
-      "progress_percent": 100.0,
-      "reddit_actions_count": 3,
-      "reddit_completed": true,
-      "reddit_current_round": 3,
-      "reddit_running": false,
-      "reddit_simulated_hours": 0,
-      "runner_status": "completed",
-      "simulated_hours": 0,
-      "simulation_id": "sim_0a37a515c456",
-      "started_at": "2026-06-06T06:49:32.254132",
-      "total_actions_count": 6,
-      "total_rounds": 3,
-      "total_simulation_hours": 96,
-      "twitter_actions_count": 3,
-      "twitter_completed": true,
-      "twitter_current_round": 3,
-      "twitter_running": false,
-      "twitter_simulated_hours": 0,
-      "updated_at": "2026-06-06T06:51:00.475796"
-    },
-    "mode": "live",
-    "started_utc": "2026-06-06T06:37:37.817537+00:00",
+    "project_id": null,
+    "task_id": null,
+    "graph_id": null,
+    "simulation_id": null,
+    "prepare_task_id": null,
+    "run_state": null,
+    "mode": "mock",
+    "started_utc": "2026-06-06T08:07:20.536103+00:00",
     "phases": {}
   },
   "inputs": {
-    "layer2_file": "market_analysis_layer1_layer2/layer2/personas_initial_n200_seed42.jsonl",
-    "input_count": 201
+    "layer2_file": "\\Users\\kyiwaithant\\Documents\\Shopee\\market_analysis_layer1_layer2\\layer2\\personas_initial_n1000_seed42.jsonl",
+    "input_count": 200
   },
   "artifacts": {
-    "layer3_tuned_personas": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
-    "layer3_entities": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
-    "layer3_edges": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
-    "graph_snapshot": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json"
+    "layer3_tuned_personas": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_personas.jsonl",
+    "layer3_entities": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_entities.jsonl",
+    "layer3_edges": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_edges.jsonl",
+    "graph_snapshot": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_graph_snapshot.json"
   },
   "counts": {
-    "tuned_personas": 201,
-    "entities": 39,
-    "edges": 90
+    "tuned_personas": 200,
+    "entities": 200,
+    "edges": 200
   },
   "hashes": {
-    "layer3_tuned_personas": "ac5759e78c04b53c4c6e222c69206b844cb638a8a5d1686bd422d0112dd4284b",
-    "layer3_entities": "31a8c12ddd7684aec3a5df5a74d6ee09cae153f7bb50a26b914aefef2f324c36",
-    "layer3_edges": "5be175c7ee29c8a826e170a38b2f3a00135ff6841ebfa69b62d2cd5422d80148",
-    "graph_snapshot": "4fca0a7d83ef8fdc6e9a91355434c71bebace8410096933f5e36d2e45fcf1bbb"
-  },
-  "phase_log": [
-    {
-      "phase": "ontology",
-      "status": "ok",
-      "project_id": "proj_716c416e3648"
-    },
-    {
-      "phase": "build_graph",
-      "status": "started",
-      "task_id": "e90c9dff-8d29-44bc-bab0-109df8e9e4ba"
-    },
-    {
-      "phase": "build_graph",
-      "status": "ok",
-      "graph_id": "mirofish_b41697d8b45e43be"
-    },
-    {
-      "phase": "simulation_create",
-      "status": "ok",
-      "simulation_id": "sim_0a37a515c456"
-    },
-    {
-      "phase": "prepare_start",
-      "status": "ok",
-      "already_prepared": false,
-      "task_id": "c3bf709a-797e-46d8-b724-76f3025378ed"
-    },
-    {
-      "phase": "simulation_run",
-      "status": "ok",
-      "run_status": "completed"
-    }
-  ],
-  "sim_state": {
-    "config_generated": true,
-    "config_reasoning": "时间配置: 根据需求识别短期趋势和同行影响模式，模拟时间设置为96小时，以便在数天内观察变化。高峰时段设定在晚间，因为用户在此时间段更活跃，特别是科技和零售行业的用户。尽管工作时间也有一定活跃度，但相对较低，因为许多用户可能在白天忙于工作。低谷时段设在凌晨，反映大多数用户在此时段休息的事实。 | 事件配置: The identified hot topics and narrative direction are based on the need to understand and leverage peer influence and short-term trends for market analysis. Synthetic personas are used as they provide a controlled environment to model and predict community interactions and product interests. This aligns with the proactive approach required for recommendation and churn prediction workflows. The initial posts are designed to spark discussions and engage with audiences interested in these insights, using SyntheticPersona as the poster type to match the context of the simulation. | Agent配置: 成功生成 13 个 | 初始帖子分配: 3 个帖子已分配发布者",
-    "created_at": "2026-06-06T06:48:49.783813",
-    "current_round": 0,
-    "enable_reddit": true,
-    "enable_twitter": true,
-    "entities_count": 13,
-    "entity_types": [
-      "SyntheticPersona"
-    ],
-    "error": null,
-    "graph_id": "mirofish_b41697d8b45e43be",
-    "profiles_count": 13,
-    "project_id": "proj_716c416e3648",
-    "reddit_status": "not_started",
-    "run_instructions": {
-      "commands": {
-        "parallel": "python /app/backend/scripts/run_parallel_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json",
-        "reddit": "python /app/backend/scripts/run_reddit_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json",
-        "twitter": "python /app/backend/scripts/run_twitter_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json"
-      },
-      "config_file": "/app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json",
-      "instructions": "1. 激活conda环境: conda activate MiroFish\n2. 运行模拟 (脚本位于 /app/backend/scripts):\n   - 单独运行Twitter: python /app/backend/scripts/run_twitter_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json\n   - 单独运行Reddit: python /app/backend/scripts/run_reddit_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json\n   - 并行运行双平台: python /app/backend/scripts/run_parallel_simulation.py --config /app/backend/app/services/../../uploads/simulations/sim_0a37a515c456/simulation_config.json",
-      "scripts_dir": "/app/backend/scripts",
-      "simulation_dir": "/app/backend/app/services/../../uploads/simulations/sim_0a37a515c456"
-    },
-    "simulation_id": "sim_0a37a515c456",
-    "status": "ready",
-    "twitter_status": "not_started",
-    "updated_at": "2026-06-06T06:49:20.745045"
+    "layer3_tuned_personas": "aeb3a412b5a48d97a5e758b6e3eb6324b15ae5943ea05b3a9f0fae1054eb0f9f",
+    "layer3_entities": "7059ca9970938a3aa6442e8f1e3bc91813f1dc50af2cb0d311021c2f33ddd7ed",
+    "layer3_edges": "4bc36665ae64f62a07bd70921a247364329ac0915ecbd0eaf937a3cf95c9fa48",
+    "graph_snapshot": "c7af117aaf5fe306e6170c0e6aa7e7ce02e4ea3e7622e6a39f5fe500f29d88e3"
   }
 }

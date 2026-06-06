@@ -412,7 +412,7 @@
     }
   ],
   "trends": {
-    "generated_at_utc": "2026-06-06T06:11:40.108980+00:00",
+    "generated_at_utc": "2026-06-06T08:07:21.418470+00:00",
     "inputs": {
       "num_personas": 200,
       "num_edges": 200,
@@ -524,37 +524,62 @@
     "segment_count": 15,
     "high_influence_personas": [
       {
-        "persona_id": "syn_u-00334",
+        "persona_id": "syn_u-00059",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00003",
+        "persona_id": "syn_u-00194",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00063",
+        "persona_id": "syn_u-00342",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00144",
+        "persona_id": "syn_u-00082",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00137",
+        "persona_id": "syn_u-00321",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00305",
+        "persona_id": "syn_u-00057",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00086",
+        "persona_id": "syn_u-00039",
+        "pagerank": 1.0,
+        "degree_total": 2
+      },
+      {
+        "persona_id": "syn_u-00037",
+        "pagerank": 1.0,
+        "degree_total": 2
+      },
+      {
+        "persona_id": "syn_u-00261",
+        "pagerank": 1.0,
+        "degree_total": 2
+      },
+      {
+        "persona_id": "syn_u-00016",
+        "pagerank": 1.0,
+        "degree_total": 2
+      },
+      {
+        "persona_id": "syn_u-00275",
+        "pagerank": 1.0,
+        "degree_total": 2
+      },
+      {
+        "persona_id": "syn_u-00010",
         "pagerank": 1.0,
         "degree_total": 2
       },
@@ -564,37 +589,12 @@
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00018",
+        "persona_id": "syn_u-00006",
         "pagerank": 1.0,
         "degree_total": 2
       },
       {
-        "persona_id": "syn_u-00139",
-        "pagerank": 1.0,
-        "degree_total": 2
-      },
-      {
-        "persona_id": "syn_u-00336",
-        "pagerank": 1.0,
-        "degree_total": 2
-      },
-      {
-        "persona_id": "syn_u-00073",
-        "pagerank": 1.0,
-        "degree_total": 2
-      },
-      {
-        "persona_id": "syn_u-00219",
-        "pagerank": 1.0,
-        "degree_total": 2
-      },
-      {
-        "persona_id": "syn_u-00181",
-        "pagerank": 1.0,
-        "degree_total": 2
-      },
-      {
-        "persona_id": "syn_u-00109",
+        "persona_id": "syn_u-00056",
         "pagerank": 1.0,
         "degree_total": 2
       }
@@ -610,7 +610,7 @@
       }
     ]
   },
-  "pagerank_iterations": 20,
+  "pagerank_iterations": 24,
   "top_trend_interests": [
     "hobby1hobby2hobby3",
     "hobby6hobby7hobby0",

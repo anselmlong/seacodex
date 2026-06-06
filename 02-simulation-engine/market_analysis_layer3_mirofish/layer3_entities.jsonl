@@ -1,39 +1,200 @@
-{"attributes": {"context": null, "interests": null, "name": "Persona 210", "profile_id": "syn_u-00210", "skills": "skill0skill1skill2"}, "created_at": "2026-06-06T06:37:56.774Z", "labels": ["SyntheticPersona"], "name": "Persona 210", "summary": "This synthetic persona has the skills skill0, skill1, and skill2. It is associated with profile ID syn_u-00210 and the context of Singapore, Bedok, and tech.", "uuid": "fe27ba3f-e986-44d3-a752-bb8bb0701089"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 84", "profile_id": "004 syn_u-00210", "skills": "skill4skill5skill6"}, "created_at": "2026-06-06T06:37:56.774Z", "labels": ["SyntheticPersona"], "name": "Persona 84", "summary": "This synthetic persona, associated with profile ID 004 syn_u-00210, has skills skill4, skill5, and skill6. The context for this persona includes Singapore, Hougang, and finance.", "uuid": "f72eeb4e-711f-4d49-aed6-44a74d47397f"}
-{"attributes": {"name": "skill7"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "skill7", "summary": "Skill7 is a skill possessed by a synthetic persona in Tampines, Singapore, within the retail sector.", "uuid": "f476b534-9511-4469-b8b5-dbd033975b77"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 280", "profile_id": "Persona 280", "skills": "skill0skill1skill2"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": ["SyntheticPersona"], "name": "Persona 280", "summary": "Persona 280 is associated with Singapore, Bedok, and tech. This synthetic persona has interests in hobby0, hobby1, and hobby2, and possesses skills in skill0, skill1, and skill2.", "uuid": "ee303278-40d2-42d7-a41a-0517018c512e"}
-{"attributes": {"name": "education"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "education", "summary": "", "uuid": "df2ea4e3-db83-480f-ac42-7503c8f6d22e"}
-{"attributes": {"name": "skill1"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": [], "name": "skill1", "summary": "", "uuid": "db703ad8-49d5-47b2-ab0f-47015c56b3f9"}
-{"attributes": {"name": "hobby6"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby6", "summary": "Hobby6 is an interest of a synthetic persona in Woodlands, Singapore, within the media sector.", "uuid": "db1b0988-29c3-425c-af0c-ccdb5ed85eb8"}
-{"attributes": {"name": "retail"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "retail", "summary": "A synthetic persona is associated with the retail sector in Tampines, Singapore, with interests in hobby0, hobby1, and hobby2, and skills in skill6, skill7, and skill8.", "uuid": "d83bde24-d869-4870-a7b8-43ced778f3f5"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 278", "profile_id": "syn_u-00278", "skills": "skill8skill9skill0"}, "created_at": "2026-06-06T06:43:43.965Z", "labels": ["SyntheticPersona"], "name": "Persona 278", "summary": "Persona 278 has skills skill8, skill9, and skill0. This persona is associated with Singapore, Jurong West, and education.", "uuid": "d565a94f-6c5f-474c-bd5c-774999cfc375"}
-{"attributes": {"name": "skill8"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "skill8", "summary": "Skill8 is a skill possessed by a synthetic persona in Tampines, Singapore, within the retail sector.", "uuid": "d07e50b2-c63b-4bf1-929f-700fad0975e2"}
-{"attributes": {"name": "skill3"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "skill3", "summary": "Skill3 is a skill possessed by synthetic personas in Woodlands, Singapore, within the media sector.", "uuid": "cdf37504-1bd9-4101-8a37-27ffb346497c"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 94", "profile_id": "syn_u-00094", "skills": "skill4skill5skill6"}, "created_at": "2026-06-06T06:37:58.181Z", "labels": ["SyntheticPersona"], "name": "Persona 94", "summary": "Persona 94 has skills in skill4, skill5, and skill6. The persona is associated with Singapore, Hougang, and finance.", "uuid": "cd5989c3-2d61-4dbf-9167-5b749336c5ce"}
-{"attributes": {"name": "tech"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "tech", "summary": "", "uuid": "ca046f22-73d8-4ceb-8cfc-cb57c111f027"}
-{"attributes": {"context": "Singapore / Tampines / retail", "interests": "hobby2hobby3hobby4", "name": "Persona 266", "profile_id": "syn_u-00266", "skills": "skill6skill7skill8"}, "created_at": "2026-06-06T06:37:58.181Z", "labels": ["SyntheticPersona"], "name": "Persona 266", "summary": "Persona 266 has skills in skill6, skill7, and skill8, and interests in hobby2, hobby3, and hobby4. The persona is associated with Singapore, Tampines, and retail.", "uuid": "c779e64c-cafe-4978-afe8-7a5cadd2cdbc"}
-{"attributes": {"name": "skill9"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": [], "name": "skill9", "summary": "", "uuid": "9d83d920-d566-4ca1-a190-b4205730b341"}
-{"attributes": {"name": "hobby1"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby1", "summary": "Hobby1 is an interest of synthetic personas in Singapore. One persona in Tampines (retail sector) has hobby1 as an interest. Two personas in Woodlands (media sector) also have hobby1 as an interest.", "uuid": "9b384dc7-6b4b-46a1-9c31-985349d33839"}
-{"attributes": {"name": "hobby7"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": [], "name": "hobby7", "summary": "", "uuid": "89d6c2fe-c342-4a3d-af16-6fbbfa8de026"}
-{"attributes": {"name": "media"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "media", "summary": "Synthetic personas are associated with the media sector in Woodlands, Singapore. One persona has interests in hobby0, hobby1, and hobby2, with skills in skill2, skill3, and skill4. Another persona has interests in hobby4, hobby5, and hobby6, with skills in skill2, skill3, and skill4.", "uuid": "887d436a-dc3d-4f2f-8af6-bead038ed4ee"}
-{"attributes": {"name": "Jurong West"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "Jurong West", "summary": "", "uuid": "85c35582-3867-46f3-a1cf-c4e5737978e7"}
-{"attributes": {"name": "hobby0"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby0", "summary": "Hobby0 is an interest of synthetic personas in Singapore. One persona in Tampines (retail sector) has hobby0 as an interest. Two personas in Woodlands (media sector) also have hobby0 as an interest.", "uuid": "85c13368-17a8-448f-a6b4-4b334709bd1f"}
-{"attributes": {"name": "Tampines"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "Tampines", "summary": "A synthetic persona resides in Tampines, Singapore, in the retail sector and has interests in hobby0, hobby1, and hobby2, with skills in skill6, skill7, and skill8.", "uuid": "75d40e12-4cef-46be-b2e4-dd5021b9bef5"}
-{"attributes": {"context": "Singapore / Tampines / retail", "interests": "hobby1hobby2hobby3", "name": "Persona 361", "profile_id": "syn-u-00361", "skills": "skill1skill2skill3"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": ["SyntheticPersona"], "name": "Persona 361", "summary": "Persona 361 has interests in hobby1, hobby2, and hobby3, and possesses skills in skill1, skill2, and skill3. This persona is associated with retail in Tampines, Singapore.", "uuid": "6bf69ae3-c0cb-476f-a40a-8790065b2866"}
-{"attributes": {"context": "Singapore / Tampines / retail", "interests": "hobby2hobby3hobby4", "name": "Persona 209", "profile_id": "syn_u-00126", "skills": "skill6skill7skill8"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": ["SyntheticPersona"], "name": "Persona 209", "summary": "Persona 209 is associated with Singapore, Hougang, and finance. This synthetic persona has interests in hobby1, hobby2, and hobby3, and skills in skill9, skill0, and skill1.", "uuid": "6ad190c0-10e9-45a7-a22b-1d1b0a3936ee"}
-{"attributes": {"name": "Singapore"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "Singapore", "summary": "", "uuid": "6721b431-07a3-4763-b5c7-e5d93cebeca6"}
-{"attributes": {"name": "Woodlands"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "Woodlands", "summary": "A synthetic persona resides in Woodlands, Singapore, in the media sector and has interests in hobby0, hobby1, and hobby2, with skills in skill2, skill3, and skill4. Another persona in Woodlands, also in the media sector, has interests in hobby4, hobby5, and hobby6, with skills in skill2, skill3, and skill4.", "uuid": "65572ac3-3b75-4f83-89d1-7f3706726546"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 33", "profile_id": "Persona 33", "skills": "skill3skill4skill5"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": ["SyntheticPersona"], "name": "Persona 33", "summary": "Persona 33 is associated with Singapore, Jurong West, and education. This synthetic persona has interests in hobby1, hobby2, and hobby3, and possesses skills in skill3, skill4, and skill5.", "uuid": "5fb2bd93-7382-4140-8450-2ace91607ef1"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 42", "profile_id": "syn_u-00042", "skills": "skill2skill3skill4"}, "created_at": "2026-06-06T06:43:43.965Z", "labels": ["SyntheticPersona"], "name": "Persona 42", "summary": "Persona 42 has skills skill2, skill3, and skill4. This persona is associated with Singapore, Woodlands, and media.", "uuid": "510292d4-ea8e-4e79-9298-0b096bc5a916"}
-{"attributes": {"name": "hobby2"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby2", "summary": "Hobby2 is an interest of synthetic personas in Singapore. One persona in Tampines (retail sector) has hobby2 as an interest. Two personas in Woodlands (media sector) also have hobby2 as an interest.", "uuid": "47c55a6f-2ad6-4810-a926-dc6320fb39c8"}
-{"attributes": {"name": "finance"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "finance", "summary": "", "uuid": "39deb91b-be4f-49f9-ae5f-e95a2f14471c"}
-{"attributes": {"name": "hobby3"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": [], "name": "hobby3", "summary": "", "uuid": "369782fd-a45c-4c14-8dfb-0eee2985296e"}
-{"attributes": {"name": "hobby4"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby4", "summary": "Hobby4 is an interest of a synthetic persona in Woodlands, Singapore, within the media sector.", "uuid": "299c5ce9-3b68-48c3-a7cb-db5046927e18"}
-{"attributes": {"name": "skill4"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "skill4", "summary": "Skill4 is a skill possessed by synthetic personas in Woodlands, Singapore, within the media sector.", "uuid": "272e1acb-8ff0-4368-9cf9-98e9c4e425d1"}
-{"attributes": {"context": "Singapore / Jurong West / education", "interests": null, "name": "Persona 93", "profile_id": "syn_u-00093", "skills": "skill3skill4skill5"}, "created_at": "2026-06-06T06:37:56.774Z", "labels": ["SyntheticPersona"], "name": "Persona 93", "summary": "Persona 93 is a synthetic persona from Singapore, Jurong West, involved in education. Its interests include hobby5, hobby6, and hobby7, and it possesses skills skill3, skill4, and skill5. This persona is associated with profile ID syn_u-00093.", "uuid": "242c1600-8af2-4caa-be7a-d3ec49d46301"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 376", "profile_id": "syn_u-00376", "skills": "skill6skill7skill8"}, "created_at": "2026-06-06T06:43:43.965Z", "labels": ["SyntheticPersona"], "name": "Persona 376", "summary": "Persona 376 has skills skill6, skill7, and skill8. This persona is associated with Singapore, Tampines, and retail.", "uuid": "1dd88474-8b00-452f-9302-ffdd901296be"}
-{"attributes": {"name": "Hougang"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "Hougang", "summary": "", "uuid": "1bb92729-b7de-4988-b6dd-6681dbe0ecd8"}
-{"attributes": {"name": "hobby5"}, "created_at": "2026-06-06T06:43:48.681Z", "labels": [], "name": "hobby5", "summary": "Hobby5 is an interest of a synthetic persona in Woodlands, Singapore, within the media sector.", "uuid": "0bfd9022-378e-4560-9b53-661f188610e7"}
-{"attributes": {"name": "Bedok"}, "created_at": "2026-06-06T06:37:55.039Z", "labels": [], "name": "Bedok", "summary": "", "uuid": "0bdc4fa6-a98a-4080-8c77-377db9848a34"}
-{"attributes": {"name": "skill0"}, "created_at": "2026-06-06T06:43:48.76Z", "labels": [], "name": "skill0", "summary": "", "uuid": "09eeb1a6-529c-4a10-9851-8a71fb2d15c2"}
-{"attributes": {"context": null, "interests": null, "name": "Persona 329", "profile_id": "syn_u-00329", "skills": "skill4skill5skill6 skill9skill0skill1 skill6skill7skill8"}, "created_at": "2026-06-06T06:37:58.181Z", "labels": ["SyntheticPersona"], "name": "Persona 329", "summary": "Persona 329 has skills in skill4, skill5, skill6, skill9, skill0, skill1, skill7, and skill8. The persona is associated with Singapore, Hougang, and finance.", "uuid": "0916056b-d6f1-401e-9e49-ffbb6b237aef"}
+{"entity_id": "syn_u-00209", "name": "syn_u-00209", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00280", "name": "syn_u-00280", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00033", "name": "syn_u-00033", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00210", "name": "syn_u-00210", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00093", "name": "syn_u-00093", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00084", "name": "syn_u-00084", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00329", "name": "syn_u-00329", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00094", "name": "syn_u-00094", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00266", "name": "syn_u-00266", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00126", "name": "syn_u-00126", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00009", "name": "syn_u-00009", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00361", "name": "syn_u-00361", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00056", "name": "syn_u-00056", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00072", "name": "syn_u-00072", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00132", "name": "syn_u-00132", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00042", "name": "syn_u-00042", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00278", "name": "syn_u-00278", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00376", "name": "syn_u-00376", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00231", "name": "syn_u-00231", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00385", "name": "syn_u-00385", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00077", "name": "syn_u-00077", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00015", "name": "syn_u-00015", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00391", "name": "syn_u-00391", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00271", "name": "syn_u-00271", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00000", "name": "syn_u-00000", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00396", "name": "syn_u-00396", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00114", "name": "syn_u-00114", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00225", "name": "syn_u-00225", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00262", "name": "syn_u-00262", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00104", "name": "syn_u-00104", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00395", "name": "syn_u-00395", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00193", "name": "syn_u-00193", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00261", "name": "syn_u-00261", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00057", "name": "syn_u-00057", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00232", "name": "syn_u-00232", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00116", "name": "syn_u-00116", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00113", "name": "syn_u-00113", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00342", "name": "syn_u-00342", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00158", "name": "syn_u-00158", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00141", "name": "syn_u-00141", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00381", "name": "syn_u-00381", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00055", "name": "syn_u-00055", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00076", "name": "syn_u-00076", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00025", "name": "syn_u-00025", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00082", "name": "syn_u-00082", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00382", "name": "syn_u-00382", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00148", "name": "syn_u-00148", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00181", "name": "syn_u-00181", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00022", "name": "syn_u-00022", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00173", "name": "syn_u-00173", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00046", "name": "syn_u-00046", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00321", "name": "syn_u-00321", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00338", "name": "syn_u-00338", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00070", "name": "syn_u-00070", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00374", "name": "syn_u-00374", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00039", "name": "syn_u-00039", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00223", "name": "syn_u-00223", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00172", "name": "syn_u-00172", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00030", "name": "syn_u-00030", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00152", "name": "syn_u-00152", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00124", "name": "syn_u-00124", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00294", "name": "syn_u-00294", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00255", "name": "syn_u-00255", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00078", "name": "syn_u-00078", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00101", "name": "syn_u-00101", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00031", "name": "syn_u-00031", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00352", "name": "syn_u-00352", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00268", "name": "syn_u-00268", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00394", "name": "syn_u-00394", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00073", "name": "syn_u-00073", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00320", "name": "syn_u-00320", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00140", "name": "syn_u-00140", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00005", "name": "syn_u-00005", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00045", "name": "syn_u-00045", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00388", "name": "syn_u-00388", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00246", "name": "syn_u-00246", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00227", "name": "syn_u-00227", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00369", "name": "syn_u-00369", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00176", "name": "syn_u-00176", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00289", "name": "syn_u-00289", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00003", "name": "syn_u-00003", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00018", "name": "syn_u-00018", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00202", "name": "syn_u-00202", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00250", "name": "syn_u-00250", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00274", "name": "syn_u-00274", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00063", "name": "syn_u-00063", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00248", "name": "syn_u-00248", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00301", "name": "syn_u-00301", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00108", "name": "syn_u-00108", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00090", "name": "syn_u-00090", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00233", "name": "syn_u-00233", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00335", "name": "syn_u-00335", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00118", "name": "syn_u-00118", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00220", "name": "syn_u-00220", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00180", "name": "syn_u-00180", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00314", "name": "syn_u-00314", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00373", "name": "syn_u-00373", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00380", "name": "syn_u-00380", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00239", "name": "syn_u-00239", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00075", "name": "syn_u-00075", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00247", "name": "syn_u-00247", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00110", "name": "syn_u-00110", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00016", "name": "syn_u-00016", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00066", "name": "syn_u-00066", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00153", "name": "syn_u-00153", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00007", "name": "syn_u-00007", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00019", "name": "syn_u-00019", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00137", "name": "syn_u-00137", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00355", "name": "syn_u-00355", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00349", "name": "syn_u-00349", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00131", "name": "syn_u-00131", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00387", "name": "syn_u-00387", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00292", "name": "syn_u-00292", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00386", "name": "syn_u-00386", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00297", "name": "syn_u-00297", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00060", "name": "syn_u-00060", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00079", "name": "syn_u-00079", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00285", "name": "syn_u-00285", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00305", "name": "syn_u-00305", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00281", "name": "syn_u-00281", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00157", "name": "syn_u-00157", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00109", "name": "syn_u-00109", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00017", "name": "syn_u-00017", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00347", "name": "syn_u-00347", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00024", "name": "syn_u-00024", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00175", "name": "syn_u-00175", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00351", "name": "syn_u-00351", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00332", "name": "syn_u-00332", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00167", "name": "syn_u-00167", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00245", "name": "syn_u-00245", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00311", "name": "syn_u-00311", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00145", "name": "syn_u-00145", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00258", "name": "syn_u-00258", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00177", "name": "syn_u-00177", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00119", "name": "syn_u-00119", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00194", "name": "syn_u-00194", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00229", "name": "syn_u-00229", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00265", "name": "syn_u-00265", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00218", "name": "syn_u-00218", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00307", "name": "syn_u-00307", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00036", "name": "syn_u-00036", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00139", "name": "syn_u-00139", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00291", "name": "syn_u-00291", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00155", "name": "syn_u-00155", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00196", "name": "syn_u-00196", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00284", "name": "syn_u-00284", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00059", "name": "syn_u-00059", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00111", "name": "syn_u-00111", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00165", "name": "syn_u-00165", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00363", "name": "syn_u-00363", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00006", "name": "syn_u-00006", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00333", "name": "syn_u-00333", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00275", "name": "syn_u-00275", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00150", "name": "syn_u-00150", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00010", "name": "syn_u-00010", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00192", "name": "syn_u-00192", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00103", "name": "syn_u-00103", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00081", "name": "syn_u-00081", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00316", "name": "syn_u-00316", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00398", "name": "syn_u-00398", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00375", "name": "syn_u-00375", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00208", "name": "syn_u-00208", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00286", "name": "syn_u-00286", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00168", "name": "syn_u-00168", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00353", "name": "syn_u-00353", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00089", "name": "syn_u-00089", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00377", "name": "syn_u-00377", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00163", "name": "syn_u-00163", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00147", "name": "syn_u-00147", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00228", "name": "syn_u-00228", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00092", "name": "syn_u-00092", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00069", "name": "syn_u-00069", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00123", "name": "syn_u-00123", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00096", "name": "syn_u-00096", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00143", "name": "syn_u-00143", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00326", "name": "syn_u-00326", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00097", "name": "syn_u-00097", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00238", "name": "syn_u-00238", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00068", "name": "syn_u-00068", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00023", "name": "syn_u-00023", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00037", "name": "syn_u-00037", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00144", "name": "syn_u-00144", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00122", "name": "syn_u-00122", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00182", "name": "syn_u-00182", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00067", "name": "syn_u-00067", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00198", "name": "syn_u-00198", "type": "SyntheticPersona", "industry": "education", "country": "Singapore", "planning_area": "Jurong West"}
+{"entity_id": "syn_u-00324", "name": "syn_u-00324", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00219", "name": "syn_u-00219", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00317", "name": "syn_u-00317", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00195", "name": "syn_u-00195", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00125", "name": "syn_u-00125", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00146", "name": "syn_u-00146", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00371", "name": "syn_u-00371", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00086", "name": "syn_u-00086", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00336", "name": "syn_u-00336", "type": "SyntheticPersona", "industry": "retail", "country": "Singapore", "planning_area": "Tampines"}
+{"entity_id": "syn_u-00340", "name": "syn_u-00340", "type": "SyntheticPersona", "industry": "tech", "country": "Singapore", "planning_area": "Bedok"}
+{"entity_id": "syn_u-00337", "name": "syn_u-00337", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}
+{"entity_id": "syn_u-00354", "name": "syn_u-00354", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00334", "name": "syn_u-00334", "type": "SyntheticPersona", "industry": "finance", "country": "Singapore", "planning_area": "Hougang"}
+{"entity_id": "syn_u-00302", "name": "syn_u-00302", "type": "SyntheticPersona", "industry": "media", "country": "Singapore", "planning_area": "Woodlands"}

@@ -1,42 +1,42 @@
 {
-  "generated_at_utc": "2026-06-06T06:51:12.386894+00:00",
+  "generated_at_utc": "2026-06-06T08:07:20.639239+00:00",
   "project": "Autonomous Proactive Market Analysis",
   "layer": 3,
-  "mode": "live",
+  "mode": "mock",
   "outputs": {
-    "tuned_personas": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
-    "entities": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
-    "edges": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
-    "graph_snapshot": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
-    "report": "market_analysis_layer3_mirofish/layer3_tuned_report.json"
+    "tuned_personas": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_personas.jsonl",
+    "entities": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_entities.jsonl",
+    "edges": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_edges.jsonl",
+    "graph_snapshot": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_graph_snapshot.json",
+    "report": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_report.json"
   },
   "checks": {
     "exists_output_dir": true,
     "files": {
       "tuned_personas": {
         "exists": true,
-        "path": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
-        "sha256": "ac5759e78c04b53c4c6e222c69206b844cb638a8a5d1686bd422d0112dd4284b"
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_personas.jsonl",
+        "sha256": "aeb3a412b5a48d97a5e758b6e3eb6324b15ae5943ea05b3a9f0fae1054eb0f9f"
       },
       "entities": {
         "exists": true,
-        "path": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
-        "sha256": "31a8c12ddd7684aec3a5df5a74d6ee09cae153f7bb50a26b914aefef2f324c36"
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_entities.jsonl",
+        "sha256": "7059ca9970938a3aa6442e8f1e3bc91813f1dc50af2cb0d311021c2f33ddd7ed"
       },
       "edges": {
         "exists": true,
-        "path": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
-        "sha256": "5be175c7ee29c8a826e170a38b2f3a00135ff6841ebfa69b62d2cd5422d80148"
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_edges.jsonl",
+        "sha256": "4bc36665ae64f62a07bd70921a247364329ac0915ecbd0eaf937a3cf95c9fa48"
       },
       "graph_snapshot": {
         "exists": true,
-        "path": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
-        "sha256": "4fca0a7d83ef8fdc6e9a91355434c71bebace8410096933f5e36d2e45fcf1bbb"
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_graph_snapshot.json",
+        "sha256": "c7af117aaf5fe306e6170c0e6aa7e7ce02e4ea3e7622e6a39f5fe500f29d88e3"
       },
       "report": {
         "exists": true,
-        "path": "market_analysis_layer3_mirofish/layer3_tuned_report.json",
-        "sha256": "5e47be4096354ef72b06265e2afdcde478c6854081e7b4ef9c05c947a0d1f9ad"
+        "path": "C:\\Users\\Admin\\Documents\\Seacdoex\\02-simulation-engine\\market_analysis_layer3_mirofish\\layer3_tuned_report.json",
+        "sha256": "07209ad9c6f7b4e5c6ed39b6aa4991541d8489bdf03b56baa4a7bc85e3dda4bc"
       }
     },
     "exists_tuned_personas": true,
@@ -44,23 +44,18 @@
     "exists_edges": true,
     "exists_snapshot": true,
     "exists_report": true,
-    "tuned_count": 201,
-    "unique_persona_ids": 201,
+    "tuned_count": 200,
+    "unique_persona_ids": 200,
     "all_tuning_rows_have_metadata": true,
-    "entity_count": 39,
-    "edge_count": 90,
+    "entity_count": 200,
+    "edge_count": 200,
     "snapshot_keys": [
-      "generated_at_utc",
-      "graph_data",
-      "graph_id",
-      "mode",
-      "phase_log",
-      "prepare_result",
-      "project",
-      "project_id",
-      "run_state",
-      "simulation_id",
-      "simulation_result"
+      "created_utc",
+      "edges_count",
+      "generated_by",
+      "nodes_count",
+      "notes",
+      "source"
     ],
     "pass": true
   }
