@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WLIAS Hackathon Pitch</title>
+    <style>
+      :root {
+        --ink: #251f19;
+        --ink-2: #3c332a;
+        --paper: #f4eee4;
+        --paper-strong: #fffaf1;
+        --line: #d8cbb8;
+        --muted: #766a59;
+        --teal: #13877e;
+        --blue: #315fba;
+        --green: #24885a;
+        --orange: #d85d2a;
+        --red: #b83b2d;
+        --ochre: #b3872f;
+        --night: #111823;
+        --night-2: #1b2633;
+        --white: #fffaf1;
+        --shadow: 0 18px 48px rgba(37, 31, 25, 0.16);
+        font-family:
+          Aptos,
+          "Segoe UI",
+          system-ui,
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: var(--night);
+        color: var(--ink);
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .deck {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: clamp(24px, 4vw, 58px);
+        background:
+          linear-gradient(90deg, rgba(37, 31, 25, 0.055) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(37, 31, 25, 0.055) 1px, transparent 1px),
+          var(--paper);
+        background-size: 46px 46px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(36px) scale(0.985);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .slide.active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0) scale(1);
+      }
+
+      .slide.dark {
+        background:
+          radial-gradient(circle at 78% 35%, rgba(19, 135, 126, 0.24), transparent 28%),
+          radial-gradient(circle at 95% 72%, rgba(216, 93, 42, 0.24), transparent 25%),
+          linear-gradient(135deg, var(--night), #0c1119);
+        color: var(--white);
+      }
+
+      .slide.dark .eyebrow,
+      .slide.dark .footer,
+      .slide.dark .muted {
+        color: #cbbfac;
+      }
+
+      .slide.dark .headline,
+      .slide.dark .bigline {
+        color: var(--white);
+      }
+
+      .topline,
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 30px;
+      }
+
+      .eyebrow {
+        color: var(--teal);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .counter,
+      .footer {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .headline {
+        max-width: 940px;
+        margin: 0;
+        color: var(--ink);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(44px, 6vw, 86px);
+        font-weight: 800;
+        line-height: 0.94;
+        letter-spacing: 0;
+      }
+
+      .headline.tight {
+        max-width: 760px;
+      }
+
+      .subhead {
+        max-width: 680px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 28px);
+        font-weight: 600;
+        line-height: 1.18;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .content {
+        position: relative;
+        align-self: center;
+        width: min(1180px, 100%);
+        margin: 0 auto;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+        gap: clamp(28px, 5vw, 76px);
+        align-items: center;
+      }
+
+      .hero-art {
+        position: relative;
+        min-height: min(56vh, 520px);
+        overflow: hidden;
+        border: 1px solid rgba(255, 250, 241, 0.18);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      }
+
+      .hero-art img {
+        width: 100%;
+        height: 100%;
+        min-height: min(56vh, 520px);
+        object-fit: cover;
+        display: block;
+      }
+
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(17, 24, 35, 0.08), rgba(17, 24, 35, 0.34));
+      }
+
+      .brand-mark {
+        display: inline-grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+
+      .sigil {
+        display: grid;
+        width: 54px;
+        height: 54px;
+        place-items: center;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        color: #7fe0d7;
+        font-size: 24px;
+        font-weight: 900;
+      }
+
+      .brand-name {
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      .tag {
+        display: inline-flex;
+        min-height: 34px;
+        align-items: center;
+        padding: 0 14px;
+        border: 1px solid currentColor;
+        color: var(--teal);
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .problem-stack {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 40px;
+      }
+
+      .problem {
+        min-height: 220px;
+        padding: 24px;
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .problem b {
+        display: block;
+        margin-bottom: 16px;
+        color: var(--ink);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .problem p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+
+      .journey {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 34px;
+      }
+
+      .step {
+        position: relative;
+        min-height: 260px;
+        padding: 22px;
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+      }
+
+      .step::before {
+        content: attr(data-step);
+        display: grid;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 28px;
+        place-items: center;
+        background: var(--ink);
+        color: var(--paper);
+        font-weight: 900;
+      }
+
+      .step h3 {
+        margin: 0 0 12px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 27px;
+        line-height: 1;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 650;
+        line-height: 1.35;
+      }
+
+      .stage {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr) 320px;
+        gap: 18px;
+        align-items: stretch;
+        margin-top: 22px;
+      }
+
+      .panel,
+      .graph,
+      .verdict {
+        min-height: 440px;
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .panel,
+      .verdict {
+        padding: 22px;
+      }
+
+      .panel h3,
+      .verdict h3 {
+        margin: 0 0 18px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 30px;
+        line-height: 1;
+      }
+
+      .field {
+        margin-bottom: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .field span {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--teal);
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .field strong {
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .slider {
+        height: 8px;
+        margin-top: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--orange));
+      }
+
+      .graph {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 45%, rgba(19, 135, 126, 0.16), transparent 25%),
+          #fffaf1;
+      }
+
+      .node {
+        position: absolute;
+        display: grid;
+        width: var(--s);
+        height: var(--s);
+        place-items: center;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        background: var(--c);
+        color: var(--white);
+        font-size: 12px;
+        font-weight: 900;
+        box-shadow: 0 12px 28px rgba(37, 31, 25, 0.2);
+      }
+
+      .edge {
+        position: absolute;
+        height: 2px;
+        transform-origin: left center;
+        background: rgba(37, 31, 25, 0.22);
+      }
+
+      .pulse {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border: 2px solid rgba(216, 93, 42, 0.36);
+        border-radius: 50%;
+        animation: pulse 2.4s infinite ease-out;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.9;
+          transform: scale(0.4);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.4);
+        }
+      }
+
+      .recommendation {
+        display: grid;
+        gap: 12px;
+      }
+
+      .rec {
+        padding: 14px;
+        border-left: 5px solid var(--teal);
+        background: #f6efe3;
+      }
+
+      .rec.risk {
+        border-left-color: var(--red);
+      }
+
+      .rec.watch {
+        border-left-color: var(--orange);
+      }
+
+      .rec b {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+
+      .rec span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+        line-height: 1.25;
+      }
+
+      .mutation-lane {
+        display: grid;
+        gap: 16px;
+        margin-top: 36px;
+      }
+
+      .mutation {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr) 220px;
+        gap: 18px;
+        align-items: center;
+        padding: 18px;
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+      }
+
+      .mutation time {
+        color: var(--teal);
+        font-weight: 950;
+      }
+
+      .mutation p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 19px;
+        font-weight: 750;
+        line-height: 1.2;
+      }
+
+      .mutation span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .comparison {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        margin-top: 36px;
+      }
+
+      .before-after {
+        min-height: 410px;
+        padding: 28px;
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+      }
+
+      .before-after.after {
+        border-color: var(--teal);
+        box-shadow: var(--shadow);
+      }
+
+      .before-after h3 {
+        margin: 0 0 26px;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .before-after.after h3 {
+        color: var(--teal);
+      }
+
+      .ad-copy {
+        margin: 0 0 22px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(28px, 3vw, 42px);
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .bullets {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .bullets li {
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.28;
+      }
+
+      .bullets li::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        margin-top: 7px;
+        background: var(--orange);
+      }
+
+      .stacked {
+        display: grid;
+        grid-template-columns: 0.72fr 1.28fr;
+        gap: 42px;
+        align-items: center;
+      }
+
+      .bigline {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(42px, 6vw, 92px);
+        font-weight: 850;
+        line-height: 0.94;
+      }
+
+      .numbers {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .number {
+        min-height: 170px;
+        padding: 20px;
+        background: rgba(255, 250, 241, 0.08);
+        border: 1px solid rgba(255, 250, 241, 0.18);
+      }
+
+      .number strong {
+        display: block;
+        margin-bottom: 18px;
+        color: #7fe0d7;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 54px;
+        line-height: 0.9;
+      }
+
+      .number span {
+        color: #e6dac7;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .controls {
+        position: fixed;
+        right: 20px;
+        bottom: 18px;
+        z-index: 20;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 8px;
+        background: rgba(17, 24, 35, 0.78);
+        border: 1px solid rgba(255, 250, 241, 0.2);
+        backdrop-filter: blur(12px);
+      }
+
+      .controls button {
+        min-width: 36px;
+        height: 34px;
+        border: 1px solid rgba(255, 250, 241, 0.24);
+        background: rgba(255, 250, 241, 0.08);
+        color: var(--white);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .controls button:hover {
+        background: rgba(255, 250, 241, 0.16);
+      }
+
+      .progress {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 25;
+        height: 4px;
+        background: linear-gradient(90deg, var(--teal), var(--orange));
+        transition: width 240ms ease;
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+        }
+
+        .deck {
+          height: auto;
+          overflow: visible;
+        }
+
+        .slide {
+          position: relative;
+          min-height: 100vh;
+          opacity: 1;
+          pointer-events: auto;
+          transform: none;
+        }
+
+        .split,
+        .stage,
+        .stacked,
+        .comparison,
+        .problem-stack,
+        .journey {
+          grid-template-columns: 1fr;
+        }
+
+        .controls,
+        .progress {
+          display: none;
+        }
+      }
+
+      @media print {
+        body {
+          overflow: visible;
+          background: white;
+        }
+
+        .deck {
+          height: auto;
+          overflow: visible;
+        }
+
+        .slide {
+          position: relative;
+          width: 100vw;
+          height: 56.25vw;
+          min-height: 0;
+          page-break-after: always;
+          opacity: 1;
+          pointer-events: auto;
+          transform: none;
+        }
+
+        .controls,
+        .progress {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck" aria-live="polite">
+      <section class="slide dark active" data-title="Title">
+        <div class="topline">
+          <span class="eyebrow">Hackathon pitch / WLIAS</span>
+          <span class="counter">01 / 08</span>
+        </div>
+        <div class="content split">
+          <div>
+            <div class="brand-mark">
+              <span class="sigil">W</span>
+              <div>
+                <div class="brand-name">WLIAS</div>
+                <div class="muted">We Live In A Society</div>
+              </div>
+            </div>
+            <h1 class="headline">Test the ad before society gets to it.</h1>
+            <p class="subhead">
+              WLIAS helps brands see how a product listing or marketing ad spreads,
+              mutates, and backfires across buyer networks before launch.
+            </p>
+          </div>
+          <figure class="hero-art" aria-label="Predictive social commerce network">
+            <img src="../assets/wlias-oracle-network.png" alt="" />
+          </figure>
+        </div>
+        <div class="footer">
+          <span>Product listing contagion console</span>
+          <span>Use arrow keys</span>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Problem">
+        <div class="topline">
+          <span class="eyebrow">The brand problem</span>
+          <span class="counter">02 / 08</span>
+        </div>
+        <div class="content">
+          <h2 class="headline tight">The ad is not the campaign. The reaction is.</h2>
+          <p class="subhead">
+            A brand can optimize copy, price, and visuals, but the real outcome depends
+            on what customers say to each other.
+          </p>
+          <div class="problem-stack">
+            <article class="problem">
+              <b>Survey answers are isolated</b>
+              <p>Personas tell you what one buyer thinks, not how their group chat changes the story.</p>
+            </article>
+            <article class="problem">
+              <b>Marketing copy mutates</b>
+              <p>A discount becomes a reseller margin complaint, a family deal, or a creator-code debate.</p>
+            </article>
+            <article class="problem">
+              <b>Backlash arrives late</b>
+              <p>Brands usually learn the risky segment after the campaign is already public.</p>
+            </article>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Traditional research asks. WLIAS simulates.</span>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Flow">
+        <div class="topline">
+          <span class="eyebrow">What WLIAS does</span>
+          <span class="counter">03 / 08</span>
+        </div>
+        <div class="content">
+          <h2 class="headline">A brand rehearses word-of-mouth.</h2>
+          <div class="journey">
+            <article class="step" data-step="1">
+              <h3>Paste the listing</h3>
+              <p>Product, price, image, headline, campaign angle, Shopee URL, and description.</p>
+            </article>
+            <article class="step" data-step="2">
+              <h3>Tune the ad</h3>
+              <p>Voucher emphasis, free shipping, urgency, creator angle, family bulk-buy framing.</p>
+            </article>
+            <article class="step" data-step="3">
+              <h3>Simulate society</h3>
+              <p>Buyer segments react, share, mutate, resist, and amplify across a social graph.</p>
+            </article>
+            <article class="step" data-step="4">
+              <h3>Change the plan</h3>
+              <p>WLIAS recommends what to rewrite, which segment to target, and what to avoid.</p>
+            </article>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Input → reaction → mutation → recommendation</span>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Demo">
+        <div class="topline">
+          <span class="eyebrow">Live demo screen</span>
+          <span class="counter">04 / 08</span>
+        </div>
+        <div class="content">
+          <h2 class="headline tight">The dashboard makes the social reaction visible.</h2>
+          <div class="stage">
+            <aside class="panel">
+              <h3>Brand input</h3>
+              <div class="field">
+                <span>Product</span>
+                <strong>Hydrating sunscreen bundle</strong>
+              </div>
+              <div class="field">
+                <span>Campaign line</span>
+                <strong>11.11 lowest prices for every family</strong>
+              </div>
+              <div class="field">
+                <span>Voucher emphasis</span>
+                <div class="slider"></div>
+              </div>
+              <div class="field">
+                <span>Urgency</span>
+                <div class="slider"></div>
+              </div>
+            </aside>
+            <div class="graph" aria-label="Social propagation graph">
+              <div class="pulse" style="left: 38%; top: 28%"></div>
+              <span class="edge" style="left: 23%; top: 31%; width: 32%; transform: rotate(12deg)"></span>
+              <span class="edge" style="left: 47%; top: 43%; width: 30%; transform: rotate(-24deg)"></span>
+              <span class="edge" style="left: 26%; top: 62%; width: 38%; transform: rotate(-18deg)"></span>
+              <span class="edge" style="left: 57%; top: 61%; width: 27%; transform: rotate(22deg)"></span>
+              <span class="node" style="--s: 74px; --c: var(--blue); left: 18%; top: 22%">Gen Z</span>
+              <span class="node" style="--s: 92px; --c: var(--green); left: 43%; top: 35%">Parents</span>
+              <span class="node" style="--s: 70px; --c: var(--orange); left: 70%; top: 25%">Reseller</span>
+              <span class="node" style="--s: 86px; --c: var(--teal); left: 26%; top: 63%">Heartland</span>
+              <span class="node" style="--s: 66px; --c: var(--red); left: 67%; top: 66%">Risk</span>
+            </div>
+            <aside class="verdict">
+              <h3>WLIAS verdict</h3>
+              <div class="recommendation">
+                <div class="rec">
+                  <b>Lead with family bundle value</b>
+                  <span>Parents and heartland shoppers amplify this frame.</span>
+                </div>
+                <div class="rec watch">
+                  <b>Reduce urgency language</b>
+                  <span>High urgency makes the deal feel suspicious to young professionals.</span>
+                </div>
+                <div class="rec risk">
+                  <b>Avoid reseller-margin claims</b>
+                  <span>Reseller nodes turn the ad into a margin complaint.</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <div class="footer">
+          <span>One screen, one story: society reacts.</span>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Mutation">
+        <div class="topline">
+          <span class="eyebrow">Why the graph matters</span>
+          <span class="counter">05 / 08</span>
+        </div>
+        <div class="content">
+          <h2 class="headline">The same ad becomes different stories.</h2>
+          <div class="mutation-lane">
+            <article class="mutation">
+              <time>Tick 0</time>
+              <p>11.11 lowest prices for every family.</p>
+              <span>Brand message</span>
+            </article>
+            <article class="mutation">
+              <time>Tick 3</time>
+              <p>Good for family bulk buys if the voucher stacks.</p>
+              <span>Parents and heartland shoppers</span>
+            </article>
+            <article class="mutation">
+              <time>Tick 6</time>
+              <p>Looks cheap, but are the seller margins even worth it?</p>
+              <span>Reseller network</span>
+            </article>
+            <article class="mutation">
+              <time>Tick 9</time>
+              <p>Best version: bundle value, clear vouchers, no fake urgency.</p>
+              <span>WLIAS recommendation</span>
+            </article>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Mutation is the demo, not an extra chart.</span>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Before after">
+        <div class="topline">
+          <span class="eyebrow">Brand outcome</span>
+          <span class="counter">06 / 08</span>
+        </div>
+        <div class="content">
+          <h2 class="headline tight">WLIAS turns reaction into edits.</h2>
+          <div class="comparison">
+            <article class="before-after">
+              <h3>Before WLIAS</h3>
+              <p class="ad-copy">Lowest prices. Limited time. Buy now.</p>
+              <ul class="bullets">
+                <li>Generic urgency competes with every other marketplace ad.</li>
+                <li>Reseller segment reframes the deal as margin pressure.</li>
+                <li>High backlash risk stays hidden until launch.</li>
+              </ul>
+            </article>
+            <article class="before-after after">
+              <h3>After WLIAS</h3>
+              <p class="ad-copy">Bundle value for families, clear voucher math.</p>
+              <ul class="bullets">
+                <li>Family and value-shopper segments amplify the message.</li>
+                <li>Voucher clarity removes suspicion around the promotion.</li>
+                <li>Reseller claims are removed before they become backlash.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+        <div class="footer">
+          <span>The product is not just prediction. It is pre-launch correction.</span>
+        </div>
+      </section>
+
+      <section class="slide dark" data-title="Why now">
+        <div class="topline">
+          <span class="eyebrow">Why now</span>
+          <span class="counter">07 / 08</span>
+        </div>
+        <div class="content stacked">
+          <div>
+            <h2 class="bigline">OpenAI makes the missing layer possible.</h2>
+            <p class="subhead">
+              Vision models read marketing assets. Language models simulate reactions.
+              WLIAS adds the network layer that shows how those reactions collide.
+            </p>
+          </div>
+          <div class="numbers">
+            <div class="number">
+              <strong>1</strong>
+              <span>Product listing or ad creative as input.</span>
+            </div>
+            <div class="number">
+              <strong>6</strong>
+              <span>Singapore buyer segments in the dashboard demo.</span>
+            </div>
+            <div class="number">
+              <strong>10</strong>
+              <span>Replay ticks showing spread, mutation, and resistance.</span>
+            </div>
+            <div class="number">
+              <strong>0</strong>
+              <span>Live API calls needed for the pitch demo path.</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Grounded now, extensible later.</span>
+        </div>
+      </section>
+
+      <section class="slide dark" data-title="Close">
+        <div class="topline">
+          <span class="eyebrow">Close</span>
+          <span class="counter">08 / 08</span>
+        </div>
+        <div class="content">
+          <span class="tag">WLIAS</span>
+          <h2 class="bigline" style="max-width: 980px; margin-top: 26px">
+            We show brands what society will do to their marketing.
+          </h2>
+          <p class="subhead">
+            The ask: let us demo a listing, tune the ad live, and show which version survives the network.
+          </p>
+        </div>
+        <div class="footer">
+          <span>We Live In A Society</span>
+          <span>End</span>
+        </div>
+      </section>
+    </main>
+
+    <nav class="controls" aria-label="Slide controls">
+      <button type="button" data-prev aria-label="Previous slide">‹</button>
+      <button type="button" data-next aria-label="Next slide">›</button>
+    </nav>
+    <div class="progress" aria-hidden="true"></div>
+
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      const progress = document.querySelector(".progress");
+      let index = 0;
+
+      function show(nextIndex) {
+        index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === index);
+        });
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        document.title = `${String(index + 1).padStart(2, "0")} · ${slides[index].dataset.title} · WLIAS`;
+      }
+
+      document.querySelector("[data-prev]").addEventListener("click", () => show(index - 1));
+      document.querySelector("[data-next]").addEventListener("click", () => show(index + 1));
+
+      window.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          show(index + 1);
+        }
+        if (["ArrowLeft", "PageUp", "Backspace"].includes(event.key)) {
+          event.preventDefault();
+          show(index - 1);
+        }
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+      });
+
+      show(0);
+    </script>
+  </body>
+</html>
