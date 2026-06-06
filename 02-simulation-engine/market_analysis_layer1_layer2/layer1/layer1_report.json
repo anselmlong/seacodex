@@ -1,0 +1,76 @@
+{
+  "layer": "layer1",
+  "generated_at_utc": "2026-06-06T06:36:50.043067+00:00",
+  "source_dir": "/Users/kyiwaithant/Documents/Shopee/nemotron-personas-singapore",
+  "source_sha256": "1f4f355bd990ec03c5d0ac69832193d1f33083b8b8802ec1c6548175f9326f84",
+  "records": 400,
+  "columns": [
+    "uuid",
+    "professional_persona",
+    "sports_persona",
+    "arts_persona",
+    "travel_persona",
+    "culinary_persona",
+    "persona",
+    "cultural_background",
+    "skills_and_expertise",
+    "hobbies_and_interests",
+    "career_goals_and_ambitions",
+    "sex",
+    "age",
+    "marital_status",
+    "education_level",
+    "occupation",
+    "industry",
+    "planning_area",
+    "country",
+    "interests_seed",
+    "skills_seed",
+    "skills_and_expertise_list",
+    "hobbies_and_interests_list"
+  ],
+  "quality_checks": {
+    "rows_after_uuid_clean": 400,
+    "rows_dropped_missing_uuid": 0,
+    "rows_dropped_duplicates": 0,
+    "parse_failures": {
+      "hobbies_and_interests_list_parsed_empty": 0,
+      "skills_and_expertise_list_parsed_empty": 0
+    },
+    "rows_total": 400,
+    "columns_total": 21,
+    "missing_required": [],
+    "duplicates_on_uuid": 0,
+    "null_uuid": 0,
+    "critical_missing": {
+      "uuid": 0,
+      "sex": 0,
+      "age": 0,
+      "occupation": 0,
+      "industry": 0,
+      "planning_area": 0,
+      "country": 0
+    },
+    "top_countries": {
+      "Singapore": 400
+    },
+    "top_planning_area": {
+      "Bedok": 80,
+      "Tampines": 80,
+      "Woodlands": 80,
+      "Jurong West": 80,
+      "Hougang": 80
+    },
+    "source_df_hash": 9251251254188572643
+  },
+  "outputs": {
+    "parquet": "market_analysis_layer1_layer2/layer1/persona_seed.parquet",
+    "jsonl": "market_analysis_layer1_layer2/layer1/persona_seed.jsonl",
+    "csv": "market_analysis_layer1_layer2/layer1/persona_seed.csv"
+  },
+  "file_hashes": {
+    "parquet_sha256": "2ca13f3feda6e1a532dc028a81f42ad75a1d1d6dd41f92002436a0476e7f3fa6",
+    "jsonl_sha256": "f87050ab4f992e21ea54e1696f3db41d4bcaa20a7aa98d3f1abf85d51ec4d3c5",
+    "csv_sha256": "16f931b10eca74ed60afe868f89e178c09f64dcba7ad913b7f05e93af161e103"
+  }
+}

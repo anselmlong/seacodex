@@ -1,0 +1,708 @@
+{
+  "generated_at_utc": "2026-06-06T06:11:40.116588+00:00",
+  "project": "Autonomous Proactive Market Analysis",
+  "layer": 4,
+  "run_state": {
+    "run_id": "layer4-2026-06-06T06:11:40.116540+00:00",
+    "layer3_personas_file": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
+    "layer3_entities_file": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
+    "layer3_edges_file": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
+    "layer3_snapshot_file": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
+    "output_dir": "market_analysis_layer4_model_integration",
+    "generated_at_utc": "2026-06-06T06:11:40.116575+00:00",
+    "version": "1.0"
+  },
+  "outputs": {
+    "feature_matrix": "market_analysis_layer4_model_integration/layer4_feature_matrix.jsonl",
+    "recommendation_features": "market_analysis_layer4_model_integration/layer4_recommendation_features.jsonl",
+    "churn_features": "market_analysis_layer4_model_integration/layer4_churn_features.jsonl",
+    "segments": "market_analysis_layer4_model_integration/layer4_segments.json",
+    "lineage": "market_analysis_layer4_model_integration/layer4_feature_lineage.csv",
+    "run_config": {
+      "top_trend_interests": 25,
+      "top_trend_skills": 25,
+      "pagerank_iterations": 20,
+      "sample_head": 200
+    }
+  },
+  "summary": {
+    "trends": {
+      "generated_at_utc": "2026-06-06T06:11:40.108980+00:00",
+      "inputs": {
+        "num_personas": 200,
+        "num_edges": 200,
+        "num_entities": 200,
+        "snapshot_source": "layer3_graph_snapshot.json",
+        "snapshot_keys": [
+          "created_utc",
+          "edges_count",
+          "generated_by",
+          "nodes_count",
+          "notes",
+          "source"
+        ]
+      },
+      "top_interests": [
+        {
+          "interest": "hobby1hobby2hobby3",
+          "count": 31,
+          "share": 0.155
+        },
+        {
+          "interest": "hobby6hobby7hobby0",
+          "count": 28,
+          "share": 0.14
+        },
+        {
+          "interest": "hobby4hobby5hobby6",
+          "count": 27,
+          "share": 0.135
+        },
+        {
+          "interest": "hobby7hobby0hobby1",
+          "count": 25,
+          "share": 0.125
+        },
+        {
+          "interest": "hobby5hobby6hobby7",
+          "count": 24,
+          "share": 0.12
+        },
+        {
+          "interest": "hobby3hobby4hobby5",
+          "count": 23,
+          "share": 0.115
+        },
+        {
+          "interest": "hobby2hobby3hobby4",
+          "count": 22,
+          "share": 0.11
+        },
+        {
+          "interest": "hobby0hobby1hobby2",
+          "count": 20,
+          "share": 0.1
+        }
+      ],
+      "top_skills": [
+        {
+          "skill": "skill5skill6skill7",
+          "count": 24,
+          "share": 0.12
+        },
+        {
+          "skill": "skill6skill7skill8",
+          "count": 23,
+          "share": 0.115
+        },
+        {
+          "skill": "skill7skill8skill9",
+          "count": 21,
+          "share": 0.105
+        },
+        {
+          "skill": "skill3skill4skill5",
+          "count": 20,
+          "share": 0.1
+        },
+        {
+          "skill": "skill1skill2skill3",
+          "count": 20,
+          "share": 0.1
+        },
+        {
+          "skill": "skill2skill3skill4",
+          "count": 20,
+          "share": 0.1
+        },
+        {
+          "skill": "skill8skill9skill0",
+          "count": 20,
+          "share": 0.1
+        },
+        {
+          "skill": "skill9skill0skill1",
+          "count": 18,
+          "share": 0.09
+        },
+        {
+          "skill": "skill0skill1skill2",
+          "count": 17,
+          "share": 0.085
+        },
+        {
+          "skill": "skill4skill5skill6",
+          "count": 17,
+          "share": 0.085
+        }
+      ],
+      "segment_count": 15,
+      "high_influence_personas": [
+        {
+          "persona_id": "syn_u-00334",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00003",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00063",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00144",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00137",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00305",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00086",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00067",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00018",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00139",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00336",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00073",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00219",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00181",
+          "pagerank": 1.0,
+          "degree_total": 2
+        },
+        {
+          "persona_id": "syn_u-00109",
+          "pagerank": 1.0,
+          "degree_total": 2
+        }
+      ],
+      "top_relation_breakdown": [
+        {
+          "relation": "interest_overlap",
+          "count": 100
+        },
+        {
+          "relation": "peer_influence",
+          "count": 100
+        }
+      ]
+    },
+    "segments": [
+      {
+        "segment": "knowledge_worker|18_24",
+        "persona_count": 5,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.864355,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 3
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 2
+          }
+        ]
+      },
+      {
+        "segment": "knowledge_worker|25_34",
+        "persona_count": 8,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.862661,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 5
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 2
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "knowledge_worker|35_44",
+        "persona_count": 11,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.858372,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 4
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 3
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 3
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "knowledge_worker|45_54",
+        "persona_count": 9,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.865215,
+        "avg_churn_risk": 0.285056,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 3
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 3
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 2
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "knowledge_worker|55_64",
+        "persona_count": 3,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.892097,
+        "avg_churn_risk": 0.296167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 2
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "other|18_24",
+        "persona_count": 10,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.865323,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 2
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 2
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 2
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "other|25_34",
+        "persona_count": 28,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.869746,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 7
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 5
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 4
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 3
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 2
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 2
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 2
+          }
+        ]
+      },
+      {
+        "segment": "other|35_44",
+        "persona_count": 36,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.863602,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 7
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 7
+          },
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 5
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 4
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 4
+          },
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 3
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 3
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 3
+          }
+        ]
+      },
+      {
+        "segment": "other|45_54",
+        "persona_count": 38,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.868328,
+        "avg_churn_risk": 0.283667,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby1hobby2hobby3",
+            "personas": 10
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 8
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 4
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 4
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 3
+          },
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 3
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 3
+          }
+        ]
+      },
+      {
+        "segment": "other|55_64",
+        "persona_count": 19,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.871384,
+        "avg_churn_risk": 0.296167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 5
+          },
+          {
+            "interest": "hobby5hobby6hobby7",
+            "personas": 4
+          },
+          {
+            "interest": "hobby3hobby4hobby5",
+            "personas": 4
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby7hobby0hobby1",
+            "personas": 3
+          }
+        ]
+      },
+      {
+        "segment": "professional|18_24",
+        "persona_count": 4,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.846935,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 2
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 1
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "professional|25_34",
+        "persona_count": 9,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.859839,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 4
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 2
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 2
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "professional|35_44",
+        "persona_count": 7,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.870438,
+        "avg_churn_risk": 0.271167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 3
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 2
+          },
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 2
+          }
+        ]
+      },
+      {
+        "segment": "professional|45_54",
+        "persona_count": 8,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.86871,
+        "avg_churn_risk": 0.286792,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby0hobby1hobby2",
+            "personas": 2
+          },
+          {
+            "interest": "hobby2hobby3hobby4",
+            "personas": 2
+          },
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 1
+          }
+        ]
+      },
+      {
+        "segment": "professional|55_64",
+        "persona_count": 5,
+        "avg_degree_total": 2.0,
+        "avg_rec_score": 0.862419,
+        "avg_churn_risk": 0.296167,
+        "avg_interest_count": 1.0,
+        "top_interests": [
+          {
+            "interest": "hobby4hobby5hobby6",
+            "personas": 3
+          },
+          {
+            "interest": "hobby6hobby7hobby0",
+            "personas": 2
+          }
+        ]
+      }
+    ],
+    "pagerank_iterations": 20,
+    "top_trend_interests": [
+      "hobby1hobby2hobby3",
+      "hobby6hobby7hobby0",
+      "hobby4hobby5hobby6",
+      "hobby7hobby0hobby1",
+      "hobby5hobby6hobby7",
+      "hobby3hobby4hobby5",
+      "hobby2hobby3hobby4",
+      "hobby0hobby1hobby2"
+    ],
+    "top_trend_skills": [
+      "skill5skill6skill7",
+      "skill6skill7skill8",
+      "skill7skill8skill9",
+      "skill3skill4skill5",
+      "skill1skill2skill3",
+      "skill2skill3skill4",
+      "skill8skill9skill0",
+      "skill9skill0skill1",
+      "skill0skill1skill2",
+      "skill4skill5skill6"
+    ],
+    "nodes": 200
+  },
+  "checks": {
+    "exists_output_dir": true,
+    "files": {
+      "feature_matrix": {
+        "path": "market_analysis_layer4_model_integration/layer4_feature_matrix.jsonl",
+        "exists": true,
+        "sha256": "b4bccfea50064ad4a1aa0fa27854b489469c7a31f23c3307fa3fceac2215f31c"
+      },
+      "recommendations": {
+        "path": "market_analysis_layer4_model_integration/layer4_recommendation_features.jsonl",
+        "exists": true,
+        "sha256": "8a3b785b720cd3b280c62456e5556c1581e3b4cbfaa1f0251155fe3c487438bd"
+      },
+      "churn": {
+        "path": "market_analysis_layer4_model_integration/layer4_churn_features.jsonl",
+        "exists": true,
+        "sha256": "b83886add640bd9a047a3ffc443b35dae4d0e52e00d2c1dcd7e338d21cead863"
+      },
+      "segments": {
+        "path": "market_analysis_layer4_model_integration/layer4_segments.json",
+        "exists": true,
+        "sha256": "78ceb4295a89ae5b558d4a82e739b2556beabd1a10700c0821f1a0ae412b85c8"
+      },
+      "lineage": {
+        "path": "market_analysis_layer4_model_integration/layer4_feature_lineage.csv",
+        "exists": true,
+        "sha256": "306aa623b71d8f4d053bbfb61add908d6d97a1cb49ad29bb5a8df4a36c183534"
+      },
+      "manifest": {
+        "path": "market_analysis_layer4_model_integration/layer4_manifest.json",
+        "exists": false
+      }
+    },
+    "pass": true,
+    "counts": {
+      "feature_rows": 200,
+      "recommendation_rows": 200,
+      "churn_rows": 200
+    },
+    "has_unique_persona_ids": true,
+    "feature_rows_have_scores": true,
+    "churn_scores_valid": true
+  }
+}

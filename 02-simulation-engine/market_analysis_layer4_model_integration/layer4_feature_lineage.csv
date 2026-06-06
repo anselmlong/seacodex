@@ -1,0 +1,4 @@
+feature_name,feature_type,source,definition,owner,notes
+age_bucket,categorical,layer3_tuned_personas.input.demographics.age,Age bucket for cohorting,analyst,Deterministic bucket by static rules
+rec_score_proxy,numeric,layer3_edges + layer3_tuned_personas.interests_tuned,Synthetic recommendation score proxy from pagerank + trend overlap + graph weight,analyst,Not a production score. Recalibrate with labels before use
+churn_proxy_score,numeric,layer3 graph degree + demographics,Synthetic churn risk proxy for prioritization / triage,analyst,Composite risk only; requires real outcome labels

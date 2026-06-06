@@ -24,8 +24,10 @@ import argparse
 import ast
 import hashlib
 import json
+import random
 from datetime import datetime, timezone
 from pathlib import Path
+from collections import defaultdict
 from typing import Any, Dict, List, Tuple
 
 
@@ -135,8 +137,399 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('--n', type=int, default=5000)
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--max-rows', type=int, default=None)
+    parser.add_argument('--ground-truth-json', default=None,
+                        help='Optional JSON file containing mined ground-truth persona/profile evidence (single object or list)')
+    parser.add_argument('--ground-truth-mode', choices=['append', 'inject'], default='append',
+                        help='append = add GT personas in addition to sampled personas; inject = replace some sampled personas if matching signals are high')
+    parser.add_argument('--split', action='store_true',
+                        help='Split Layer2 personas into train/val/test sets')
+    parser.add_argument('--split-train-ratio', type=float, default=0.7,
+                        help='Train ratio when --split is enabled (default: 0.7)')
+    parser.add_argument('--split-val-ratio', type=float, default=0.15,
+                        help='Validation ratio when --split is enabled (default: 0.15)')
+    parser.add_argument('--split-test-ratio', type=float, default=0.15,
+                        help='Test ratio when --split is enabled (default: 0.15)')
+    parser.add_argument('--split-strategy', choices=['random', 'stratified'], default='stratified',
+                        help='How to split personas: random or stratified by a single field')
+    parser.add_argument('--split-by', default='industry',
+                        help='Stratification field when --split-strategy=stratified (industry, planning_area, country, sex, age_bucket)')
     parser.add_argument('--check', action='store_true', help='Validate only the existing generated artifacts')
     return parser.parse_args()
+
+
+def _lower_text(value: Any) -> str:
+    if value is None:
+        return ''
+    return str(value).strip().lower()
+
+
+def _as_set(values: Any) -> List[str]:
+    if values is None:
+        return []
+    if isinstance(values, list):
+        out = values
+    elif isinstance(values, str):
+        if not values.strip():
+            return []
+        try:
+            parsed = ast.literal_eval(values)
+            out = parsed if isinstance(parsed, list) else [values]
+        except Exception:
+            out = [values]
+    else:
+        out = [values]
+    normalized = []
+    for item in out:
+        txt = _clean_text(item).lower().strip()
+        if txt:
+            normalized.append(txt)
+    return sorted(set(normalized))
+
+
+def _load_ground_truth_profiles(path: str | Path) -> List[Dict[str, Any]]:
+    p = Path(path)
+    raw = json.loads(p.read_text(encoding='utf-8'))
+    profiles: List[Dict[str, Any]] = []
+    if isinstance(raw, list):
+        profiles = raw
+    elif isinstance(raw, dict):
+        if 'customer_id' in raw:
+            profiles = [raw]
+        elif 'profiles' in raw and isinstance(raw['profiles'], list):
+            profiles = raw['profiles']
+        elif 'profiles' in raw and isinstance(raw['profiles'], dict):
+            profiles = [raw['profiles']]
+    else:
+        raise ValueError('ground-truth json should be an object or array')
+
+    out = []
+    for item in profiles:
+        if not isinstance(item, dict):
+            continue
+        cid = _clean_text(item.get('customer_id')) or _clean_text(item.get('id')) or 'ground_truth_unknown'
+        product_usage = item.get('product_usage', {}) if isinstance(item.get('product_usage'), dict) else {}
+        lifestyle = item.get('lifestyle', {}) if isinstance(item.get('lifestyle'), dict) else {}
+        personality = item.get('personality_profile', {}) if isinstance(item.get('personality_profile'), dict) else {}
+        batch_reports = item.get('batch_reports', [])
+
+        # aggregate batch signals for robustness
+        batch_products = _as_set(sum([_as_set(_maybe_list) for _maybe_list in [
+            product_usage.get('product_types', []),
+            product_usage.get('product_styles', []),
+            item.get('product_types', []),
+        ]], []))
+        batch_activities = _as_set(sum([_as_set(_maybe_list) for _maybe_list in [
+            lifestyle.get('activities', []),
+            lifestyle.get('social_context', []),
+            item.get('activities', []),
+        ]], []))
+        batch_traits = _as_set(sum([_as_set(_maybe_list) for _maybe_list in [
+            personality.get('traits', []),
+            personality.get('identity_style', []),
+            item.get('traits', []),
+        ]], []))
+        contexts = _as_set(sum([_as_set(_maybe_list) for _maybe_list in [
+            lifestyle.get('settings', []),
+            product_usage.get('usage_contexts', []),
+            item.get('usage_contexts', []),
+            item.get('settings', []),
+        ]], []))
+
+        # lightweight uncertainty encoding for transparency
+        uncertainty = item.get('uncertainties', [])
+        if isinstance(uncertainty, list):
+            uncertainty = [x for x in uncertainty if _clean_text(x)]
+        else:
+            uncertainty = []
+
+        out.append({
+            'source_profile_id': cid,
+            'source_path': str(p),
+            'product_usage': {
+                'product_types': _as_set(product_usage.get('product_types', [])),
+                'product_styles': _as_set(product_usage.get('product_styles', [])),
+                'usage_contexts': _as_set(product_usage.get('usage_contexts', [])),
+                'usage_frequency_hint': _clean_text(product_usage.get('usage_frequency_hint')),
+            },
+            'lifestyle': {
+                'settings': _as_set(lifestyle.get('settings', [])),
+                'activities': _as_set(lifestyle.get('activities', [])),
+                'social_context': _as_set(lifestyle.get('social_context', [])),
+                'spending_tier_signal': _clean_text(lifestyle.get('spending_tier_signal')),
+            },
+            'personality': {
+                'traits': _as_set(personality.get('traits', [])),
+                'identity_style': _as_set(personality.get('identity_style', [])),
+                'risk_tolerance': _clean_text(personality.get('risk_tolerance')),
+                'decision_style': _clean_text(personality.get('decision_style')),
+            },
+            'coverage_note': _clean_text(item.get('coverage_note', '')),
+            'uncertainties': _as_set(uncertainty),
+            'batch_count': len(batch_reports) if isinstance(batch_reports, list) else 0,
+            'interests_seed': _as_set(_as_set(product_usage.get('product_types', [])) + _as_set(product_usage.get('product_styles', []))),
+            'skills_seed': _as_set(_as_set(batch_traits)),
+            'context_tags': list(dict.fromkeys(_as_set(contexts) + _as_set([_clean_text(item.get('customer_id'))]))),
+            'raw_profile': item,
+        })
+    return out
+
+
+def _ground_truth_similarity(row_record: Dict[str, Any], gt_profile: Dict[str, Any]) -> float:
+    row_interests = set(_as_set(row_record.get('interests_seed')))
+    row_skills = set(_as_set(row_record.get('skills_seed')))
+    row_country = _lower_text(row_record.get('country'))
+    row_area = _lower_text(row_record.get('planning_area'))
+    row_occupation = _lower_text(row_record.get('occupation'))
+    row_industry = _lower_text(row_record.get('industry'))
+
+    gt_interests = set(gt_profile.get('interests_seed', []))
+    gt_styles = set(gt_profile.get('product_usage', {}).get('product_styles', []))
+    gt_ctx = set(gt_profile.get('context_tags', []))
+
+    score = 0.0
+    score += len(row_interests & gt_interests) * 2.0
+    score += len(row_skills & set(gt_profile.get('skills_seed', []))) * 1.2
+    score += len(row_interests & gt_styles) * 1.5
+    score += len(set([row_country, row_area, row_occupation, row_industry]) & set(gt_ctx))
+    if row_area and _lower_text(row_record.get('planning_area')) == 'school':
+        score += 0.5
+    return score
+
+
+def _coerce_split_ratios(
+    train_ratio: float,
+    val_ratio: float,
+    test_ratio: float,
+) -> Dict[str, float]:
+    if train_ratio < 0 or val_ratio < 0 or test_ratio < 0:
+        raise ValueError('Split ratios must be non-negative')
+    total = train_ratio + val_ratio + test_ratio
+    if total <= 0:
+        raise ValueError('Split ratios must sum to a positive value')
+
+    # if user entered percentage-style ratios
+    if total > 1.5:
+        train_ratio /= total
+        val_ratio /= total
+        test_ratio /= total
+        total = train_ratio + val_ratio + test_ratio
+
+    if abs(total - 1.0) > 1e-9:
+        train_ratio /= total
+        val_ratio /= total
+        test_ratio /= total
+
+    return {
+        'train': train_ratio,
+        'val': val_ratio,
+        'test': test_ratio,
+    }
+
+
+def _compute_split_counts(total: int, ratios: Dict[str, float], split_names: Tuple[str, ...] = ('train', 'val', 'test')) -> Dict[str, int]:
+    if total <= 0:
+        return {name: 0 for name in split_names}
+    if total == 1:
+        return {split_names[0]: 1, split_names[1]: 0, split_names[2]: 0}
+
+    raw = {name: ratios[name] * total for name in split_names}
+    base = {name: int(v) for name, v in raw.items()}
+    remainder = total - sum(base.values())
+    if remainder > 0:
+        fractional = sorted(split_names, key=lambda s: raw[s] - int(raw[s]), reverse=True)
+        for idx in range(remainder):
+            base[fractional[idx % len(split_names)]] += 1
+    return base
+
+
+def _stratify_key(row: Dict[str, Any], by: str) -> str:
+    if by == 'industry':
+        value = row.get('profession', {}).get('industry')
+    elif by == 'planning_area':
+        value = row.get('location', {}).get('planning_area')
+    elif by == 'country':
+        value = row.get('location', {}).get('country')
+    elif by == 'sex':
+        value = row.get('demographics', {}).get('sex')
+    elif by == 'age_bucket':
+        age = row.get('demographics', {}).get('age')
+        if age is None:
+            value = None
+        else:
+            try:
+                age_int = int(age)
+            except Exception:
+                age_int = None
+            if age_int is None:
+                value = None
+            elif age_int < 18:
+                value = 'under_18'
+            elif age_int < 25:
+                value = '18_24'
+            elif age_int < 35:
+                value = '25_34'
+            elif age_int < 45:
+                value = '35_44'
+            elif age_int < 55:
+                value = '45_54'
+            else:
+                value = '55_plus'
+    else:
+        value = row.get(by) if isinstance(row, dict) else None
+    return _lower_text(value) or 'unknown'
+
+
+def _split_persona_records(
+    personas: List[Dict[str, Any]],
+    train_ratio: float,
+    val_ratio: float,
+    test_ratio: float,
+    seed: int,
+    strategy: str = 'random',
+    split_by: str = 'industry',
+) -> Dict[str, List[Dict[str, Any]]]:
+    ratios = _coerce_split_ratios(train_ratio, val_ratio, test_ratio)
+    if strategy == 'random':
+        rng = random.Random(seed)
+        rows = personas.copy()
+        rng.shuffle(rows)
+        counts = _compute_split_counts(len(rows), ratios)
+        split = {'train': [], 'val': [], 'test': []}
+        cursor = 0
+        for name in ('train', 'val', 'test'):
+            end = cursor + counts[name]
+            split[name] = rows[cursor:end]
+            cursor = end
+        return split
+
+    if strategy != 'stratified':
+        raise ValueError(f'Unknown split strategy: {strategy}')
+
+    buckets: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    for row in personas:
+        buckets[_stratify_key(row, split_by)].append(row)
+
+    split = {'train': [], 'val': [], 'test': []}
+    rng = random.Random(seed)
+    for group in buckets.values():
+        rows = group.copy()
+        rng.shuffle(rows)
+        counts = _compute_split_counts(len(rows), ratios)
+        cursor = 0
+        for name in ('train', 'val', 'test'):
+            end = cursor + counts[name]
+            split[name].extend(rows[cursor:end])
+            cursor = end
+
+    for name in split:
+        rng.shuffle(split[name])
+
+    return split
+
+
+def _build_ground_truth_persona(profile: Dict[str, Any]) -> Dict[str, Any]:
+    gt_interests = profile.get('interests_seed', [])
+    gt_skills = profile.get('skills_seed', [])
+    traits = _as_set(profile.get('personality', {}).get('traits', []))
+    decision_style = profile.get('personality', {}).get('decision_style', '')
+    risk_tolerance = profile.get('personality', {}).get('risk_tolerance', '')
+
+    return {
+        'persona_id': f"gt_{_clean_text(profile.get('source_profile_id')).replace('.', '_')}",
+        'source_uuid': _clean_text(profile.get('source_profile_id')),
+        'lifecycle': 'ground_truth_anchor',
+        'demographics': {
+            'sex': None,
+            'age': None,
+            'marital_status': None,
+            'education_level': None,
+        },
+        'location': {
+            'country': None,
+            'planning_area': None,
+        },
+        'profession': {
+            'occupation': None,
+            'industry': None,
+        },
+        'profiles': {
+            'persona_description': f'Ground-truth anchor profile for { _clean_text(profile.get("source_profile_id")) }',
+            'professional_persona': '',
+            'sports_persona': '',
+            'arts_persona': '',
+            'travel_persona': '',
+            'culinary_persona': '',
+        },
+        'interests_seed': list(_as_set(gt_interests)),
+        'skills_seed': list(_as_set(gt_skills)),
+        'swarm_inputs': {
+            'interest_prompt_seed': f'Ground-truth profile hints: products={"; ".join(profile.get("product_usage", {}).get("product_types", []))}; context={"; ".join(profile.get("context_tags", []))}',
+            'context_tags': [t for t in profile.get('context_tags', []) if t],
+            'ground_truth_anchor': True,
+            'source_profile_id': _clean_text(profile.get('source_profile_id')),
+            'uncertainty_profile': profile.get('uncertainties', []),
+            'risk_tolerance_hint': risk_tolerance,
+            'decision_style_hint': decision_style,
+            'traits': traits,
+        },
+        'metadata': {
+            'seed_method': 'ground_truth_anchor',
+            'source_dataset': 'online_ground_truth_profile',
+            'source_profile_path': profile.get('source_path'),
+            'source_profile_id': _clean_text(profile.get('source_profile_id')),
+            'ground_truth_coverage': _as_set(profile.get('coverage_note', '') or []),
+        },
+    }
+
+
+def _inject_ground_truth_profiles(
+    selected_rows: List[Dict[str, Any]],
+    ground_truth_profiles: List[Dict[str, Any]],
+    mode: str,
+    row_to_persona_fn,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    summary = {'requested': len(ground_truth_profiles), 'added': 0, 'mode': mode, 'assignments': []}
+    if not ground_truth_profiles:
+        return selected_rows, summary
+
+    personas = [row_to_persona_fn(row) for row in selected_rows]
+
+    if mode == 'append':
+        for gt in ground_truth_profiles:
+            personas.append(_build_ground_truth_persona(gt))
+            summary['added'] += 1
+            summary['assignments'].append({
+                'source_profile_id': gt.get('source_profile_id'),
+                'target_persona_id': personas[-1]['persona_id'],
+                'match_mode': 'append_only',
+                'replaced_profile_id': None,
+            })
+        return personas, summary
+
+    # inject mode: replace nearest persona candidates (highest-sim score)
+    used = set()
+    for gt in sorted(ground_truth_profiles, key=lambda g: g.get('batch_count', 0), reverse=True):
+        scores = []
+        for idx, row in enumerate(selected_rows):
+            if idx in used:
+                continue
+            score = _ground_truth_similarity(row, gt)
+            scores.append((score, idx))
+        scores.sort(reverse=True, key=lambda x: x[0])
+        if not scores:
+            continue
+        best_idx = scores[0][1]
+        personas[best_idx] = _build_ground_truth_persona(gt)
+        used.add(best_idx)
+        summary['added'] += 1
+        summary['assignments'].append({
+            'source_profile_id': gt.get('source_profile_id'),
+            'target_persona_id': personas[best_idx]['persona_id'],
+            'match_mode': 'inject_replace',
+            'replaced_profile_id': selected_rows[best_idx].get('source_uuid'),
+            'match_score': float(scores[0][0]),
+        })
+    return personas, summary
 
 
 def load_parquet_dataset(source_dir: Path):
@@ -259,7 +652,19 @@ def build_layer1(df, max_rows: int | None = None) -> Tuple[Any, Dict[str, Any]]:
     return seed_df, quality
 
 
-def build_layer2(layer1_df, n: int, seed: int) -> Tuple[Any, Dict[str, Any]]:
+def build_layer2(
+    layer1_df,
+    n: int,
+    seed: int,
+    ground_truth_profiles: List[Dict[str, Any]] | None = None,
+    ground_truth_mode: str = 'append',
+    split: bool = False,
+    split_train_ratio: float = 0.7,
+    split_val_ratio: float = 0.15,
+    split_test_ratio: float = 0.15,
+    split_strategy: str = 'stratified',
+    split_by: str = 'industry',
+) -> Tuple[Any, Dict[str, Any], Dict[str, List[Dict[str, Any]]] | None]:
     import pandas as pd
     import numpy as np
 
@@ -337,7 +742,26 @@ def build_layer2(layer1_df, n: int, seed: int) -> Tuple[Any, Dict[str, Any]]:
             },
         }
 
-    personas = [row_to_persona(r) for r in selected.to_dict(orient='records')]
+    selected_rows = selected.to_dict(orient='records')
+    personas = [row_to_persona(r) for r in selected_rows]
+
+    personas, gt_report = personas, {
+        'requested': 0,
+        'added': 0,
+        'mode': 'none',
+        'assignments': [],
+    }
+
+    if ground_truth_profiles:
+        try:
+            personas, gt_report = _inject_ground_truth_profiles(
+                selected_rows,
+                ground_truth_profiles,
+                ground_truth_mode,
+                row_to_persona,
+            )
+        except Exception as e:
+            raise RuntimeError(f'ground truth profile enrichment failed: {e}') from e
 
     report = {
         'requested_n': n,
@@ -345,8 +769,52 @@ def build_layer2(layer1_df, n: int, seed: int) -> Tuple[Any, Dict[str, Any]]:
         'sample_seed': int(seed),
         'produced_n': int(len(personas)),
         'sampled_row_ids': [p['source_uuid'] for p in personas],
+        'ground_truth_enrichment': gt_report,
+        'split': {
+            'enabled': split,
+        },
     }
-    return personas, report
+    if split:
+        split_parts = _split_persona_records(
+            personas,
+            split_train_ratio,
+            split_val_ratio,
+            split_test_ratio,
+            seed=seed,
+            strategy=split_strategy,
+            split_by=split_by,
+        )
+        report['split'].update({
+            'strategy': split_strategy,
+            'split_by': split_by,
+            'ratios': {
+                'train': split_train_ratio,
+                'val': split_val_ratio,
+                'test': split_test_ratio,
+            },
+            'meta': {
+                'strategy': split_strategy,
+                'split_by': split_by,
+                'ratios': {
+                    'train': split_train_ratio,
+                    'val': split_val_ratio,
+                    'test': split_test_ratio,
+                },
+                'seed': seed,
+            },
+            'split_counts': {
+                'train': len(split_parts.get('train', [])),
+                'val': len(split_parts.get('val', [])),
+                'test': len(split_parts.get('test', [])),
+            },
+            'partitions': {
+                'train': [r['persona_id'] for r in split_parts.get('train', [])],
+                'val': [r['persona_id'] for r in split_parts.get('val', [])],
+                'test': [r['persona_id'] for r in split_parts.get('test', [])],
+            },
+        })
+        return personas, report, split_parts
+    return personas, report, None
 
 
 def write_layer1_outputs(layer1_df, out_dir: Path, quality: Dict[str, Any], source_hash: str) -> Dict[str, Any]:
@@ -397,7 +865,16 @@ def write_layer1_outputs(layer1_df, out_dir: Path, quality: Dict[str, Any], sour
     return report
 
 
-def write_layer2_outputs(personas: List[Dict[str, Any]], out_dir: Path, layer1_report: Dict[str, Any], n: int, seed: int) -> Dict[str, Any]:
+def write_layer2_outputs(
+    personas: List[Dict[str, Any]],
+    out_dir: Path,
+    layer1_report: Dict[str, Any],
+    n: int,
+    seed: int,
+    split: bool = False,
+    split_details: Dict[str, Any] | None = None,
+    layer2_report: Dict[str, Any] | None = None,
+) -> Dict[str, Any]:
     layer2_dir = out_dir / 'layer2'
     layer2_dir.mkdir(parents=True, exist_ok=True)
     jsonl_path = layer2_dir / f'personas_initial_n{n}_seed{seed}.jsonl'
@@ -406,6 +883,42 @@ def write_layer2_outputs(personas: List[Dict[str, Any]], out_dir: Path, layer1_r
     with jsonl_path.open('w', encoding='utf-8') as f:
         for rec in personas:
             f.write(json.dumps(rec, ensure_ascii=False) + '\n')
+
+    split_output = None
+    if split and split_details:
+        split_output = {
+            'train': {
+                'count': len(split_details.get('train', [])),
+                'file': None,
+            },
+            'val': {
+                'count': len(split_details.get('val', [])),
+                'file': None,
+            },
+            'test': {
+                'count': len(split_details.get('test', [])),
+                'file': None,
+            },
+        }
+        split_dir = layer2_dir / 'splits'
+        strategy = split_details.get('meta', {}).get('strategy', 'stratified')
+        split_by = split_details.get('meta', {}).get('split_by', 'industry')
+        split_ratio_info = split_details.get('meta', {}).get('ratios', {})
+        split_seed = split_details.get('meta', {}).get('seed', seed)
+        split_case_dir = split_dir / f'{strategy}_{split_by}_seed{split_seed}'
+        split_case_dir.mkdir(parents=True, exist_ok=True)
+        for split_name in ('train', 'val', 'test'):
+            split_path = split_case_dir / f'personas_{split_name}_n{n}_seed{seed}.jsonl'
+            with split_path.open('w', encoding='utf-8') as sf:
+                for row in split_details.get(split_name, []):
+                    sf.write(json.dumps(row, ensure_ascii=False) + '\n')
+            split_output[split_name]['file'] = str(split_path)
+        split_output['metadata'] = {
+            'strategy': strategy,
+            'split_by': split_by,
+            'ratios': split_ratio_info,
+            'seed': split_seed,
+        }
 
     report = {
         'layer': 'layer2',
@@ -416,9 +929,18 @@ def write_layer2_outputs(personas: List[Dict[str, Any]], out_dir: Path, layer1_r
         'layer1_source': layer1_report['outputs']['parquet'],
         'layer1_report_hash': layer1_report.get('source_sha256'),
         'layer1_sha': layer1_report['quality_checks'].get('source_df_hash', None),
+    }
+
+    if layer2_report:
+        for k in ['total_available', 'sample_seed', 'sampled_row_ids', 'ground_truth_enrichment']:
+            if k in layer2_report:
+                report[k] = layer2_report[k]
+
+    report.update({
         'outputs': {
-            'jsonl': str(jsonl_path)
+            'jsonl': str(jsonl_path),
         },
+        'split_outputs': split_output,
         'file_hashes': {
             'jsonl_sha256': _sha256_file(jsonl_path),
         },
@@ -428,7 +950,7 @@ def write_layer2_outputs(personas: List[Dict[str, Any]], out_dir: Path, layer1_r
             'has_demographics': all('demographics' in p for p in personas),
             'has_swarm_inputs': all('swarm_inputs' in p for p in personas),
         }
-    }
+    })
     with md_path.open('w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, default=_jsonable)
 
@@ -536,8 +1058,52 @@ def run_pipeline(args: argparse.Namespace) -> None:
             seed_df = pd_read_parquet_from_dataframe(layer1_report, out_dir)
         else:
             seed_df = pd_read_parquet_from_report(layer1_report['outputs']['parquet'])
-        personas, layer2_report = build_layer2(seed_df, n=args.n, seed=args.seed)
-        layer2_report = write_layer2_outputs(personas, out_dir, layer1_report, n=args.n, seed=args.seed)
+
+        ground_truth_profiles = []
+        if args.ground_truth_json:
+            ground_truth_profiles = _load_ground_truth_profiles(args.ground_truth_json)
+
+        personas, layer2_report, split_parts = build_layer2(
+            seed_df,
+            n=args.n,
+            seed=args.seed,
+            ground_truth_profiles=ground_truth_profiles,
+            ground_truth_mode=args.ground_truth_mode,
+            split=args.split,
+            split_train_ratio=args.split_train_ratio,
+            split_val_ratio=args.split_val_ratio,
+            split_test_ratio=args.split_test_ratio,
+            split_strategy=args.split_strategy if args.split else 'stratified',
+            split_by=args.split_by,
+        )
+        layer2_report = write_layer2_outputs(
+            personas,
+            out_dir,
+            layer1_report,
+            n=args.n,
+            seed=args.seed,
+            split=args.split,
+            split_details=(
+                {
+                    'meta': {
+                        'strategy': args.split_strategy if args.split else 'stratified',
+                        'split_by': args.split_by,
+                        'ratios': {
+                            'train': args.split_train_ratio,
+                            'val': args.split_val_ratio,
+                            'test': args.split_test_ratio,
+                        },
+                        'seed': args.seed,
+                    },
+                    'train': split_parts.get('train', []) if split_parts else [],
+                    'val': split_parts.get('val', []) if split_parts else [],
+                    'test': split_parts.get('test', []) if split_parts else [],
+                }
+                if args.split
+                else None
+            ),
+            layer2_report=layer2_report,
+        )
     else:
         layer2_report = None
 

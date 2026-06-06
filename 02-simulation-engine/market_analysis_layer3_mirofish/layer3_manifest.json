@@ -1,0 +1,67 @@
+{
+  "generated_at_utc": "2026-06-06T06:51:12.386894+00:00",
+  "project": "Autonomous Proactive Market Analysis",
+  "layer": 3,
+  "mode": "live",
+  "outputs": {
+    "tuned_personas": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
+    "entities": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
+    "edges": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
+    "graph_snapshot": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
+    "report": "market_analysis_layer3_mirofish/layer3_tuned_report.json"
+  },
+  "checks": {
+    "exists_output_dir": true,
+    "files": {
+      "tuned_personas": {
+        "exists": true,
+        "path": "market_analysis_layer3_mirofish/layer3_tuned_personas.jsonl",
+        "sha256": "ac5759e78c04b53c4c6e222c69206b844cb638a8a5d1686bd422d0112dd4284b"
+      },
+      "entities": {
+        "exists": true,
+        "path": "market_analysis_layer3_mirofish/layer3_entities.jsonl",
+        "sha256": "31a8c12ddd7684aec3a5df5a74d6ee09cae153f7bb50a26b914aefef2f324c36"
+      },
+      "edges": {
+        "exists": true,
+        "path": "market_analysis_layer3_mirofish/layer3_edges.jsonl",
+        "sha256": "5be175c7ee29c8a826e170a38b2f3a00135ff6841ebfa69b62d2cd5422d80148"
+      },
+      "graph_snapshot": {
+        "exists": true,
+        "path": "market_analysis_layer3_mirofish/layer3_graph_snapshot.json",
+        "sha256": "4fca0a7d83ef8fdc6e9a91355434c71bebace8410096933f5e36d2e45fcf1bbb"
+      },
+      "report": {
+        "exists": true,
+        "path": "market_analysis_layer3_mirofish/layer3_tuned_report.json",
+        "sha256": "5e47be4096354ef72b06265e2afdcde478c6854081e7b4ef9c05c947a0d1f9ad"
+      }
+    },
+    "exists_tuned_personas": true,
+    "exists_entities": true,
+    "exists_edges": true,
+    "exists_snapshot": true,
+    "exists_report": true,
+    "tuned_count": 201,
+    "unique_persona_ids": 201,
+    "all_tuning_rows_have_metadata": true,
+    "entity_count": 39,
+    "edge_count": 90,
+    "snapshot_keys": [
+      "generated_at_utc",
+      "graph_data",
+      "graph_id",
+      "mode",
+      "phase_log",
+      "prepare_result",
+      "project",
+      "project_id",
+      "run_state",
+      "simulation_id",
+      "simulation_result"
+    ],
+    "pass": true
+  }
+}

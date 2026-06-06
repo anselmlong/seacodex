@@ -1,0 +1,22 @@
+{
+  "layer": "layer2",
+  "generated_at_utc": "2026-06-06T06:26:09.748504+00:00",
+  "requested_n": 200,
+  "seed": 42,
+  "produced_n": 201,
+  "layer1_source": "market_analysis_layer1_layer2_gt/layer1/persona_seed.parquet",
+  "layer1_report_hash": "1f4f355bd990ec03c5d0ac69832193d1f33083b8b8802ec1c6548175f9326f84",
+  "layer1_sha": 9251251254188572643,
+  "outputs": {
+    "jsonl": "market_analysis_layer1_layer2_gt/layer2/personas_initial_n200_seed42.jsonl"
+  },
+  "file_hashes": {
+    "jsonl_sha256": "33295ea220a9a86fb439685bb8519b8140fa7169a9360e77caa919d9680f704d"
+  },
+  "required_fields": {
+    "has_persona_id": true,
+    "has_source_uuid": true,
+    "has_demographics": true,
+    "has_swarm_inputs": true
+  }
+}
