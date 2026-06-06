@@ -22,11 +22,22 @@ const parameterScore = (segment: SingaporeSegment, product: ProductListing, para
   return params[segment.preferredAngle];
 };
 
-const sentimentFor = (salesIndex: number, backlash: number) => {
-  if (backlash > 62) return "negative";
-  if (salesIndex > 68 && backlash < 48) return "positive";
+const sentimentFor = (salesIndex: number, backlash: number, priceAnxiety: number) => {
+  if (backlash > 62 || priceAnxiety > 48) return "negative";
+  if (salesIndex > 68 && backlash < 48 && priceAnxiety < 28) return "positive";
   return "mixed";
 };
+
+const priceAnxietyForSegment = (segment: SingaporeSegment, product: ProductListing, params: ListingParameters) => {
+  const overAnchor = Math.max(0, product.priceSgd - 88);
+  const priceDrag = overAnchor * segment.priceSensitivity * 0.58;
+  const lowDiscountPenalty = Math.max(0, 34 - product.discountPercent) * segment.priceSensitivity * 0.45;
+  const shippingGap = params.freeShipping ? -6 : 6;
+  return Math.max(0, priceDrag - product.discountPercent * segment.priceSensitivity * 0.16 + lowDiscountPenalty + shippingGap);
+};
+
+const isPriceShock = (product: ProductListing, segment: SingaporeSegment) =>
+  product.priceSgd > 120 || (product.priceSgd > 96 && segment.priceSensitivity > 0.86);
 
 const tweakFor = (segment: SingaporeSegment, product: ProductListing, params: ListingParameters) => {
   if (segment.id === "young-professionals" && params.premiumPositioning < 52) {
@@ -55,12 +66,16 @@ export function projectDemographics(product: ProductListing, params: ListingPara
     const urgencyPenalty = Math.max(0, params.urgency - 68) * (segment.priceSensitivity > 0.7 ? 0.16 : 0.28);
     const premiumMismatch =
       Math.max(0, params.premiumPositioning - params.budgetPositioning) * segment.priceSensitivity * 0.12;
+    const priceAnxiety = priceAnxietyForSegment(segment, product, params);
     const rawInterest =
       segment.baselineInterest * 100 + fit * 0.22 + discountBoost + shippingBoost - urgencyPenalty - premiumMismatch;
-    const projectedSalesIndex = clamp(rawInterest);
+    const projectedSalesIndex = clamp(rawInterest - priceAnxiety);
     const backlash = clamp(
-      28 + urgencyPenalty * 1.7 + (segment.id === "live-resellers" ? 20 - params.creatorAngle * 0.18 : 0)
+      22 + urgencyPenalty * 1.7 + (segment.id === "live-resellers" ? 20 - params.creatorAngle * 0.18 : 0) + priceAnxiety * 1.45
     );
+    const highPriceObjection = isPriceShock(product, segment)
+      ? `The sticker price of SGD ${product.priceSgd} needs clearer value proof before this segment engages.`
+      : segment.objection;
 
     return {
       segmentId: segment.id,
@@ -68,9 +83,9 @@ export function projectDemographics(product: ProductListing, params: ListingPara
       projectedSalesIndex,
       conversionLikelihood: clamp(projectedSalesIndex * 0.72 + fit * 0.16 + (params.freeShipping ? 5 : -4)),
       priceSensitivity: clamp(segment.priceSensitivity * 100),
-      chatterSentiment: sentimentFor(projectedSalesIndex, backlash),
+      chatterSentiment: sentimentFor(projectedSalesIndex, backlash, priceAnxiety),
       mainTrigger: segment.trigger,
-      mainObjection: segment.objection,
+      mainObjection: highPriceObjection,
       recommendedTweak: tweakFor(segment, product, params)
     };
   });
@@ -85,6 +100,12 @@ const messageForSegment = (
   const base = product.name.replace("Shopee 11.11 ", "");
   if (personaDisposition === "adversarial") {
     return `This doesn't look like a reliable offer for ${base}; where is the proof before ${Math.max(2, Math.round(product.priceSgd * 0.55))}%?`;
+  }
+  if (product.priceSgd >= 180) {
+    return `${base} is too expensive for this audience; I need a much stronger price bridge than this.`;
+  }
+  if (product.priceSgd >= 140) {
+    return `${base} sounds premium, but I want tighter voucher + shipping proof before I trust it.`;
   }
   const messages: Record<string, string> = {
     "gen-z-students": `${base} is worth it if the voucher stack really lands under $${Math.max(
@@ -146,19 +167,39 @@ const opinionForNode = (
     params.urgency > 76
       ? "Countdown pressure is making them question whether the deal is real."
       : "Urgency is present without feeling like pressure.";
+  const angryPushback =
+    product.priceSgd >= 140
+      ? `SGD ${product.priceSgd} feels too high without clear value proof or shipping offsets.`
+      : projection?.mainObjection ?? segment.objection;
+  const hasPriceShock = projection ? projection.chatterSentiment === "negative" && product.priceSgd >= 120 : false;
+  const reasons = isAdversarial
+    ? [hostileReason, projection?.mainObjection ?? segment.objection, "Demand for hard proof is high."]
+    : [
+        hasPriceShock ? angryPushback : segment.trigger,
+        hasPriceShock ? "Price has crossed the tolerance threshold for this segment." : priceRead,
+        proofRead
+      ];
 
   return {
     stance,
     confidence,
     summary:
       message ||
-      (isAdversarial
-        ? `${segment.label} is actively checking for proof before accepting the claim.`
-        : `${segment.label} has not formed a product opinion yet.`),
-    reasons: isAdversarial ? [hostileReason, projection?.mainObjection ?? segment.objection, "Demand for hard proof is high."] : [segment.trigger, priceRead, proofRead],
-    objection: isAdversarial ? projection?.mainObjection ?? hostileReason : projection?.mainObjection ?? segment.objection,
+      (hasPriceShock
+        ? `${segment.label} is visibly angry: price has moved beyond their expected value range.`
+        : isAdversarial
+          ? `${segment.label} is actively checking for proof before accepting the claim.`
+          : `${segment.label} has not formed a product opinion yet.`),
+    reasons,
+    objection: isAdversarial
+      ? projection?.mainObjection ?? hostileReason
+      : hasPriceShock
+        ? "The current sticker price feels unreasonable for the segment's expected budget."
+        : projection?.mainObjection ?? segment.objection,
     nextAction: isAdversarial
-      ? "I will keep pushing back until price and proof lines up with prior reviews and shipping." 
+      ? "I will keep pushing back until price and proof lines up with prior reviews and shipping."
+      : hasPriceShock
+        ? "I will only reconsider when I see stronger proof of net value at this price."
       : state === "unexposed"
         ? "Wait for a trusted contact to mention it."
         : urgencyRead
@@ -194,7 +235,8 @@ export function buildPropagationTicks(
       const isAdversarial = node.personaDisposition === "adversarial";
       const isActive = tick >= activationTick;
       const isHot = projection ? projection.projectedSalesIndex > 70 : false;
-      const isResistant = projection ? projection.chatterSentiment === "negative" : false;
+      const isPriceResistant = projection ? projection.projectedSalesIndex < 42 && product.priceSgd >= 130 : false;
+      const isResistant = projection ? projection.chatterSentiment === "negative" || isPriceResistant : false;
       const state: NodeState = !isActive
         ? "unexposed"
         : isAdversarial
@@ -239,6 +281,7 @@ export function buildPropagationTicks(
 
     const avgSales = projections.reduce((sum, projection) => sum + projection.projectedSalesIndex, 0) / projections.length;
     const resellerRisk = bySegment.get("live-resellers")?.chatterSentiment === "negative" ? 20 : 0;
+    const priceRisk = Math.max(0, product.priceSgd - 90) * 0.42;
     ticks.push({
       tick,
       activeNodeIds,
@@ -250,7 +293,8 @@ export function buildPropagationTicks(
         params.urgency * 0.32 +
           resellerRisk +
           Math.max(0, 32 - product.discountPercent) * 0.7 +
-          Math.min(8, activeAdversarialCount * 1.9)
+          Math.min(8, activeAdversarialCount * 1.9) +
+          Math.min(16, priceRisk)
       ),
       adoptionRate: clamp(Math.round((adoptedCount / Math.max(1, totalNodes)) * 100)),
       resistanceRate: clamp(Math.round((resistantCount / Math.max(1, totalNodes)) * 100)),

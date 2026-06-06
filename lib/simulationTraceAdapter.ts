@@ -9,13 +9,14 @@ import type {
   SimulationSettings
 } from "./types";
 import {
+  buildPropagationTicks,
   buildPlatformRecommendations,
   buildRecommendations,
   createDashboardTrace,
   projectDemographics
 } from "./simulationProjection";
 import { defaultParameters, defaultProduct } from "./productModel";
-import { singaporeSegments } from "./singaporeSegments";
+import { singaporeNodes, singaporeSegments } from "./singaporeSegments";
 
 type RawRecord = Record<string, unknown>;
 
@@ -60,6 +61,16 @@ const COMMUNITY_SEGMENT_MAP: Readonly<Record<string, string>> = {
   reseller: "live-resellers",
   school_university: "gen-z-students"
 };
+
+const seedNodeBuckets = (() => {
+  const buckets = new Map<string, typeof singaporeNodes>();
+  for (const seedNode of singaporeNodes) {
+    const entry = buckets.get(seedNode.segmentId) ?? [];
+    entry.push(seedNode);
+    buckets.set(seedNode.segmentId, entry);
+  }
+  return buckets;
+})();
 
 const percentClamp = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
 const ratioClamp01 = (value: number) => Math.max(0, Math.min(1, value));
@@ -141,6 +152,20 @@ const inferCampaignLabel = (value: unknown): string => {
   return text ? `${text}` : "Market campaign";
 };
 
+const resolveSegmentId = (communityId: string | undefined) => COMMUNITY_SEGMENT_MAP[communityId ?? ""] || "heartland-value";
+const resolvePersonaDisposition = (value: unknown): SocialNode["personaDisposition"] | undefined => {
+  const normalized = asString(value)?.toLowerCase();
+  if (normalized === "adversarial") return "adversarial";
+  if (normalized === "neutral") return "neutral";
+  return undefined;
+};
+
+const seedNodeFor = (segmentId: string, segmentOrdinal: number): SocialNode | undefined => {
+  const bucket = seedNodeBuckets.get(segmentId) ?? [];
+  if (!bucket.length) return undefined;
+  return bucket[segmentOrdinal % bucket.length];
+};
+
 const buildCampaignProduct = (campaign: RawRecord | null): ProductListing => {
   const campaignName = inferCampaignLabel(campaign?.name);
   return {
@@ -184,24 +209,32 @@ const initialsFromText = (value: string) => {
   return `${first}${second}`.padEnd(2, "X").slice(0, 2);
 };
 
-const makeSocialNode = (node: RawRecord | null, index: number, communityLabelMap: Map<string, string>): SocialNode => {
+const makeSocialNode = (
+  node: RawRecord | null,
+  index: number,
+  communityLabelMap: Map<string, string>,
+  segmentOrdinal: number
+): SocialNode => {
   const id = asNodeId(node?.id) ?? asNodeId(node?.persona_id) ?? asNodeId(node?.node_id) ?? `n${index + 1}`;
   const rawCommunity = asString(node?.community) ?? asString(node?.community_id) ?? "community_unknown";
-  const segmentId = COMMUNITY_SEGMENT_MAP[rawCommunity] || "heartland-value";
+  const segmentId = resolveSegmentId(rawCommunity);
   const rawState = normalizeNodeState(node?.state);
-  const label = asString(node?.label) ?? nodeLabelFromCampaign(rawCommunity, index);
-  const stateBoost = rawState === "resistant" ? 0.1 : rawState === "aware" ? 0.2 : rawState === "interested" ? 0.35 : 0.25;
-  const influence = ratioClamp01(stateBoost + ((index % 17) / 100));
   const communityLabel = communityLabelMap.get(rawCommunity) ?? titleCase(rawCommunity);
+  const seededNode = seedNodeFor(segmentId, segmentOrdinal);
+  const label = asString(node?.label) ?? seededNode?.label ?? nodeLabelFromCampaign(rawCommunity, index);
+  const stateBoost = rawState === "resistant" ? 0.1 : rawState === "aware" ? 0.2 : rawState === "interested" ? 0.35 : 0.25;
+  const influence = ratioClamp01(asNumber(node?.influence, seededNode?.influence ?? stateBoost + ((index % 17) / 100)));
+  const disposition = resolvePersonaDisposition(node?.personaDisposition) ?? resolvePersonaDisposition(node?.persona_disposition);
+  const initials = asString(node?.avatar_initials) ?? asString(node?.avatar) ?? initialsFromText(label);
   return {
     id,
     segmentId,
     label,
-    avatarInitials: initialsFromText(label),
-    persona: `${communityLabel} participant`,
-    channel: `${communityLabel} channel`,
+    avatarInitials: initials.slice(0, 2).toUpperCase(),
+    persona: asString(node?.persona) ?? seededNode?.persona ?? `${communityLabel} participant`,
+    channel: asString(node?.channel) ?? seededNode?.channel ?? `${communityLabel} channel`,
     influence,
-    personaDisposition: rawState === "resistant" ? "adversarial" : undefined
+    ...(disposition || seededNode?.personaDisposition ? { personaDisposition: disposition ?? seededNode?.personaDisposition } : undefined)
   };
 };
 
@@ -469,7 +502,15 @@ const buildTraceFromStandardTicks = (sourceTrace: RawTrace): DashboardTrace | nu
   const campaign = asObject(sourceTrace.campaign);
   const communities = asArray(sourceTrace.communities);
   const communityLabelMap = readCommunityMap(communities);
-  const nodes = nodesInput.map((node, index) => makeSocialNode(asObject(node), index, communityLabelMap));
+  const segmentOrdinalBySegment = new Map<string, number>();
+  const nodes = nodesInput.map((node, index) => {
+    const nodeRecord = asObject(node);
+    const rawCommunity = asString(nodeRecord?.community) ?? asString(nodeRecord?.community_id) ?? "community_unknown";
+    const segmentId = resolveSegmentId(rawCommunity);
+    const segmentOrdinal = segmentOrdinalBySegment.get(segmentId) ?? 0;
+    segmentOrdinalBySegment.set(segmentId, segmentOrdinal + 1);
+    return makeSocialNode(nodeRecord, index, communityLabelMap, segmentOrdinal);
+  });
   const edges = edgesInput
     .map((edge) => makeSocialEdge(asObject(edge)))
     .filter((edge): edge is SocialEdge => Boolean(edge));
@@ -521,7 +562,15 @@ const buildTraceFromLayer6Steps = (sourceTrace: RawTrace): DashboardTrace | null
   }
 
   const communityLabelMap = readCommunityMap(communities);
-  const nodes = graphNodesInput.map((node, index) => makeSocialNode(asObject(node), index, communityLabelMap));
+  const segmentOrdinalBySegment = new Map<string, number>();
+  const nodes = graphNodesInput.map((node, index) => {
+    const nodeRecord = asObject(node);
+    const rawCommunity = asString(nodeRecord?.community) ?? asString(nodeRecord?.community_id) ?? "community_unknown";
+    const segmentId = resolveSegmentId(rawCommunity);
+    const segmentOrdinal = segmentOrdinalBySegment.get(segmentId) ?? 0;
+    segmentOrdinalBySegment.set(segmentId, segmentOrdinal + 1);
+    return makeSocialNode(nodeRecord, index, communityLabelMap, segmentOrdinal);
+  });
   const edges = graphEdgesInput
     .map((edge) => makeSocialEdge(asObject(edge)))
     .filter((edge): edge is SocialEdge => Boolean(edge));
@@ -604,26 +653,8 @@ export function applyDashboardControlsToTrace(
   const selectedNodeIds = new Set(source.nodes.slice(0, safeSettings.agentCount).map((node) => node.id));
   const filteredNodes = source.nodes.filter((node) => selectedNodeIds.has(node.id));
   const filteredEdges = source.edges.filter((edge) => selectedNodeIds.has(edge.source) && selectedNodeIds.has(edge.target));
-  const filteredTicks: PropagationTick[] = source.ticks.slice(0, safeSettings.tickCount).map((tick) => {
-    const filteredNodeStates: Record<string, DashboardNodeState> = {};
-    const filteredMessages: Record<string, string> = {};
-    const filteredOpinions: Record<string, AgentOpinion> = {};
-
-    for (const nodeId of selectedNodeIds) {
-      const state = tick.nodeStates[nodeId];
-      if (state) filteredNodeStates[nodeId] = state;
-      if (tick.messageVariants[nodeId]) filteredMessages[nodeId] = tick.messageVariants[nodeId];
-      if (tick.agentOpinions[nodeId]) filteredOpinions[nodeId] = tick.agentOpinions[nodeId];
-    }
-
-    return {
-      ...tick,
-      activeNodeIds: tick.activeNodeIds.filter((nodeId) => selectedNodeIds.has(nodeId)),
-      nodeStates: filteredNodeStates,
-      messageVariants: filteredMessages,
-      agentOpinions: filteredOpinions
-    };
-  });
+  const projections = projectDemographics(product, parameters);
+  const ticks = buildPropagationTicks(product, parameters, projections, filteredNodes, safeSettings);
 
   return {
     ...source,
@@ -631,7 +662,7 @@ export function applyDashboardControlsToTrace(
     parameters,
     nodes: filteredNodes,
     edges: filteredEdges,
-    ticks: filteredTicks,
+    ticks,
     segments: singaporeSegments,
     ...recomputeRecommendations(product, parameters)
   };

@@ -1,13 +1,13 @@
 import type { ListingParameters, ProductListing } from "./types";
 
 export const defaultProduct: ProductListing = {
-  name: "Shopee 11.11 Compact Air Fryer",
+  name: "Airfryer Demo Listing",
   category: "Home appliance",
   priceSgd: 69,
   discountPercent: 28,
   imageUrl: "",
-  shopeeUrl: "https://shopee.sg/demo-1111-air-fryer",
-  headline: "11.11 compact air fryer with stackable vouchers",
+  shopeeUrl: "https://shopee.sg/demo-airfryer",
+  headline: "Compact airfryer with vouchers and stackable shipping support",
   description:
     "A space-saving air fryer for quick weekday dinners, family snacks, and small kitchens."
 };
