@@ -1,0 +1,14 @@
+{
+  "name": "wlias-pitch-deck",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-wlias-pitch.mjs",
+    "validate": "node scripts/validate-pptx.mjs output/WLIAS-hackathon-pitch.pptx"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}
+
