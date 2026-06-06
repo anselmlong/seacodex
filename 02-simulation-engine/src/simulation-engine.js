@@ -2,7 +2,7 @@ window.SeaSimulationEngine = (() => {
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const round = (value, places = 2) => Number(value.toFixed(places));
 
-  function runSimulation(input, swarm = window.PersonaSwarmData) {
+  function runSimulation(input, swarm = window.PersonaSwarmData, layer6Trace = null) {
     const product = swarm.products[input.productId];
     const change = swarm.changes[input.changeId];
     const segment = swarm.segments[input.segmentId];
@@ -20,33 +20,218 @@ window.SeaSimulationEngine = (() => {
     const confidence = clamp(0.54 + Math.abs(baseAdoption - backlashRisk) * 0.35 + relevantPersonas.length * 0.03);
     const recommendation = baseAdoption > 0.64 && backlashRisk < 0.52 ? "target" : backlashRisk > 0.62 ? "avoid" : "test";
 
-    const nodes = buildNodes(swarm, community, input.segmentId, baseAdoption, backlashRisk);
-    const edges = buildEdges(nodes, swarm, input.platform, spread);
-    const trace = buildTrace({ input, swarm, product, change, segment, nodes, edges, baseAdoption, backlashRisk, spread });
-    const suggestions = buildSuggestions({ input, recommendation, product, change, platformRisk, backlashRisk, baseAdoption });
+    let resultRecommendation = recommendation;
+    let resultAdoptionLift = round((baseAdoption - 0.5) * 100, 1);
+    let resultBacklashRisk = round(backlashRisk);
+    let resultConfidence = round(confidence);
+    let nodes = buildNodes(swarm, community, input.segmentId, baseAdoption, backlashRisk);
+    let edges = buildEdges(nodes, swarm, input.platform, spread);
+    let trace = buildTrace({ input, swarm, product, change, segment, nodes, edges, baseAdoption, backlashRisk, spread });
+    let trend = trace.ticks.map((tick) => ({ tick: tick.tick, ...tick.metrics }));
+    let network = { nodes, edges };
+    let suggestions = buildSuggestions({ input, recommendation, product, change, platformRisk, backlashRisk, baseAdoption });
+    const layer6 = layer6Trace?.steps?.length ? adaptLayer6Trace(layer6Trace, { input, swarm, product, change, segment }) : null;
+
+    if (layer6) {
+      resultRecommendation = layer6.recommendation;
+      resultAdoptionLift = layer6.adoptionLift;
+      resultBacklashRisk = layer6.backlashRisk;
+      resultConfidence = layer6.confidence;
+      trace = layer6.trace;
+      trend = layer6.trend;
+      network = layer6.network;
+      suggestions = layer6.suggestions;
+      nodes = network.nodes;
+    }
 
     trace.analyst_summary = {
       top_segment: segment.label,
-      recommended_action: recommendation,
+      recommended_action: resultRecommendation,
       winning_message_variant: winningMessage(input, product, change, segment),
-      backlash_risk_score: round(backlashRisk),
+      backlash_risk_score: resultBacklashRisk,
       supporting_node_ids: nodes.slice(0, 5).map((node) => node.id),
-      confidence: round(confidence),
-      narrative: buildNarrative({ input, product, change, segment, recommendation, baseAdoption, backlashRisk }),
+      confidence: resultConfidence,
+      narrative: layer6?.summary.narrative || buildNarrative({ input, product, change, segment, recommendation: resultRecommendation, baseAdoption, backlashRisk: resultBacklashRisk }),
     };
 
     return {
       input,
-      recommendation,
-      adoptionLift: round((baseAdoption - 0.5) * 100, 1),
-      backlashRisk: round(backlashRisk),
-      confidence: round(confidence),
+      source: layer6 ? "layer6_ground_truth_trace" : "local_mock_trace",
+      recommendation: resultRecommendation,
+      adoptionLift: resultAdoptionLift,
+      backlashRisk: resultBacklashRisk,
+      confidence: resultConfidence,
       spread: round(spread),
       suggestions,
       trace,
-      trend: trace.ticks.map((tick) => ({ tick: tick.tick, ...tick.metrics })),
-      network: { nodes, edges },
+      trend,
+      network,
+      layer6,
     };
+  }
+
+  function analyzeCreative(input, swarm = window.PersonaSwarmData, creative = {}) {
+    const product = swarm.products[input.productId];
+    const change = swarm.changes[input.changeId];
+    const text = `${creative.name || ""} ${creative.type || ""} ${creative.text || ""}`.toLowerCase();
+    const signals = extractCreativeSignals(text, creative);
+    const segmentRows = Object.entries(swarm.segments).map(([segmentId, segment]) => {
+      const personas = swarm.personas.filter((persona) => persona.traits.segment === segmentId);
+      const sensitivity = average(personas.map((persona) => persona.backlash_sensitivity), 0.55);
+      const sharing = average(personas.map((persona) => persona.sharing_tendency), 0.58);
+      const productFit = product.fit[segmentId] || 0.4;
+      const platformFit = swarm.platformAffinity[input.platform]?.[segmentId] || 0.4;
+      const signalFit = signalFitForSegment(segmentId, signals);
+      const adoptionPotential = clamp(productFit * 0.35 + platformFit * 0.24 + sharing * 0.14 + signalFit * 0.27);
+      const backlashRisk = clamp(
+        product.risk[input.platform] * 0.25 +
+          sensitivity * 0.24 +
+          signals.urgency * 0.18 +
+          signals.riskLanguage * 0.18 -
+          signals.proof * 0.12 -
+          signals.clarity * 0.08
+      );
+      const sentiment = adoptionPotential > 0.66 && backlashRisk < 0.48 ? "positive" : backlashRisk > 0.58 ? "negative" : "mixed";
+      return {
+        segmentId,
+        label: segment.label,
+        count: segment.count,
+        sentiment,
+        adoptionPotential: round(adoptionPotential * 100, 0),
+        backlashRisk: round(backlashRisk * 100, 0),
+        behavior: behaviorForSegment(segmentId, sentiment, signals, product, change),
+        feedback: feedbackForSegment(segmentId, sentiment, signals, product),
+        recommendation: recommendationForSegment(segmentId, sentiment, signals, product),
+      };
+    });
+    const top = [...segmentRows].sort((a, b) => b.adoptionPotential - a.adoptionPotential)[0];
+    const risk = [...segmentRows].sort((a, b) => b.backlashRisk - a.backlashRisk)[0];
+
+    return {
+      summary: {
+        name: creative.name || "Pasted proposal",
+        type: creative.type || "text/plain",
+        topSegment: top.label,
+        riskSegment: risk.label,
+        source: "local MiroFish-compatible swarm mock",
+      },
+      signals: Object.entries(signals)
+        .filter(([, value]) => typeof value === "number")
+        .map(([key, value]) => ({ key, label: labelSignal(key), score: round(value * 100, 0) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 7),
+      demographics: segmentRows.sort((a, b) => b.adoptionPotential - a.adoptionPotential),
+      mirofishPayload: {
+        source: "02-simulation-engine-static-mock",
+        layer_hint: "Layer 3 - MiroFish Interest Tuning (Swarm)",
+        simulation_requirement: [
+          `Evaluate how uploaded creative for ${product.label} may spread across ${input.platform}.`,
+          `Break expected reactions down by demographic segment, adoption potential, backlash risk, and likely feedback.`,
+          `Use ${change.label.toLowerCase()} as the proposed app/product change context.`,
+        ].join(" "),
+        document: {
+          name: creative.name || "pasted-proposal",
+          mime_type: creative.type || "text/plain",
+          text_excerpt: (creative.text || "").slice(0, 1200),
+          has_image: Boolean(creative.imageUrl),
+        },
+        simulation_context: {
+          product: product.label,
+          change: change.label,
+          platform: input.platform,
+          target_segment: swarm.segments[input.segmentId].label,
+        },
+        event_config: {
+          initial_posts: [
+            {
+              platform: input.platform,
+              content: (creative.text || winningMessage(input, product, change, swarm.segments[input.segmentId])).slice(0, 280),
+              target_segment: input.segmentId,
+            },
+          ],
+          hot_topics: product.signals,
+          narrative_direction: `Measure adoption, objections, and peer influence for ${product.label} creative.`,
+        },
+        agent_seed_segments: segmentRows.map((row) => ({
+          segment_id: row.segmentId,
+          label: row.label,
+          count: row.count,
+          expected_sentiment: row.sentiment,
+          adoption_potential: row.adoptionPotential,
+          backlash_risk: row.backlashRisk,
+        })),
+      },
+    };
+  }
+
+  function extractCreativeSignals(text, creative) {
+    const score = (patterns) => clamp(patterns.reduce((sum, pattern) => sum + (text.includes(pattern) ? 0.24 : 0), 0));
+    return {
+      proof: score(["review", "verified", "warranty", "official", "proof", "guarantee", "authentic", "before-after", "spec"]),
+      discount: score(["discount", "voucher", "sale", "save", "deal", "cashback", "free gift", "bundle"]),
+      urgency: score(["limited", "last chance", "only today", "countdown", "hurry", "flash", "ending soon"]),
+      creator: score(["creator", "influencer", "live", "host", "tiktok", "stream", "ugc"]),
+      family: score(["family", "parents", "household", "kids", "bulk", "weekday", "home"]),
+      shipping: score(["shipping", "delivery", "arrives", "same day", "priority", "parcel"]),
+      clarity: clamp(0.25 + Math.min((creative.text || "").length / 900, 0.45) + (creative.imageUrl ? 0.18 : 0)),
+      riskLanguage: score(["miracle", "guaranteed results", "cheapest ever", "no risk", "fake", "cure", "secret"]),
+      image: creative.imageUrl ? 0.85 : 0,
+    };
+  }
+
+  function signalFitForSegment(segmentId, signals) {
+    const weights = {
+      gen_z_deal_seekers: signals.discount * 0.34 + signals.creator * 0.26 + signals.image * 0.14 + signals.clarity * 0.12,
+      working_parents: signals.family * 0.3 + signals.shipping * 0.26 + signals.proof * 0.18 + signals.discount * 0.12,
+      electronics_skeptics: signals.proof * 0.42 + signals.clarity * 0.2 + signals.shipping * 0.12 - signals.urgency * 0.12,
+      livestream_regulars: signals.creator * 0.38 + signals.image * 0.22 + signals.discount * 0.12 + signals.clarity * 0.1,
+      platform_switchers: signals.discount * 0.22 + signals.proof * 0.22 + signals.shipping * 0.16 + signals.clarity * 0.14,
+    };
+    return clamp(0.32 + (weights[segmentId] || 0.2));
+  }
+
+  function behaviorForSegment(segmentId, sentiment, signals, product, change) {
+    const base = {
+      gen_z_deal_seekers: "Shares if the deal mechanic is simple enough to screenshot or repost.",
+      working_parents: "Compares practical usefulness against delivery and household value.",
+      electronics_skeptics: "Pauses on claims and looks for proof before trusting the listing.",
+      livestream_regulars: "Amplifies creator-led hooks when the offer feels native to live commerce.",
+      platform_switchers: "Checks whether the same product is better on a competing marketplace.",
+    };
+    if (sentiment === "negative") return `Pushback likely: ${base[segmentId]} Weak proof or high urgency can turn ${change.label.toLowerCase()} into objection chatter.`;
+    if (signals.proof > 0.55 && product.signals[1]) return `${base[segmentId]} Proof around ${product.signals[1]} reduces hesitation.`;
+    return base[segmentId];
+  }
+
+  function feedbackForSegment(segmentId, sentiment, signals, product) {
+    if (sentiment === "positive") return `Likely to repeat the ad if it keeps ${product.signals[0]} visible.`;
+    if (sentiment === "negative") return "Likely to question the claim publicly or wait for comments/reviews.";
+    if (segmentId === "electronics_skeptics") return "Needs warranty, seller identity, and review proof before conversion.";
+    if (signals.urgency > 0.5) return "Understands the offer, but urgency may create suspicion.";
+    return "Interested, but needs one clearer reason to act now.";
+  }
+
+  function recommendationForSegment(segmentId, sentiment, signals, product) {
+    if (sentiment === "negative") return `Add proof for ${product.signals[1]} and soften hard-sell language.`;
+    if (segmentId === "working_parents") return "Lead with delivery certainty and household usefulness.";
+    if (segmentId === "livestream_regulars") return "Turn the upload into creator/live script variants.";
+    if (signals.discount < 0.3) return "Make final price, voucher, or bundle math more explicit.";
+    return `Keep ${product.signals[0]} prominent and test a narrower first audience.`;
+  }
+
+  function labelSignal(key) {
+    const labels = {
+      proof: "Proof / trust",
+      discount: "Deal clarity",
+      urgency: "Urgency pressure",
+      creator: "Creator fit",
+      family: "Household fit",
+      shipping: "Shipping confidence",
+      clarity: "Message clarity",
+      riskLanguage: "Risky claims",
+      image: "Visual creative",
+    };
+    return labels[key] || key;
   }
 
   function average(values, fallback) {
@@ -185,6 +370,178 @@ window.SeaSimulationEngine = (() => {
     return `${change.label} ${action} ${segment.label} for ${product.label} on ${input.platform}. Simulated adoption is ${round(baseAdoption)} with backlash risk ${round(backlashRisk)}. The model favors proof around ${product.signals.join(", ")}.`;
   }
 
+  function adaptLayer6Trace(rawTrace, context) {
+    const { input, swarm, product, change, segment } = context;
+    const graph = rawTrace.graph || {};
+    const graphNodes = graph.nodes || [];
+    const graphEdges = graph.edges || [];
+    const nodeCount = graph.node_count || graphNodes.length || 1;
+    const steps = rawTrace.steps || [];
+    const finalStep = steps[steps.length - 1] || {};
+    const finalCounts = normalizeLayer6Counts(finalStep.state_counts || rawTrace.summary || {});
+    const eventCount = steps.reduce((sum, step) => sum + (step.events?.length || 0), 0);
+    const adoptedRate = finalCounts.adopted / nodeCount;
+    const resistantRate = finalCounts.resistant / nodeCount;
+    const initialRate = (rawTrace.params?.initial_exposed_count || 0) / nodeCount;
+    const recommendation = adoptedRate > 0.52 && resistantRate < 0.12 ? "target" : resistantRate > 0.22 ? "avoid" : "test";
+    const confidence = clamp(0.62 + Math.min(eventCount / Math.max(nodeCount * 3, 1), 0.22) + Math.abs(adoptedRate - resistantRate) * 0.18);
+    const communityLabels = Object.fromEntries(swarm.communities.map((community) => [community.id, community.label]));
+    const communities = (graph.communities || []).map((community) => ({
+      id: community,
+      label: communityLabels[community] || titleCase(community),
+    }));
+    const network = buildLayer6Network(rawTrace, swarm, finalStep.node_states || rawTrace.final_states || {});
+    const trace = {
+      campaign: {
+        id: rawTrace.trace_id || "layer6-trace",
+        name: rawTrace.campaign?.name || `${product.label}: ${change.label}`,
+        initial_message: rawTrace.campaign?.description || winningMessage(input, product, change, segment),
+        product_signals: product.signals,
+      },
+      communities,
+      nodes: network.nodes,
+      edges: network.edges,
+      ticks: steps.map((step) => adaptLayer6Step(step, nodeCount)),
+      analyst_summary: null,
+      layer6_summary: {
+        trace_id: rawTrace.trace_id,
+        generated_at_utc: rawTrace.generated_at_utc,
+        node_count: nodeCount,
+        edge_count: graph.edge_count || graphEdges.length,
+        event_count: eventCount,
+        final_counts: finalCounts,
+        schema: rawTrace.trace_schema || rawTrace.summary?.contract || null,
+      },
+    };
+    const narrative = `Layer 6 ground truth shows ${finalCounts.adopted.toLocaleString()} adopted, ${finalCounts.exposed.toLocaleString()} still exposed, ${finalCounts.resistant.toLocaleString()} resistant, and ${finalCounts.unexposed.toLocaleString()} unexposed across ${nodeCount.toLocaleString()} personas after ${steps.length} ticks.`;
+
+    return {
+      rawTrace,
+      trace,
+      trend: trace.ticks.map((tick) => ({ tick: tick.tick, ...tick.metrics })),
+      network,
+      recommendation,
+      adoptionLift: round((adoptedRate - initialRate) * 100, 1),
+      backlashRisk: round(resistantRate),
+      confidence: round(confidence),
+      suggestions: [
+        `Treat Layer 6 as ground truth: ${nodeCount.toLocaleString()} personas, ${(graph.edge_count || graphEdges.length).toLocaleString()} edges, ${eventCount.toLocaleString()} events.`,
+        `Use summaries for scanning, but audit tick-level state_counts and events before approving targeting changes.`,
+        adoptedRate > 0.52 ? `Adoption clears ${(adoptedRate * 100).toFixed(1)}%; inspect resistant clusters before scaling.` : `Adoption is ${(adoptedRate * 100).toFixed(1)}%; keep this as a controlled test.`,
+        `Compare ${change.label.toLowerCase()} against product-specific creative feedback before generating the next Layer 6 run.`,
+      ],
+      summary: { narrative },
+    };
+  }
+
+  function adaptLayer6Step(step, nodeCount) {
+    const counts = normalizeLayer6Counts(step.state_counts || {});
+    return {
+      tick: step.tick,
+      events: (step.events || []).map(adaptLayer6Event),
+      metrics: {
+        adopted: counts.adopted,
+        resistant: counts.resistant,
+        exposed: counts.exposed,
+        backlash_risk: round(counts.resistant / Math.max(nodeCount, 1)),
+      },
+      state_counts: counts,
+      ground_truth: true,
+    };
+  }
+
+  function adaptLayer6Event(eventRow) {
+    const actions = {
+      exposure: "expose",
+      adoption: "adopt",
+      resistance: "resist",
+      reshare: "reshare",
+      mutation: "mutate",
+    };
+    return {
+      node_id: eventRow.target || eventRow.source || eventRow.mutation_id || "trace",
+      action: actions[eventRow.event_type] || eventRow.event_type || "event",
+      message_variant: formatLayer6Event(eventRow),
+      reasoning: eventRow.notes || eventRow.outcome || eventRow.mutation_rule || `${eventRow.event_type} event from Layer 6 trace.`,
+      source_node_id: eventRow.source || null,
+      raw_event: eventRow,
+    };
+  }
+
+  function formatLayer6Event(eventRow) {
+    if (eventRow.event_type === "mutation") {
+      return eventRow.mutation_applied
+        ? `mutation ${eventRow.mutation_id}: ${Object.keys(eventRow.changes || {}).join(", ")}`
+        : `no mutation applied at tick ${eventRow.tick}`;
+    }
+    const target = eventRow.target || "none";
+    const transition = eventRow.from_state && eventRow.to_state ? `${eventRow.from_state} -> ${eventRow.to_state}` : eventRow.event_type;
+    const source = eventRow.source ? ` via ${eventRow.source}` : "";
+    return `${target}: ${transition}${source}`;
+  }
+
+  function buildLayer6Network(rawTrace, swarm, finalStates) {
+    const graph = rawTrace.graph || {};
+    const communities = graph.communities || [];
+    const nodeIndexByCommunity = Object.fromEntries(communities.map((community, index) => [community, index + 1]));
+    const labels = Object.fromEntries(swarm.communities.map((community) => [community.id, community.label]));
+    const nodes = communities.map((community, index) => {
+      const members = (graph.nodes || []).filter((node) => node.community === community);
+      const stateCounts = members.reduce(
+        (counts, node) => {
+          const state = finalStates[node.persona_id] || "unexposed";
+          counts[state] = (counts[state] || 0) + 1;
+          return counts;
+        },
+        { unexposed: 0, exposed: 0, adopted: 0, resistant: 0 }
+      );
+      return {
+        id: index + 1,
+        community,
+        state: dominantState(stateCounts),
+        label: labels[community] || titleCase(community),
+        count: members.length,
+        state_counts: stateCounts,
+      };
+    });
+    const edgeGroups = new Map();
+    for (const edge of graph.edges || []) {
+      const sourceId = nodeIndexByCommunity[edge.source_community];
+      const targetId = nodeIndexByCommunity[edge.target_community];
+      if (!sourceId || !targetId) continue;
+      const key = `${sourceId}:${targetId}`;
+      const current = edgeGroups.get(key) || { source: sourceId, target: targetId, weightSum: 0, count: 0 };
+      current.weightSum += Number(edge.weight || 0);
+      current.count += 1;
+      edgeGroups.set(key, current);
+    }
+    const maxCount = Math.max(...Array.from(edgeGroups.values()).map((edge) => edge.count), 1);
+    const edges = Array.from(edgeGroups.values()).map((edge) => ({
+      source: edge.source,
+      target: edge.target,
+      weight: round(clamp(edge.count / maxCount * 0.75 + (edge.weightSum / Math.max(edge.count, 1)) * 0.25, 0.1, 1), 2),
+      edge_count: edge.count,
+    }));
+    return { nodes, edges };
+  }
+
+  function normalizeLayer6Counts(counts) {
+    return {
+      unexposed: Number(counts.unexposed || counts.unexposed_count || 0),
+      exposed: Number(counts.exposed || counts.exposed_count || 0),
+      adopted: Number(counts.adopted || counts.adopted_count || 0),
+      resistant: Number(counts.resistant || counts.resistant_count || 0),
+    };
+  }
+
+  function dominantState(counts) {
+    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "unexposed";
+  }
+
+  function titleCase(value) {
+    return String(value).replaceAll("_", " ").replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
   function inferInputFromQuestion(question, defaults) {
     const text = question.toLowerCase();
     const productId = text.includes("computer") || text.includes("electronics") || text.includes("laptop") || text.includes("notebook") || text.includes("pc") || text.includes("monitor")
@@ -220,5 +577,5 @@ window.SeaSimulationEngine = (() => {
     return { productId, changeId, segmentId, platform };
   }
 
-  return { runSimulation, inferInputFromQuestion };
+  return { runSimulation, inferInputFromQuestion, analyzeCreative };
 })();

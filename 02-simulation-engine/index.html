@@ -84,14 +84,14 @@
           <button class="primary-action" id="runButton" type="button">Run Simulation</button>
         </section>
 
-        <section class="simulation-job" id="simulationJob" aria-label="Mock simulation status">
+        <section class="simulation-job" id="simulationJob" aria-label="Simulation status">
           <div>
-            <p class="eyebrow">Mock engine status</p>
+            <p class="eyebrow">Engine status</p>
             <strong id="jobTitle">Ready to simulate</strong>
-            <span id="jobCopy">Pick an experiment and run the mocked swarm analysis.</span>
+            <span id="jobCopy">Pick an experiment and run the trace-backed swarm analysis.</span>
           </div>
           <ol id="jobSteps">
-            <li>Load mock swarm</li>
+            <li>Load trace swarm</li>
             <li>Apply product/app change</li>
             <li>Project adoption and backlash</li>
             <li>Generate analyst answer</li>
@@ -115,6 +115,46 @@
             <article>
               <span>Confidence</span>
               <strong id="metricConfidence">0.00</strong>
+            </article>
+          </section>
+
+          <section class="creative-grid">
+            <article class="panel creative-upload-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Ad / proposal upload</p>
+                  <h3>Test creative against the swarm</h3>
+                </div>
+                <span>MiroFish-ready</span>
+              </div>
+              <label class="file-drop">
+                <span>Upload image, text ad, proposal, or campaign brief</span>
+                <input id="creativeFileInput" type="file" accept="image/*,.txt,.md,.json,.csv,.pdf,.doc,.docx" />
+              </label>
+              <textarea
+                id="creativeTextInput"
+                placeholder="Paste ad copy, proposal notes, offer mechanics, creator script, product proof, or claims you want the simulated users to react to."
+              ></textarea>
+              <div class="creative-actions">
+                <button class="primary-action" id="analyzeCreativeButton" type="button">Analyze Creative</button>
+                <button class="ghost-action" id="clearCreativeButton" type="button">Clear</button>
+              </div>
+              <div class="creative-preview" id="creativePreview">
+                <strong>No creative uploaded yet</strong>
+                <span>Upload a file or paste copy to generate demographic feedback.</span>
+              </div>
+            </article>
+
+            <article class="panel feedback-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Simulated user feedback</p>
+                  <h3>Behaviour by demographic</h3>
+                </div>
+                <span id="creativeFeedbackSource">Local swarm</span>
+              </div>
+              <div class="creative-signal-list" id="creativeSignals"></div>
+              <div class="demographic-feedback" id="demographicFeedback"></div>
             </article>
           </section>
 
@@ -174,8 +214,9 @@
                 <p class="eyebrow">10-tick propagation trace</p>
                 <h3>User state transitions and message mutations</h3>
               </div>
-              <span>schema-aligned replay</span>
+              <span id="traceSourceBadge">schema-aligned replay</span>
             </div>
+            <div class="trace-summary-grid" id="traceSummary"></div>
             <div class="trace-list" id="traceList"></div>
           </section>
         </section>

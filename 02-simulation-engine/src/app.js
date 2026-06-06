@@ -7,6 +7,10 @@ const state = {
   segmentId: "gen_z_deal_seekers",
   platform: "TikTok",
   result: null,
+  creative: { name: "", type: "", size: 0, text: "", imageUrl: "" },
+  creativeAnalysis: null,
+  layer6Trace: null,
+  layer6Status: "loading",
   hasRun: false,
 };
 
@@ -21,6 +25,10 @@ const controls = {
   chatForm: $("#chatForm"),
   chatInput: $("#chatInput"),
   promptButtons: $$(".prompt-chips button"),
+  creativeFile: $("#creativeFileInput"),
+  creativeText: $("#creativeTextInput"),
+  creativeAnalyze: $("#analyzeCreativeButton"),
+  creativeClear: $("#clearCreativeButton"),
 };
 
 function syncControls() {
@@ -35,7 +43,8 @@ function runAndRender(source = "control") {
   state.changeId = controls.change.value;
   state.segmentId = controls.segment.value;
   state.platform = controls.platform.value;
-  state.result = window.SeaSimulationEngine.runSimulation(state);
+  state.result = window.SeaSimulationEngine.runSimulation(state, window.PersonaSwarmData, state.layer6Trace);
+  state.creativeAnalysis = window.SeaSimulationEngine.analyzeCreative(state, window.PersonaSwarmData, state.creative);
   state.hasRun = true;
   renderAll(source);
 }
@@ -45,7 +54,7 @@ function setPendingExperiment() {
   state.changeId = controls.change.value;
   state.segmentId = controls.segment.value;
   state.platform = controls.platform.value;
-  $("#summaryMode").textContent = "Mock experiment ready";
+  $("#summaryMode").textContent = state.layer6Trace ? "Layer 6 trace ready" : "Mock experiment ready";
   $("#jobTitle").textContent = "Ready to simulate";
   $("#jobCopy").textContent = `Queued: ${label("changes", state.changeId)} for ${label("products", state.productId)} on ${state.platform}.`;
   $$("#jobSteps li").forEach((step) => step.className = "");
@@ -54,8 +63,10 @@ function setPendingExperiment() {
 async function runMockSimulation(source = "control") {
   controls.run.disabled = true;
   controls.run.textContent = "Simulating";
-  $("#jobTitle").textContent = "Running mocked swarm";
-  $("#jobCopy").textContent = "This demo uses deterministic local mock data while the larger data pipeline matures.";
+  $("#jobTitle").textContent = state.layer6Trace ? "Reading Layer 6 trace" : "Running mocked swarm";
+  $("#jobCopy").textContent = state.layer6Trace
+    ? "Using the full market_analysis_layer6 simulation_trace.json as ground truth, with summaries generated for the dashboard."
+    : "This demo uses deterministic local mock data while the larger data pipeline matures.";
   const steps = $$("#jobSteps li");
   steps.forEach((step) => step.className = "");
 
@@ -66,8 +77,10 @@ async function runMockSimulation(source = "control") {
   }
 
   runAndRender(source);
-  $("#jobTitle").textContent = "Mock simulation complete";
-  $("#jobCopy").textContent = "Dashboards, graph network, trace, and analyst answer updated from the selected experiment.";
+  $("#jobTitle").textContent = state.layer6Trace ? "Layer 6 simulation loaded" : "Mock simulation complete";
+  $("#jobCopy").textContent = state.layer6Trace
+    ? "Dashboard summaries updated from Layer 6; trace and contract tabs retain the full raw ground-truth log."
+    : "Dashboards, graph network, trace, and analyst answer updated from the selected experiment.";
   controls.run.disabled = false;
   controls.run.textContent = "Run Simulation";
 }
@@ -77,6 +90,7 @@ function renderAll(source) {
   renderAnswer(source);
   renderTrendStats();
   renderTrendChart();
+  renderCreativeFeedback();
   renderNetwork();
   renderTrace();
   renderJson();
@@ -84,13 +98,15 @@ function renderAll(source) {
 
 function renderMetrics() {
   const result = state.result;
-  $("#summaryMode").textContent = state.hasRun ? "Mock run complete" : "Mock mode";
+  $("#summaryMode").textContent = result.source === "layer6_ground_truth_trace" ? "Layer 6 trace loaded" : state.hasRun ? "Mock run complete" : "Mock mode";
   $("#metricRecommendation").textContent = result.recommendation;
   $("#metricAdoption").textContent = `${result.adoptionLift > 0 ? "+" : ""}${result.adoptionLift}%`;
   $("#metricBacklash").textContent = result.backlashRisk.toFixed(2);
   $("#metricConfidence").textContent = result.confidence.toFixed(2);
-  $("#trendLabel").textContent = `${label("products", state.productId)} / ${label("changes", state.changeId)}`;
-  $("#networkScale").textContent = `${window.PersonaSwarmData.products[state.productId].sampleSize.toLocaleString()} modeled users`;
+  $("#trendLabel").textContent = result.layer6 ? `Layer 6 / ${result.trace.campaign.name}` : `${label("products", state.productId)} / ${label("changes", state.changeId)}`;
+  $("#networkScale").textContent = result.layer6
+    ? `${result.layer6.trace.layer6_summary.node_count.toLocaleString()} personas / ${result.layer6.trace.layer6_summary.edge_count.toLocaleString()} edges`
+    : `${window.PersonaSwarmData.products[state.productId].sampleSize.toLocaleString()} modeled users`;
 }
 
 function renderAnswer(source) {
@@ -116,10 +132,148 @@ function renderAnswer(source) {
   }
 }
 
+function renderCreativeFeedback() {
+  const creative = state.creative;
+  const analysis = state.creativeAnalysis || window.SeaSimulationEngine.analyzeCreative(state, window.PersonaSwarmData, creative);
+  const hasCreative = Boolean(creative.name || creative.text || creative.imageUrl);
+
+  $("#creativePreview").innerHTML = hasCreative
+    ? `
+      ${creative.imageUrl ? `<img src="${creative.imageUrl}" alt="Uploaded creative preview">` : ""}
+      <strong>${escapeHtml(creative.name || "Pasted proposal")}</strong>
+      <span>${escapeHtml(creative.type || "Text brief")} ${creative.size ? `/${Math.round(creative.size / 1024)} KB` : ""}</span>
+      <span>${escapeHtml((creative.text || "Visual creative uploaded. Add notes above for sharper text feedback.").slice(0, 180))}</span>
+    `
+    : `
+      <strong>No creative uploaded yet</strong>
+      <span>Upload a file or paste copy to generate demographic feedback.</span>
+    `;
+
+  $("#creativeFeedbackSource").textContent = analysis.summary.source;
+  $("#creativeSignals").innerHTML = analysis.signals
+    .map((signal) => `<span>${escapeHtml(signal.label)} ${signal.score}</span>`)
+    .join("");
+  $("#demographicFeedback").innerHTML = analysis.demographics
+    .map(
+      (row) => `
+        <article class="feedback-card">
+          <header>
+            <div>
+              <h4>${escapeHtml(row.label)}</h4>
+              <p>${row.count.toLocaleString()} modeled users</p>
+            </div>
+            <span class="sentiment-pill ${row.sentiment}">${row.sentiment}</span>
+          </header>
+          <dl>
+            <div>
+              <dt>Adoption</dt>
+              <dd>${row.adoptionPotential}%</dd>
+            </div>
+            <div>
+              <dt>Backlash</dt>
+              <dd>${row.backlashRisk}%</dd>
+            </div>
+          </dl>
+          <p>${escapeHtml(row.behavior)}</p>
+          <p><strong>Feedback:</strong> ${escapeHtml(row.feedback)}</p>
+          <p><strong>Move:</strong> ${escapeHtml(row.recommendation)}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
+async function handleCreativeFile(file) {
+  if (!file) return;
+  const creative = {
+    name: file.name,
+    type: file.type || "application/octet-stream",
+    size: file.size,
+    text: controls.creativeText.value.trim(),
+    imageUrl: "",
+  };
+
+  if (file.type.startsWith("image/")) {
+    creative.imageUrl = await readFile(file, "dataUrl");
+  } else if (isTextLikeFile(file)) {
+    creative.text = await readFile(file, "text");
+    controls.creativeText.value = creative.text;
+  } else {
+    creative.text = controls.creativeText.value.trim() || `${file.name} uploaded. Paste proposal notes or ad copy for deeper text feedback.`;
+  }
+
+  state.creative = creative;
+  inferCreativeSetup();
+  runAndRender("creative");
+}
+
+function analyzeCreativeFromControls() {
+  state.creative = {
+    ...state.creative,
+    name: state.creative.name || "Pasted proposal",
+    type: state.creative.type || "text/plain",
+    text: controls.creativeText.value.trim(),
+  };
+  inferCreativeSetup();
+  runMockSimulation("creative");
+}
+
+function clearCreative() {
+  controls.creativeFile.value = "";
+  controls.creativeText.value = "";
+  state.creative = { name: "", type: "", size: 0, text: "", imageUrl: "" };
+  state.creativeAnalysis = window.SeaSimulationEngine.analyzeCreative(state, window.PersonaSwarmData, state.creative);
+  renderCreativeFeedback();
+}
+
+function inferCreativeSetup() {
+  const text = `${state.creative.name} ${state.creative.text}`;
+  const inferred = window.SeaSimulationEngine.inferInputFromQuestion(text, state);
+  Object.assign(state, inferred);
+  syncControls();
+}
+
+function readFile(file, mode) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result || "");
+    reader.onerror = () => reject(reader.error);
+    if (mode === "dataUrl") {
+      reader.readAsDataURL(file);
+    } else {
+      reader.readAsText(file);
+    }
+  });
+}
+
+function isTextLikeFile(file) {
+  return file.type.startsWith("text/") || /\.(txt|md|json|csv)$/i.test(file.name);
+}
+
 function buildAnalystMemo(result, mode) {
   const product = window.PersonaSwarmData.products[state.productId];
   const segment = window.PersonaSwarmData.segments[state.segmentId];
   const change = window.PersonaSwarmData.changes[state.changeId];
+  if (result.layer6) {
+    const summary = result.layer6.trace.layer6_summary;
+    const counts = summary.final_counts;
+    const verdict = result.recommendation === "target" ? "Yes, Layer 6 supports targeting with guardrails." : result.recommendation === "avoid" ? "No, Layer 6 shows too much resistance." : "Promising, but keep it in a controlled test.";
+    const evidence = `${summary.node_count.toLocaleString()} personas, ${summary.edge_count.toLocaleString()} edges, ${summary.event_count.toLocaleString()} trace events`;
+    const read = `${counts.adopted.toLocaleString()} adopted / ${counts.exposed.toLocaleString()} exposed / ${counts.resistant.toLocaleString()} resistant / ${counts.unexposed.toLocaleString()} unexposed`;
+
+    if (mode === "panel") {
+      return `${verdict} I’m using the full Layer 6 ground-truth trace for the dashboard summary: ${evidence}. Final state counts: ${read}.`;
+    }
+
+    return [
+      `Verdict: ${verdict}`,
+      `Inferred setup: ${change.label} / ${product.label} / ${segment.label} / ${state.platform}`,
+      `Pulled: Layer 6 simulation_trace.json ground truth`,
+      `Trace scale: ${evidence}`,
+      `Final states: ${read}`,
+      `Better move: ${result.suggestions[1] || result.suggestions[0]}`,
+    ].join("\n");
+  }
   const verdict =
     result.recommendation === "target"
       ? "Yes, but target it with guardrails."
@@ -186,8 +340,8 @@ function renderTrendChart() {
   const riskPath = trend
     .map((point, index) => `${index === 0 ? "M" : "L"} ${xFor(index).toFixed(1)} ${yForRisk(point.backlash_risk).toFixed(1)}`)
     .join(" ");
-  const yTicks = Array.from({ length: maxCount + 1 }, (_, tick) => tick);
-  const xTicks = [0, 3, 6, 9];
+  const yTicks = buildYAxisTicks(maxCount);
+  const xTicks = Array.from(new Set([0, Math.floor((trend.length - 1) / 3), Math.floor(((trend.length - 1) * 2) / 3), trend.length - 1]));
   const dot = (key, className) =>
     trend
       .map((point, index) => `<circle class="dot ${className}" cx="${xFor(index)}" cy="${yForCount(point[key])}" r="3.5"></circle>`)
@@ -229,6 +383,19 @@ function renderTrendChart() {
   `;
 }
 
+function buildYAxisTicks(maxCount) {
+  if (maxCount <= 12) return Array.from({ length: maxCount + 1 }, (_, tick) => tick);
+  const roughStep = Math.ceil(maxCount / 5);
+  const magnitude = 10 ** Math.max(0, String(roughStep).length - 1);
+  const step = Math.ceil(roughStep / magnitude) * magnitude;
+  const ticks = [];
+  for (let value = 0; value <= maxCount; value += step) {
+    ticks.push(value);
+  }
+  if (ticks[ticks.length - 1] !== maxCount) ticks.push(maxCount);
+  return ticks;
+}
+
 function renderNetwork() {
   const { nodes, edges } = state.result.network;
   const communities = window.PersonaSwarmData.communities;
@@ -257,7 +424,7 @@ function renderNetwork() {
       .map((node) => {
         const community = communityById[node.id];
         const segment = Object.values(window.PersonaSwarmData.segments).find((item) => item.community === node.community);
-        const count = segment ? segment.count : Math.round(window.PersonaSwarmData.products[state.productId].sampleSize / 7);
+        const count = node.count || (segment ? segment.count : Math.round(window.PersonaSwarmData.products[state.productId].sampleSize / 7));
         return `
           <g class="net-node ${node.state} ${node.community === targetCommunity ? "target" : ""}" transform="translate(${community.x} ${community.y})">
             <circle r="${26 + Math.min(18, count / 180)}"></circle>
@@ -271,18 +438,33 @@ function renderNetwork() {
 }
 
 function renderTrace() {
+  const layer6Summary = state.result.layer6?.trace.layer6_summary;
+  $("#traceSourceBadge").textContent = state.result.layer6 ? "Layer 6 ground truth" : "schema-aligned replay";
+  $("#traceSummary").innerHTML = layer6Summary
+    ? [
+        ["Trace ID", layer6Summary.trace_id || "layer6"],
+        ["Personas", layer6Summary.node_count.toLocaleString()],
+        ["Edges", layer6Summary.edge_count.toLocaleString()],
+        ["Events", layer6Summary.event_count.toLocaleString()],
+        ["Adopted", layer6Summary.final_counts.adopted.toLocaleString()],
+        ["Resistant", layer6Summary.final_counts.resistant.toLocaleString()],
+      ]
+        .map(([labelText, value]) => `<article><span>${escapeHtml(labelText)}</span><strong>${escapeHtml(value)}</strong></article>`)
+        .join("")
+    : "";
   $("#traceList").innerHTML = state.result.trace.ticks
     .map(
       (tick) => `
         <article>
           <div>
             <strong>Tick ${tick.tick}</strong>
-            <span>${tick.metrics.adopted} adopted / ${tick.metrics.resistant} resistant / risk ${tick.metrics.backlash_risk.toFixed(2)}</span>
+            <span>${tick.metrics.adopted} adopted / ${tick.metrics.exposed} exposed / ${tick.metrics.resistant} resistant / risk ${tick.metrics.backlash_risk.toFixed(2)}</span>
+            ${tick.ground_truth ? `<span>${tick.events.length.toLocaleString()} ground-truth events</span>` : ""}
           </div>
           <ul>
             ${
               tick.events.length
-                ? tick.events.map((event) => `<li><b>${event.action}</b> node ${event.node_id}: ${event.message_variant}</li>`).join("")
+                ? tick.events.map((event) => `<li><b>${escapeHtml(event.action)}</b> node ${escapeHtml(event.node_id)}: ${escapeHtml(event.message_variant)}</li>`).join("")
                 : "<li>No major visible event; latent exposure continues.</li>"
             }
           </ul>
@@ -293,7 +475,17 @@ function renderTrace() {
 }
 
 function renderJson() {
-  $("#jsonPreview").textContent = JSON.stringify(state.result.trace, null, 2);
+  const payload = state.result.layer6
+    ? {
+        dashboard_summary_trace: state.result.trace,
+        layer6_ground_truth: state.result.layer6.rawTrace,
+        creative_handoff: state.creativeAnalysis?.mirofishPayload || null,
+      }
+    : {
+        ...state.result.trace,
+        creative_handoff: state.creativeAnalysis?.mirofishPayload || null,
+      };
+  $("#jsonPreview").textContent = JSON.stringify(payload, null, 2);
 }
 
 function addChatMessage(role, text) {
@@ -318,6 +510,25 @@ function shortLabel(value) {
   return value.replace(" and ", " + ").replace(" chats", "").replace(" sharers", "").replace(" validators", "");
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function loadLayer6Trace() {
+  try {
+    const response = await fetch("./market_analysis_layer6_simulation/simulation_trace.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`Layer 6 trace request failed: ${response.status}`);
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
 controls.run.addEventListener("click", () => runMockSimulation("control"));
 
 controls.theme.addEventListener("click", () => {
@@ -340,6 +551,18 @@ controls.promptButtons.forEach((button) => {
     submitAgentQuestion(button.dataset.prompt);
   });
 });
+
+controls.creativeFile.addEventListener("change", (event) => {
+  handleCreativeFile(event.target.files?.[0]).catch(() => {
+    $("#creativePreview").innerHTML = `
+      <strong>Could not read file</strong>
+      <span>Try pasting the proposal text or uploading an image/text file.</span>
+    `;
+  });
+});
+
+controls.creativeAnalyze.addEventListener("click", analyzeCreativeFromControls);
+controls.creativeClear.addEventListener("click", clearCreative);
 
 function submitAgentQuestion(questionText) {
   const question = questionText.trim();
@@ -371,12 +594,18 @@ $$(".nav-item[data-view]").forEach((button) => {
   });
 });
 
-syncControls();
-applyTheme(localStorage.getItem("seacodex-theme") || "light");
-addChatMessage("assistant", "Mock analyst is ready. Give it a messy product/app-change brief, not a perfect form query. I will infer the setup, run the swarm, and tell you what to target, avoid, or test.");
-runAndRender("initial");
-state.hasRun = false;
-setPendingExperiment();
+async function boot() {
+  syncControls();
+  applyTheme(localStorage.getItem("seacodex-theme") || "light");
+  addChatMessage("assistant", "Analyst is ready. I will use the full Layer 6 trace log when available, summarize it for the dashboard, and keep the ground-truth JSON visible in the contract view.");
+  state.layer6Trace = await loadLayer6Trace();
+  state.layer6Status = state.layer6Trace ? "loaded" : "missing";
+  runAndRender("initial");
+  state.hasRun = false;
+  setPendingExperiment();
+}
+
+boot();
 
 function applyTheme(theme) {
   document.body.dataset.theme = theme;
