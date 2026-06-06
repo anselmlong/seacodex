@@ -153,7 +153,7 @@ export function buildPropagationTicks(
     singaporeNodes.forEach((node, index) => {
       const projection = bySegment.get(node.segmentId);
       const segment = singaporeSegments.find((entry) => entry.id === node.segmentId);
-      const activationTick = Math.floor(index * 0.72);
+      const activationTick = Math.floor((index / Math.max(1, singaporeNodes.length - 1)) * 9);
       const isActive = tick >= activationTick;
       const isHot = projection ? projection.projectedSalesIndex > 70 : false;
       const isResistant = projection ? projection.chatterSentiment === "negative" : false;

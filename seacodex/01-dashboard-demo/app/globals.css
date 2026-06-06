@@ -452,6 +452,10 @@ summary:focus-visible {
   min-width: 0;
 }
 
+.graph-header > div:first-child {
+  margin-right: auto;
+}
+
 .graph-header h2 {
   margin: 4px 0 0;
   font-size: 24px;
@@ -619,6 +623,9 @@ summary:focus-visible {
   flex-wrap: wrap;
   gap: 7px;
   margin-top: 12px;
+  max-height: 132px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .agent-selector button {

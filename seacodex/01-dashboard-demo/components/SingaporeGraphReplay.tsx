@@ -19,19 +19,25 @@ const stateColor = {
   advocate: "#24885a"
 };
 
-const layoutPositions: Record<string, { x: number; y: number }> = {
-  n1: { x: 160, y: 90 },
-  n2: { x: 270, y: 70 },
-  n10: { x: 410, y: 115 },
-  n11: { x: 520, y: 185 },
-  n3: { x: 395, y: 275 },
-  n4: { x: 295, y: 315 },
-  n5: { x: 175, y: 300 },
-  n6: { x: 90, y: 225 },
-  n7: { x: 145, y: 390 },
-  n8: { x: 280, y: 430 },
-  n9: { x: 455, y: 385 },
-  n12: { x: 570, y: 315 }
+const segmentAngles: Record<string, number> = {
+  "gen-z-students": -2.35,
+  "young-professionals": -1.2,
+  "parents-family": -0.1,
+  "heartland-value": 0.95,
+  "live-resellers": 2.05,
+  "category-enthusiasts": 3.05
+};
+
+const positionForNode = (node: SocialNode, index: number, nodes: SocialNode[]) => {
+  const sameSegmentIndex = nodes.slice(0, index).filter((entry) => entry.segmentId === node.segmentId).length;
+  const angle = segmentAngles[node.segmentId] + sameSegmentIndex * 0.16;
+  const ring = 112 + (sameSegmentIndex % 5) * 33 + Math.floor(sameSegmentIndex / 5) * 18;
+  const center = { x: 360, y: 260 };
+
+  return {
+    x: center.x + Math.cos(angle) * ring,
+    y: center.y + Math.sin(angle) * ring
+  };
 };
 
 export function SingaporeGraphReplay({ nodes, edges, ticks, currentTick }: SingaporeGraphReplayProps) {
@@ -47,7 +53,7 @@ export function SingaporeGraphReplay({ nodes, edges, ticks, currentTick }: Singa
     .join(", ");
 
   const elements = useMemo<ElementDefinition[]>(() => {
-    const nodeElements: ElementDefinition[] = nodes.map((node) => ({
+    const nodeElements: ElementDefinition[] = nodes.map((node, index) => ({
       data: {
         id: node.id,
         initials: node.avatarInitials,
@@ -56,7 +62,7 @@ export function SingaporeGraphReplay({ nodes, edges, ticks, currentTick }: Singa
         state: "unexposed",
         message: ""
       },
-      position: layoutPositions[node.id]
+      position: positionForNode(node, index, nodes)
     }));
     const edgeElements: ElementDefinition[] = edges.map((edge) => ({
       data: {
@@ -88,14 +94,14 @@ export function SingaporeGraphReplay({ nodes, edges, ticks, currentTick }: Singa
             color: "#312c25",
             content: "data(initials)",
             "font-family": "var(--font-body)",
-            "font-size": 12,
+            "font-size": 10,
             "font-weight": 900,
-            "height": "mapData(influence, 0, 1, 34, 66)",
+            "height": "mapData(influence, 0, 1, 28, 48)",
             "label": "data(initials)",
             "overlay-opacity": 0,
             "text-valign": "center",
             "text-halign": "center",
-            "width": "mapData(influence, 0, 1, 34, 66)"
+            "width": "mapData(influence, 0, 1, 28, 48)"
           }
         },
         {
@@ -166,6 +172,10 @@ export function SingaporeGraphReplay({ nodes, edges, ticks, currentTick }: Singa
         <div className="graph-stat">
           <span>Tick</span>
           <strong>{currentTick}</strong>
+        </div>
+        <div className="graph-stat">
+          <span>Agents</span>
+          <strong>{nodes.length}</strong>
         </div>
       </div>
       <p className="sr-only" aria-live="polite">
