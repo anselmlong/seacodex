@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seacodex.local/contracts/simulation-trace.schema.json",
+  "title": "Simulation Trace",
+  "type": "object",
+  "required": ["campaign", "communities", "nodes", "edges", "ticks", "analyst_summary"],
+  "properties": {
+    "campaign": {
+      "type": "object",
+      "required": ["id", "name", "initial_message"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "initial_message": { "type": "string" },
+        "product_signals": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "communities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "community", "state"],
+        "properties": {
+          "id": { "type": ["string", "integer"] },
+          "community": { "type": "string" },
+          "state": {
+            "type": "string",
+            "enum": ["unexposed", "exposed", "adopted", "resistant"]
+          },
+          "label": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target"],
+        "properties": {
+          "source": { "type": ["string", "integer"] },
+          "target": { "type": ["string", "integer"] },
+          "weight": { "type": "number" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ticks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["tick", "events", "metrics"],
+        "properties": {
+          "tick": { "type": "integer", "minimum": 0 },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["node_id", "action", "message_variant"],
+              "properties": {
+                "node_id": { "type": ["string", "integer"] },
+                "action": {
+                  "type": "string",
+                  "enum": ["expose", "adopt", "resist", "reshare", "mutate"]
+                },
+                "message_variant": { "type": "string" },
+                "reasoning": { "type": "string" },
+                "source_node_id": { "type": ["string", "integer", "null"] }
+              },
+              "additionalProperties": false
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "required": ["adopted", "resistant", "exposed", "backlash_risk"],
+            "properties": {
+              "adopted": { "type": "integer", "minimum": 0 },
+              "resistant": { "type": "integer", "minimum": 0 },
+              "exposed": { "type": "integer", "minimum": 0 },
+              "backlash_risk": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "analyst_summary": {
+      "$ref": "analyst-summary.schema.json"
+    }
+  },
+  "additionalProperties": false
+}
+
