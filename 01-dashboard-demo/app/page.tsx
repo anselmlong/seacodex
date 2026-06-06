@@ -13,16 +13,21 @@ import { SingaporeGraphReplay } from "../components/SingaporeGraphReplay";
 import { TimelineControls } from "../components/TimelineControls";
 import { defaultParameters, defaultProduct } from "../lib/productModel";
 import { createDashboardTrace, projectDemographics } from "../lib/simulationProjection";
-import type { ListingParameters, ProductListing } from "../lib/types";
+import { singaporeNodes } from "../lib/singaporeSegments";
+import type { ListingParameters, ProductListing, SimulationSettings } from "../lib/types";
 
 export default function DashboardDemoPage() {
   const [product, setProduct] = useState<ProductListing>(defaultProduct);
   const [parameters, setParameters] = useState<ListingParameters>(defaultParameters);
+  const [simulationSettings, setSimulationSettings] = useState<SimulationSettings>({
+    tickCount: 10,
+    agentCount: singaporeNodes.length
+  });
   const [currentTick, setCurrentTick] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [speedMs, setSpeedMs] = useState(1000);
 
-  const trace = useMemo(() => createDashboardTrace(product, parameters), [parameters, product]);
+  const trace = useMemo(() => createDashboardTrace(product, parameters, simulationSettings), [parameters, product, simulationSettings]);
   const projections = useMemo(() => projectDemographics(product, parameters), [parameters, product]);
   const tick = trace.ticks[currentTick] ?? trace.ticks[0];
   const strongestProjection = useMemo(
@@ -40,7 +45,7 @@ export default function DashboardDemoPage() {
 
   useEffect(() => {
     setCurrentTick(0);
-  }, [parameters, product]);
+  }, [parameters, product, simulationSettings]);
 
   return (
     <main className="dashboard-shell">
@@ -73,7 +78,13 @@ export default function DashboardDemoPage() {
         <div className="input-column">
           <ProductPreview product={product} />
           <ProductInputPanel product={product} onChange={setProduct} />
-          <ListingParameterControls parameters={parameters} onChange={setParameters} />
+          <ListingParameterControls
+            parameters={parameters}
+            onChange={setParameters}
+            simulationSettings={simulationSettings}
+            maxAgentCount={singaporeNodes.length}
+            onSettingsChange={setSimulationSettings}
+          />
         </div>
 
         <div className="simulation-column">

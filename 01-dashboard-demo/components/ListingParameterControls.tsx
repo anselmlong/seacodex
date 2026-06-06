@@ -1,11 +1,14 @@
 "use client";
 
 import { SlidersHorizontal, Truck } from "lucide-react";
-import type { ListingParameters } from "../lib/types";
+import type { ListingParameters, SimulationSettings } from "../lib/types";
 
 type ListingParameterControlsProps = {
   parameters: ListingParameters;
   onChange: (parameters: ListingParameters) => void;
+  simulationSettings: SimulationSettings;
+  maxAgentCount: number;
+  onSettingsChange: (settings: SimulationSettings) => void;
 };
 
 const controls: Array<{
@@ -20,7 +23,13 @@ const controls: Array<{
   { key: "premiumPositioning", label: "Premium positioning" }
 ];
 
-export function ListingParameterControls({ parameters, onChange }: ListingParameterControlsProps) {
+export function ListingParameterControls({
+  parameters,
+  onChange,
+  simulationSettings,
+  maxAgentCount,
+  onSettingsChange
+}: ListingParameterControlsProps) {
   return (
     <section className="parameter-panel" aria-label="Listing parameters">
       <details open>
@@ -56,6 +65,34 @@ export function ListingParameterControls({ parameters, onChange }: ListingParame
               />
             </label>
           ))}
+          <label className="slider-field">
+            <span>
+              Tick count
+              <strong>{simulationSettings.tickCount}</strong>
+            </span>
+            <input
+              max={24}
+              min={2}
+              step={1}
+              type="range"
+              value={simulationSettings.tickCount}
+              onChange={(event) => onSettingsChange({ ...simulationSettings, tickCount: Number(event.target.value) })}
+            />
+          </label>
+          <label className="slider-field">
+            <span>
+              Agent count
+              <strong>{simulationSettings.agentCount}</strong>
+            </span>
+            <input
+              max={maxAgentCount}
+              min={1}
+              step={1}
+              type="range"
+              value={simulationSettings.agentCount}
+              onChange={(event) => onSettingsChange({ ...simulationSettings, agentCount: Number(event.target.value) })}
+            />
+          </label>
         </div>
       </details>
     </section>

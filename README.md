@@ -41,6 +41,18 @@ Expose the minimal backend and analyst output for the demo. This lane owns `/run
 
 Recommended stack: FastAPI + OpenAI API.
 
+## Current status (what you can run today)
+
+- `01-dashboard-demo/` is the primary demo surface and should run independently with local fixtures.
+- `02-simulation-engine/` has a deterministic prototype (`index.html`) and a full `mirofish/` scaffold; the full end-to-end pipeline is not fully wired yet.
+- `03-persona-data-pipeline/` and `04-analyst-api/` remain as integration targets with fixtures/contracts as boundaries.
+
+Use this order for a working offline demo path:
+
+1. Run/inspect `01-dashboard-demo/` with its local fixtures first.
+2. Align simulation artifacts with `shared/contracts/simulation-trace.schema.json` for trace compatibility.
+3. Keep the shared contracts stable before adding live backend calls.
+
 ## Shared Contracts
 
 All lanes should treat files in `shared/contracts/` as integration boundaries:

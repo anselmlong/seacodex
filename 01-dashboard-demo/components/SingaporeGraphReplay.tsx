@@ -24,13 +24,14 @@ const segmentAngles: Record<string, number> = {
   "young-professionals": -1.2,
   "parents-family": -0.1,
   "heartland-value": 0.95,
+  "adversarial-voices": 4.15,
   "live-resellers": 2.05,
   "category-enthusiasts": 3.05
 };
 
 const positionForNode = (node: SocialNode, index: number, nodes: SocialNode[]) => {
   const sameSegmentIndex = nodes.slice(0, index).filter((entry) => entry.segmentId === node.segmentId).length;
-  const angle = segmentAngles[node.segmentId] + sameSegmentIndex * 0.16;
+  const angle = (segmentAngles[node.segmentId] ?? -1.9) + sameSegmentIndex * 0.16;
   const ring = 112 + (sameSegmentIndex % 5) * 33 + Math.floor(sameSegmentIndex / 5) * 18;
   const center = { x: 360, y: 260 };
 

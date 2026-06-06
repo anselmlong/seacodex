@@ -46,6 +46,17 @@ export const singaporeSegments: SingaporeSegment[] = [
     trigger: "clear final price after vouchers and shipping"
   },
   {
+    id: "adversarial-voices",
+    label: "Adversarial voices",
+    shortLabel: "Skeptics",
+    influence: 0.89,
+    priceSensitivity: 0.98,
+    preferredAngle: "voucherEmphasis",
+    baselineInterest: 0.18,
+    objection: "These users actively search for proof gaps and are quick to call out weak promises.",
+    trigger: "third-party receipts, verified proof, and consistent service commitments"
+  },
+  {
     id: "live-resellers",
     label: "Resellers and livestream sellers",
     shortLabel: "Resellers",
@@ -122,7 +133,46 @@ const agentSeeds: Array<Omit<SocialNode, "id">> = [
   { segmentId: "category-enthusiasts", label: "Joel Pang", avatarInitials: "JP", persona: "Taste-maker friend", channel: "Close friends story", influence: 0.67 }
 ];
 
-export const singaporeNodes: SocialNode[] = agentSeeds.map((agent, index) => ({
+const adversarialPersonaSeeds: Array<Omit<SocialNode, "id">> = [
+  {
+    segmentId: "adversarial-voices",
+    label: "Aaron Chee",
+    avatarInitials: "AC",
+    persona: "Hard-nosed reviewer",
+    channel: "Telegram watchdog",
+    influence: 0.83,
+    personaDisposition: "adversarial"
+  },
+  {
+    segmentId: "adversarial-voices",
+    label: "Nora Lim",
+    avatarInitials: "NL",
+    persona: "Pricing analyst",
+    channel: "X comment thread",
+    influence: 0.74,
+    personaDisposition: "adversarial"
+  },
+  {
+    segmentId: "adversarial-voices",
+    label: "Khalid Ali",
+    avatarInitials: "KA",
+    persona: "Complaint specialist",
+    channel: "Shopee support group",
+    influence: 0.76,
+    personaDisposition: "adversarial"
+  },
+  {
+    segmentId: "adversarial-voices",
+    label: "Jasper Soon",
+    avatarInitials: "JS",
+    persona: "Deal debunker",
+    channel: "Neighbourhood forum",
+    influence: 0.67,
+    personaDisposition: "adversarial"
+  }
+];
+
+export const singaporeNodes: SocialNode[] = [...agentSeeds, ...adversarialPersonaSeeds].map((agent, index) => ({
   ...agent,
   id: `n${index + 1}`
 }));

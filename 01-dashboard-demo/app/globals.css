@@ -1,17 +1,17 @@
 :root {
-  --ink: oklch(22% 0.025 184);
-  --muted: oklch(40% 0.032 184);
-  --paper: oklch(96% 0.012 184);
-  --paper-strong: oklch(99% 0.006 184);
-  --surface-tint: oklch(93% 0.02 184);
-  --line: oklch(82% 0.025 184);
-  --teal: oklch(42% 0.105 184);
-  --blue: oklch(43% 0.14 252);
-  --green: oklch(39% 0.115 154);
-  --orange: oklch(47% 0.145 43);
-  --red: oklch(43% 0.15 28);
-  --ochre: oklch(39% 0.095 72);
-  --focus-ring: oklch(63% 0.13 184 / 0.38);
+  --ink: oklch(22% 0.02 48);
+  --muted: oklch(42% 0.03 48);
+  --paper: oklch(97% 0.015 70);
+  --paper-strong: oklch(99% 0.008 70);
+  --surface-tint: oklch(93% 0.018 70);
+  --line: oklch(82% 0.02 48);
+  --teal: oklch(46% 0.11 172);
+  --blue: oklch(43% 0.13 238);
+  --green: oklch(42% 0.12 140);
+  --orange: oklch(66% 0.16 58);
+  --red: oklch(49% 0.17 25);
+  --ochre: oklch(45% 0.1 78);
+  --focus-ring: oklch(63% 0.13 172 / 0.38);
   --font-body: "Aptos", "Segoe UI", sans-serif;
 }
 
@@ -856,7 +856,7 @@ summary:focus-visible {
 
 .metric-pair {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 8px;
 }
 
@@ -897,9 +897,24 @@ summary:focus-visible {
   stroke: var(--orange);
 }
 
+.chart-line.adoption {
+  stroke: var(--green);
+}
+
+.chart-line.resistance {
+  stroke: var(--red);
+  stroke-dasharray: 5 3;
+}
+
+.chart-line.adversarial {
+  stroke: var(--ochre);
+  stroke-dasharray: 2 3;
+}
+
 .chart-legend {
   display: flex;
   gap: 14px;
+  flex-wrap: wrap;
 }
 
 .chart-legend span {
@@ -923,6 +938,18 @@ summary:focus-visible {
 
 .chart-legend .risk::before {
   background: var(--orange);
+}
+
+.chart-legend .adoption::before {
+  background: var(--green);
+}
+
+.chart-legend .resistance::before {
+  background: var(--red);
+}
+
+.chart-legend .adversarial::before {
+  background: var(--ochre);
 }
 
 .report-list,

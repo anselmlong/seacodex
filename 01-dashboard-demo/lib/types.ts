@@ -32,6 +32,11 @@ export type ListingParameters = {
   premiumPositioning: number;
 };
 
+export type SimulationSettings = {
+  tickCount: number;
+  agentCount: number;
+};
+
 export type SingaporeSegment = {
   id: string;
   label: string;
@@ -52,6 +57,7 @@ export type SocialNode = {
   persona: string;
   channel: string;
   influence: number;
+  personaDisposition?: "neutral" | "adversarial";
 };
 
 export type SocialEdge = {
@@ -80,6 +86,9 @@ export type PropagationTick = {
   agentOpinions: Record<string, AgentOpinion>;
   chatterVolume: number;
   backlashRisk: number;
+  adoptionRate: number;
+  resistanceRate: number;
+  adversarialRate: number;
 };
 
 export type Recommendation = {

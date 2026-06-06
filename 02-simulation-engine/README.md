@@ -20,6 +20,13 @@ curves, renders an aggregate graph network for thousands of modeled users, and
 previews a schema-aligned simulation trace that can later be returned by
 `04-analyst-api`.
 
+## Current status
+
+- `index.html` plus `src/`/`styles.css` is the currently used local prototype path.
+- `shared/contracts/simulation-trace.schema.json` is the active contract for trace output.
+- `prepare_layer*.py` scripts and the `mirofish/` subtree are included for future integration and alignment.
+- `mirofish/` is not currently wired into the primary local demo flow.
+
 ## Build
 
 - Generate a stochastic block model social graph with fixed seed `42`.
@@ -72,6 +79,12 @@ Artifacts produced:
 - `market_analysis_layer1_layer2/layer2/layer2_report.json`
 - The split metadata is also written into the Layer 2 report so automation can pick
   paths automatically.
+
+## How to use this folder today
+
+1. Use `02-simulation-engine/index.html` as the canonical local simulation entry point.
+2. Keep emitted trace fields compatible with `../shared/contracts/simulation-trace.schema.json`.
+3. Regenerate `../shared/fixtures/golden_trace.json` only when contracts change.
 
 ## Stop Condition
 

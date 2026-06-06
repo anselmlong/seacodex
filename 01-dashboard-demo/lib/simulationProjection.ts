@@ -4,10 +4,13 @@ import type {
   AgentOpinion,
   DashboardTrace,
   DemographicProjection,
+  SimulationSettings,
   ListingParameters,
   NodeState,
   PlatformMarketingRecommendation,
   ProductListing,
+  SocialEdge,
+  SocialNode,
   PropagationTick,
   Recommendation,
   SingaporeSegment
@@ -73,8 +76,16 @@ export function projectDemographics(product: ProductListing, params: ListingPara
   });
 }
 
-const messageForSegment = (segmentId: string, product: ProductListing, params: ListingParameters) => {
+const messageForSegment = (
+  segmentId: string,
+  product: ProductListing,
+  params: ListingParameters,
+  personaDisposition?: SocialNode["personaDisposition"]
+) => {
   const base = product.name.replace("Shopee 11.11 ", "");
+  if (personaDisposition === "adversarial") {
+    return `This doesn't look like a reliable offer for ${base}; where is the proof before ${Math.max(2, Math.round(product.priceSgd * 0.55))}%?`;
+  }
   const messages: Record<string, string> = {
     "gen-z-students": `${base} is worth it if the voucher stack really lands under $${Math.max(
       1,
@@ -98,18 +109,28 @@ const opinionForNode = (
   params: ListingParameters,
   projection: DemographicProjection | undefined,
   state: NodeState,
-  message: string
+  message: string,
+  personaDisposition?: SocialNode["personaDisposition"]
 ): AgentOpinion => {
+  const isAdversarial = personaDisposition === "adversarial";
   const confidence = projection
-    ? clamp(projection.projectedSalesIndex * 0.58 + projection.conversionLikelihood * 0.32 + (state === "advocate" ? 14 : 0))
+    ? clamp(
+        projection.projectedSalesIndex * 0.58 +
+          projection.conversionLikelihood * 0.32 +
+          (state === "advocate" ? 14 : 0) -
+          (isAdversarial ? 18 : 0)
+      )
     : 24;
+  const hostileReason = projection?.mainObjection ?? "Claims need stronger proof before they spread.";
   const stance: AgentOpinion["stance"] =
-    state === "unexposed"
-      ? "unaware"
-      : state === "resistant"
-        ? "skeptical"
-        : state === "advocate"
-          ? "advocating"
+    isAdversarial
+      ? "skeptical"
+      : state === "unexposed"
+        ? "unaware"
+        : state === "resistant"
+          ? "skeptical"
+          : state === "advocate"
+            ? "advocating"
           : confidence > 68
             ? "convinced"
             : "curious";
@@ -129,47 +150,79 @@ const opinionForNode = (
   return {
     stance,
     confidence,
-    summary: message || `${segment.label} has not formed a product opinion yet.`,
-    reasons: [segment.trigger, priceRead, proofRead],
-    objection: projection?.mainObjection ?? segment.objection,
-    nextAction: state === "unexposed" ? "Wait for a trusted contact to mention it." : urgencyRead
+    summary:
+      message ||
+      (isAdversarial
+        ? `${segment.label} is actively checking for proof before accepting the claim.`
+        : `${segment.label} has not formed a product opinion yet.`),
+    reasons: isAdversarial ? [hostileReason, projection?.mainObjection ?? segment.objection, "Demand for hard proof is high."] : [segment.trigger, priceRead, proofRead],
+    objection: isAdversarial ? projection?.mainObjection ?? hostileReason : projection?.mainObjection ?? segment.objection,
+    nextAction: isAdversarial
+      ? "I will keep pushing back until price and proof lines up with prior reviews and shipping." 
+      : state === "unexposed"
+        ? "Wait for a trusted contact to mention it."
+        : urgencyRead
   };
 };
 
 export function buildPropagationTicks(
   product: ProductListing,
   params: ListingParameters,
-  projections: DemographicProjection[]
+  projections: DemographicProjection[],
+  simulationNodes: SocialNode[],
+  settings: SimulationSettings
 ): PropagationTick[] {
   const bySegment = new Map(projections.map((projection) => [projection.segmentId, projection]));
   const ticks: PropagationTick[] = [];
+  const maxTick = Math.max(1, settings.tickCount);
+  const nodeSubset = simulationNodes.slice(0, Math.max(1, settings.agentCount));
+  const nodeCount = nodeSubset.length;
 
-  for (let tick = 0; tick < 10; tick += 1) {
+  for (let tick = 0; tick < maxTick; tick += 1) {
     const nodeStates: Record<string, NodeState> = {};
     const messageVariants: Record<string, string> = {};
     const agentOpinions: Record<string, AgentOpinion> = {};
     const activeNodeIds: string[] = [];
+    let activeAdversarialCount = 0;
+    let adoptedCount = 0;
+    let resistantCount = 0;
 
-    singaporeNodes.forEach((node, index) => {
+    nodeSubset.forEach((node, index) => {
       const projection = bySegment.get(node.segmentId);
       const segment = singaporeSegments.find((entry) => entry.id === node.segmentId);
-      const activationTick = Math.floor((index / Math.max(1, singaporeNodes.length - 1)) * 9);
+      const activationTick = Math.floor((index / Math.max(1, nodeCount - 1)) * Math.max(0, maxTick - 1));
+      const isAdversarial = node.personaDisposition === "adversarial";
       const isActive = tick >= activationTick;
       const isHot = projection ? projection.projectedSalesIndex > 70 : false;
       const isResistant = projection ? projection.chatterSentiment === "negative" : false;
       const state: NodeState = !isActive
         ? "unexposed"
-        : isResistant && tick > activationTick + 1
+        : isAdversarial
           ? "resistant"
-          : isHot && tick > activationTick + 2
-            ? "advocate"
-            : tick > activationTick
-              ? "interested"
-              : "aware";
+          : isResistant && tick > activationTick + 1
+            ? "resistant"
+            : isHot && tick > activationTick + 2
+              ? "advocate"
+              : tick > activationTick
+                ? "interested"
+                : "aware";
 
       nodeStates[node.id] = state;
-      if (isActive) activeNodeIds.push(node.id);
-      if (isActive) messageVariants[node.id] = messageForSegment(node.segmentId, product, params);
+      if (isActive) {
+        activeNodeIds.push(node.id);
+        if (isAdversarial) {
+          activeAdversarialCount += 1;
+        }
+      }
+      if (isActive)
+        messageVariants[node.id] = messageForSegment(node.segmentId, product, params, node.personaDisposition);
+
+      if (state === "interested" || state === "advocate") {
+        adoptedCount += 1;
+      }
+      if (state === "resistant") {
+        resistantCount += 1;
+      }
       if (segment) {
         agentOpinions[node.id] = opinionForNode(
           segment,
@@ -177,10 +230,12 @@ export function buildPropagationTicks(
           params,
           projection,
           state,
-          messageVariants[node.id] ?? ""
+          messageVariants[node.id] ?? "",
+          node.personaDisposition
         );
       }
     });
+    const totalNodes = nodeCount;
 
     const avgSales = projections.reduce((sum, projection) => sum + projection.projectedSalesIndex, 0) / projections.length;
     const resellerRisk = bySegment.get("live-resellers")?.chatterSentiment === "negative" ? 20 : 0;
@@ -191,7 +246,15 @@ export function buildPropagationTicks(
       messageVariants,
       agentOpinions,
       chatterVolume: clamp(activeNodeIds.length * 7 + avgSales * 0.38),
-      backlashRisk: clamp(params.urgency * 0.32 + resellerRisk + Math.max(0, 32 - product.discountPercent) * 0.7)
+      backlashRisk: clamp(
+        params.urgency * 0.32 +
+          resellerRisk +
+          Math.max(0, 32 - product.discountPercent) * 0.7 +
+          Math.min(8, activeAdversarialCount * 1.9)
+      ),
+      adoptionRate: clamp(Math.round((adoptedCount / Math.max(1, totalNodes)) * 100)),
+      resistanceRate: clamp(Math.round((resistantCount / Math.max(1, totalNodes)) * 100)),
+      adversarialRate: Math.round((activeAdversarialCount / Math.max(1, totalNodes)) * 100)
     });
   }
 
@@ -326,16 +389,50 @@ export function buildPlatformRecommendations(
   return recommendations.sort((a, b) => b.score - a.score);
 }
 
-export function createDashboardTrace(product: ProductListing, params: ListingParameters): DashboardTrace {
-  const projections = projectDemographics(product, params);
+const filterSubgraph = (nodes: SocialNode[], edges: SocialEdge[], nodeCount: number) => {
+  const limit = Math.max(1, Math.min(nodeCount, nodes.length));
+  const activeNodes = nodes.slice(0, limit);
+  const activeNodeSet = new Set(activeNodes.map((node) => node.id));
+  const activeEdges = edges.filter(
+    (edge) => activeNodeSet.has(edge.source) && activeNodeSet.has(edge.target)
+  );
+
+  return { activeNodes, activeEdges };
+};
+
+const buildDashboardTraceWithSettings = (
+  product: ProductListing,
+  params: ListingParameters,
+  projections: DemographicProjection[],
+  settings: SimulationSettings
+) => {
+  const resolvedSettings: SimulationSettings = {
+    tickCount: Math.max(2, Math.min(24, settings.tickCount)),
+    agentCount: Math.max(1, Math.min(singaporeNodes.length, settings.agentCount))
+  };
+  const { activeNodes, activeEdges } = filterSubgraph(singaporeNodes, singaporeEdges, resolvedSettings.agentCount);
+
   return {
     product,
     parameters: params,
     segments: singaporeSegments,
-    nodes: singaporeNodes,
-    edges: singaporeEdges,
-    ticks: buildPropagationTicks(product, params, projections),
+    nodes: activeNodes,
+    edges: activeEdges,
+    ticks: buildPropagationTicks(product, params, projections, activeNodes, resolvedSettings),
     platformRecommendations: buildPlatformRecommendations(product, params, projections),
     recommendations: buildRecommendations(product, params, projections)
   };
+};
+
+export function createDashboardTrace(
+  product: ProductListing,
+  params: ListingParameters,
+  settings: Partial<SimulationSettings> = {}
+): DashboardTrace {
+  const projections = projectDemographics(product, params);
+  const resolvedSettings: SimulationSettings = {
+    tickCount: settings.tickCount ?? 10,
+    agentCount: settings.agentCount ?? singaporeNodes.length
+  };
+  return buildDashboardTraceWithSettings(product, params, projections, resolvedSettings);
 }
