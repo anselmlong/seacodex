@@ -1,0 +1,198 @@
+{
+  "campaign": {
+    "id": "shopee-1111",
+    "name": "Shopee 11.11 Flash Sale",
+    "initial_message": "Shopee 11.11 - lowest prices guaranteed!",
+    "product_signals": [
+      "flash sale",
+      "discount urgency",
+      "marketplace shopping",
+      "reseller margin concern"
+    ]
+  },
+  "communities": [
+    { "id": "family", "label": "Filipino family groups" },
+    { "id": "workplace", "label": "Singapore workplace chats" },
+    { "id": "fandom", "label": "Thai TikTok fandom" },
+    { "id": "reseller", "label": "Indonesian resellers" },
+    { "id": "school_university", "label": "Vietnamese university groups" }
+  ],
+  "nodes": [
+    { "id": 1, "community": "family", "state": "adopted", "label": "Family connector" },
+    { "id": 2, "community": "family", "state": "exposed", "label": "Budget shopper" },
+    { "id": 3, "community": "workplace", "state": "adopted", "label": "Office deals sharer" },
+    { "id": 4, "community": "fandom", "state": "adopted", "label": "Fandom moderator" },
+    { "id": 5, "community": "reseller", "state": "resistant", "label": "Reseller admin" },
+    { "id": 6, "community": "school_university", "state": "adopted", "label": "Student bargain hunter" }
+  ],
+  "edges": [
+    { "source": 1, "target": 2, "weight": 0.8 },
+    { "source": 1, "target": 3, "weight": 0.4 },
+    { "source": 3, "target": 4, "weight": 0.5 },
+    { "source": 4, "target": 6, "weight": 0.6 },
+    { "source": 3, "target": 5, "weight": 0.3 },
+    { "source": 5, "target": 2, "weight": 0.2 }
+  ],
+  "ticks": [
+    {
+      "tick": 0,
+      "events": [
+        {
+          "node_id": 3,
+          "action": "expose",
+          "message_variant": "Shopee 11.11 - lowest prices guaranteed!",
+          "reasoning": "Office deal sharer sees the initial campaign.",
+          "source_node_id": null
+        }
+      ],
+      "metrics": { "adopted": 0, "resistant": 0, "exposed": 1, "backlash_risk": 0.1 }
+    },
+    {
+      "tick": 1,
+      "events": [
+        {
+          "node_id": 3,
+          "action": "adopt",
+          "message_variant": "Shopee 11.11 is worth checking during lunch break.",
+          "reasoning": "Workplace segment likes practical discounts.",
+          "source_node_id": null
+        },
+        {
+          "node_id": 1,
+          "action": "reshare",
+          "message_variant": "Shopee 11.11 has good bulk-buy deals for family orders.",
+          "reasoning": "Family connector reframes the discount around group buying.",
+          "source_node_id": 3
+        }
+      ],
+      "metrics": { "adopted": 2, "resistant": 0, "exposed": 2, "backlash_risk": 0.16 }
+    },
+    {
+      "tick": 2,
+      "events": [
+        {
+          "node_id": 5,
+          "action": "mutate",
+          "message_variant": "Shopee 11.11 may be good for consumers, but reseller margins look tight.",
+          "reasoning": "Reseller community focuses on margin pressure.",
+          "source_node_id": 3
+        },
+        {
+          "node_id": 4,
+          "action": "adopt",
+          "message_variant": "Shopee 11.11 deals are trending in creator fan chats.",
+          "reasoning": "Fandom moderator sees social proof.",
+          "source_node_id": 3
+        }
+      ],
+      "metrics": { "adopted": 3, "resistant": 1, "exposed": 4, "backlash_risk": 0.42 }
+    },
+    {
+      "tick": 3,
+      "events": [
+        {
+          "node_id": 6,
+          "action": "reshare",
+          "message_variant": "Shopee 11.11 is good for student essentials if you compare prices first.",
+          "reasoning": "Student segment adds price comparison caution.",
+          "source_node_id": 4
+        },
+        {
+          "node_id": 2,
+          "action": "expose",
+          "message_variant": "My cousin says Shopee 11.11 is good for bulk buys.",
+          "reasoning": "Family group receives the family-framed mutation.",
+          "source_node_id": 1
+        }
+      ],
+      "metrics": { "adopted": 4, "resistant": 1, "exposed": 5, "backlash_risk": 0.38 }
+    },
+    {
+      "tick": 4,
+      "events": [
+        {
+          "node_id": 2,
+          "action": "adopt",
+          "message_variant": "My cousin says Shopee 11.11 is good for bulk buys.",
+          "reasoning": "Family trust converts the cautious shopper.",
+          "source_node_id": 1
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.35 }
+    },
+    {
+      "tick": 5,
+      "events": [
+        {
+          "node_id": 5,
+          "action": "resist",
+          "message_variant": "Shopee 11.11 may be good for consumers, but reseller margins look tight.",
+          "reasoning": "Reseller admin rejects broad discount framing.",
+          "source_node_id": 3
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.44 }
+    },
+    {
+      "tick": 6,
+      "events": [
+        {
+          "node_id": 4,
+          "action": "mutate",
+          "message_variant": "Shopee 11.11 fan picks: compare creator codes before checkout.",
+          "reasoning": "Fandom moderator reframes the deal around creator codes.",
+          "source_node_id": 6
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.4 }
+    },
+    {
+      "tick": 7,
+      "events": [
+        {
+          "node_id": 6,
+          "action": "reshare",
+          "message_variant": "Shopee 11.11 is best for student essentials, but compare creator codes first.",
+          "reasoning": "Student segment combines price caution with fandom code behavior.",
+          "source_node_id": 4
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.34 }
+    },
+    {
+      "tick": 8,
+      "events": [
+        {
+          "node_id": 1,
+          "action": "reshare",
+          "message_variant": "Shopee 11.11 family bulk buys are worth checking, but compare vouchers first.",
+          "reasoning": "Family connector absorbs the comparison warning.",
+          "source_node_id": 6
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.31 }
+    },
+    {
+      "tick": 9,
+      "events": [
+        {
+          "node_id": 3,
+          "action": "reshare",
+          "message_variant": "Shopee 11.11 works best as family bulk-buy copy, not reseller margin copy.",
+          "reasoning": "Workplace sharer converges on the segment-specific lesson.",
+          "source_node_id": 1
+        }
+      ],
+      "metrics": { "adopted": 5, "resistant": 1, "exposed": 6, "backlash_risk": 0.28 }
+    }
+  ],
+  "analyst_summary": {
+    "top_segment": "Filipino family groups",
+    "recommended_action": "test",
+    "winning_message_variant": "Shopee 11.11 has good bulk-buy deals for family orders.",
+    "backlash_risk_score": 0.42,
+    "supporting_node_ids": [1, 2, 3, 5],
+    "confidence": 0.74,
+    "narrative": "The family-group framing travels further than the generic lowest-price message, but Indonesian reseller nodes introduce margin-risk backlash. Test family bulk-buy copy while avoiding reseller-targeted claims."
+  }
+}

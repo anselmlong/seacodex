@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seacodex.local/contracts/persona.schema.json",
+  "title": "SEA Persona",
+  "type": "object",
+  "required": [
+    "id",
+    "country",
+    "age_band",
+    "community_type",
+    "language_mix",
+    "brand_attitude",
+    "sharing_tendency",
+    "backlash_sensitivity"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "country": { "type": "string" },
+    "age_band": { "type": "string" },
+    "community_type": {
+      "type": "string",
+      "enum": ["family", "workplace", "fandom", "reseller", "school_university"]
+    },
+    "language_mix": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "brand_attitude": {
+      "type": "string",
+      "enum": ["positive", "neutral", "skeptical", "negative"]
+    },
+    "sharing_tendency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "backlash_sensitivity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "traits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
+      }
+    }
+  },
+  "additionalProperties": false
+}
+
