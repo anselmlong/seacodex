@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "simulation-trace.schema.json",
+  "title": "Simulation Trace",
+  "description": "State transition trace for offline campaign simulation.",
+  "type": "object",
+  "required": [
+    "trace_id",
+    "seed",
+    "tick_count",
+    "steps",
+    "graph",
+    "final_states"
+  ],
+  "properties": {
+    "trace_id": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "tick_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "campaign": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "properties": {
+        "initial_exposed_count": {
+          "type": "integer"
+        },
+        "exposure_base": {
+          "type": "number"
+        },
+        "adoption_rate": {
+          "type": "number"
+        },
+        "adoption_boost_for_adopters": {
+          "type": "number"
+        },
+        "resistance_rate_exposed": {
+          "type": "number"
+        },
+        "resistance_rate_adopted": {
+          "type": "number"
+        },
+        "reshare_rate": {
+          "type": "number"
+        },
+        "cross_community_penalty": {
+          "type": "number"
+        },
+        "mutation_every": {
+          "type": "integer"
+        },
+        "mutation_change_scale": {
+          "type": "number"
+        }
+      }
+    },
+    "graph": {
+      "type": "object",
+      "required": [
+        "directed",
+        "nodes",
+        "edges"
+      ],
+      "properties": {
+        "directed": {
+          "type": "boolean"
+        },
+        "communities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "persona_id",
+              "community"
+            ],
+            "properties": {
+              "persona_id": {
+                "type": "string"
+              },
+              "community": {
+                "type": "string"
+              },
+              "seed": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "source",
+              "target",
+              "weight"
+            ],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number"
+              },
+              "source_community": {
+                "type": "string"
+              },
+              "target_community": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "tick",
+          "events",
+          "state_counts",
+          "params_snapshot",
+          "node_states"
+        ],
+        "properties": {
+          "tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "event_type",
+                "tick"
+              ],
+              "properties": {
+                "event_type": {
+                  "type": "string",
+                  "enum": [
+                    "mutation",
+                    "exposure",
+                    "adoption",
+                    "resistance",
+                    "reshare"
+                  ]
+                },
+                "tick": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "state_counts": {
+            "type": "object",
+            "properties": {
+              "unexposed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "exposed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "adopted": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "resistant": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "params_snapshot": {
+            "type": "object"
+          },
+          "node_states": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "final_states": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "checks": {
+      "type": "object"
+    }
+  }
+}

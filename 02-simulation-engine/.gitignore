@@ -1,0 +1,2 @@
+# Keep your Discord token out of source control
+.env
